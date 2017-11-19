@@ -33,7 +33,7 @@ public class Controller {
     private void openFileChooserAndSetImage() throws MalformedURLException, FileNotFoundException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Portable Map formats (*.pbm, *.pgm, *.ppm)", "*.pbm", "*.pgm", "*.ppm")
+                new FileChooser.ExtensionFilter("formats (*.pbm, *.pgm, *.ppm, *.png, *.jpeg)", "*.pbm", "*.pgm", "*.ppm", "*.png", "*.jpeg")
         );
 
         File selectedFile = fileChooser.showOpenDialog(stage);
