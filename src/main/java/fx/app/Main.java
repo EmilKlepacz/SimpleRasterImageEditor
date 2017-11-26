@@ -1,5 +1,6 @@
 package fx.app;
 
+import fx.app.Controllers.OpenFileController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,9 +16,9 @@ public class Main extends Application {
         primaryStage.setTitle("Simple Raster Image Editor 1.0");
         primaryStage.setScene(new Scene(root));
 
-        //pass stage to controller
-        Controller controller = loader.getController();
-        controller.setStage(primaryStage);
+        //pass stage to openFileController
+        OpenFileController openFileController = loader.getController();
+        openFileController.setStage(primaryStage);
         primaryStage.show();
     }
 

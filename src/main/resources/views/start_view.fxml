@@ -7,7 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="554.0" prefWidth="637.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.app.Controller">
+<BorderPane id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.app.Controllers.OpenFileController">
    <top>
       <MenuBar id="topMenuBar" BorderPane.alignment="CENTER">
         <menus>

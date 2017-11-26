@@ -1,4 +1,4 @@
-package fx.app;
+package fx.app.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -20,7 +20,7 @@ import javax.imageio.stream.*;
 import javax.imageio.metadata.*;
 
 
-public class Controller {
+public class OpenFileController {
 
     @FXML
     private MenuItem openFromFileItem;
