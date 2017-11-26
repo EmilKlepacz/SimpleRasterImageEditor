@@ -7,7 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.app.Controller">
+<BorderPane id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="554.0" prefWidth="637.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.app.Controller">
    <top>
       <MenuBar id="topMenuBar" BorderPane.alignment="CENTER">
         <menus>
@@ -20,6 +20,7 @@
                      </items>
                   </Menu>
                   <MenuItem id="fileSaveItem" mnemonicParsing="false" text="Save" />
+                  <MenuItem fx:id="openInformation" mnemonicParsing="false" onAction="#handleOpenFileInformation" text="Information" />
             </items>
           </Menu>
           <Menu id="editMenuBar" mnemonicParsing="false" text="Edit">
@@ -36,7 +37,7 @@
       </MenuBar>
    </top>
    <center>
-      <ImageView fx:id="imageView" fitHeight="368.0" fitWidth="502.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+      <ImageView fx:id="imageView" fitHeight="364.0" fitWidth="317.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
          <image>
             <Image url="/images/default_start_img.gif" />
          </image>

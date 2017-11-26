@@ -1,6 +1,7 @@
 package fx.app;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,12 +31,13 @@ public class Controller {
     private Stage stage;
 
     private void setImageFromFileInImageView(File file) throws MalformedURLException, FileNotFoundException {
-        if (file != null) {
-            String imageFilePath = file.toURI().toURL().toString();
-            Image image = new Image(imageFilePath);
-            imageView.setImage(image);
+            if (file != null) {
+                String imageFilePath = file.toURI().toURL().toString();
+                Image image = new Image(imageFilePath);
+                imageView.setImage(image);
 
-        } else throw new FileNotFoundException();
+            } else throw new FileNotFoundException();
+
     }
 
     private void openFileChooserAndSetImage() throws MalformedURLException, FileNotFoundException {
@@ -45,8 +47,11 @@ public class Controller {
         );
 
         File selectedFile = fileChooser.showOpenDialog(stage);
-        readAndDisplayMetadata(selectedFile.getPath());
-        setImageFromFileInImageView(selectedFile);
+
+        if (selectedFile != null) {
+            readAndDisplayMetadata(selectedFile.getPath());
+            setImageFromFileInImageView(selectedFile);
+        }
     }
 
     public void handleOpenFromFile() {
@@ -57,41 +62,52 @@ public class Controller {
         }
     }
 
+    public void handleOpenFileInformation(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("File statistics");
+        alert.setHeaderText("FILE NAME HERE");
+        alert.setContentText("There will be file info");
+
+        alert.showAndWait();
+    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
     private void readAndDisplayMetadata( String fileName ) {
-        try {
 
-            File file = new File( fileName );
-            double bytes = file.length();
-            System.out.println("File Size: " + String.format("%.2f", bytes/1024) + "kb");
-            
-            ImageInputStream iis = ImageIO.createImageInputStream(file);
-            Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
+        if(fileName!=null) {
+            try {
 
-            if (readers.hasNext()) {
+                File file = new File(fileName);
+                double bytes = file.length();
+                System.out.println("File Size: " + String.format("%.2f", bytes / 1024) + "kb");
 
-                // pick the first available ImageReader
-                ImageReader reader = readers.next();
+                ImageInputStream iis = ImageIO.createImageInputStream(file);
+                Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
 
-                // attach source to the reader
-                reader.setInput(iis, true);
+                if (readers.hasNext()) {
 
-                // read metadata of first image
-                IIOMetadata metadata = reader.getImageMetadata(0);
+                    // pick the first available ImageReader
+                    ImageReader reader = readers.next();
 
-                String[] names = metadata.getMetadataFormatNames();
-                for (String name : names) {
-                    System.out.println("Format name: " + name);
-                    displayMetadata(metadata.getAsTree(name));
+                    // attach source to the reader
+                    reader.setInput(iis, true);
+
+                    // read metadata of first image
+                    IIOMetadata metadata = reader.getImageMetadata(0);
+
+                    String[] names = metadata.getMetadataFormatNames();
+                    for (String name : names) {
+                        System.out.println("Format name: " + name);
+                        displayMetadata(metadata.getAsTree(name));
+                    }
                 }
-            }
-        }
-        catch (Exception e) {
+            } catch (Exception e) {
 
-            e.printStackTrace();
+                e.printStackTrace();
+            }
         }
     }
 
