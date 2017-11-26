@@ -13,7 +13,6 @@ import java.net.MalformedURLException;
 
 import org.w3c.dom.*;
 
-import java.io.*;
 import java.util.*;
 import javax.imageio.*;
 import javax.imageio.stream.*;
@@ -34,11 +33,6 @@ public class Controller {
         if (file != null) {
             String imageFilePath = file.toURI().toURL().toString();
             Image image = new Image(imageFilePath);
-
-            System.out.println(image.getHeight());
-            System.out.println(image.getWidth());
-            System.out.println(image.getPixelReader().getPixelFormat().getType());
-            System.out.println(image.getPixelReader().getPixelFormat().isWritable());
             imageView.setImage(image);
 
         } else throw new FileNotFoundException();
@@ -71,6 +65,9 @@ public class Controller {
         try {
 
             File file = new File( fileName );
+            double bytes = file.length();
+            System.out.println("File Size: " + String.format("%.2f", bytes/1024) + "kb");
+            
             ImageInputStream iis = ImageIO.createImageInputStream(file);
             Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
 
@@ -86,7 +83,6 @@ public class Controller {
                 IIOMetadata metadata = reader.getImageMetadata(0);
 
                 String[] names = metadata.getMetadataFormatNames();
-                int length = names.length;
                 for (String name : names) {
                     System.out.println("Format name: " + name);
                     displayMetadata(metadata.getAsTree(name));
