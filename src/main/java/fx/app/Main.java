@@ -16,7 +16,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root));
 
         //pass stage to controller
-        Controller controller = (Controller) loader.getController();
+        Controller controller = loader.getController();
         controller.setStage(primaryStage);
         primaryStage.show();
     }
