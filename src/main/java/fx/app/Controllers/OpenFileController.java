@@ -2,6 +2,7 @@ package fx.app.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
@@ -26,28 +27,44 @@ import javax.imageio.metadata.*;
 public class OpenFileController {
 
     @FXML
-    private MenuItem openFromFileItem;
-
-    @FXML
     private BorderPane borderPane;
-
     @FXML
-    private Menu menu;
-
+    private Button gammaBtn;
+    @FXML
+    private Button negativeBtn;
+    @FXML
+    private Button filteringBtn;
+    @FXML
+    private Button histogramBtn;
+    @FXML
+    private Button geometricBtn;
     @FXML
     private ImageView imageView;
 
     private Stage stage;
 
+
+    private void enableOperationButtons(){
+        gammaBtn.setDisable(false);
+        negativeBtn.setDisable(false);
+        filteringBtn.setDisable(false);
+        histogramBtn.setDisable(false);
+        geometricBtn.setDisable(false);
+    }
+    
+    private void setImageHightWidthFitBorderPane(Image image){
+        imageView.fitHeightProperty().bind(borderPane.widthProperty());
+        imageView.fitWidthProperty().bind(borderPane.heightProperty());
+        imageView.setImage(image);
+    }
+
     private void setImageFromFileInImageView(File file) throws MalformedURLException, FileNotFoundException {
             if (file != null) {
                 String imageFilePath = file.toURI().toURL().toString();
                 Image image = new Image(imageFilePath);
-
-                imageView.fitHeightProperty().bind(borderPane.widthProperty());
-                imageView.fitWidthProperty().bind(borderPane.heightProperty());
-                imageView.setImage(image);
-
+                setImageHightWidthFitBorderPane(image);
+                
+                enableOperationButtons();
             } else throw new FileNotFoundException();
 
     }
@@ -114,6 +131,7 @@ public class OpenFileController {
                     for (String name : names) {
                         System.out.println("Format name: " + name);
                         displayMetadata(metadata.getAsTree(name));
+
                     }
                 }
             } catch (Exception e) {
