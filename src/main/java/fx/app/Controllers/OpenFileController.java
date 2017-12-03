@@ -1,27 +1,28 @@
 package fx.app.Controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.stream.ImageInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.MalformedURLException;
-
-import org.w3c.dom.*;
-
-import java.util.*;
-import javax.imageio.*;
-import javax.imageio.stream.*;
-import javax.imageio.metadata.*;
+import java.util.Iterator;
 
 
 public class OpenFileController {
@@ -42,6 +43,7 @@ public class OpenFileController {
     private ImageView imageView;
 
     private Stage stage;
+    private Image image;
 
 
     private void enableOperationButtons(){
@@ -61,7 +63,7 @@ public class OpenFileController {
     private void setImageFromFileInImageView(File file) throws MalformedURLException, FileNotFoundException {
             if (file != null) {
                 String imageFilePath = file.toURI().toURL().toString();
-                Image image = new Image(imageFilePath);
+                image = new Image(imageFilePath);
                 setImageHightWidthFitBorderPane(image);
                 
                 enableOperationButtons();
@@ -98,6 +100,30 @@ public class OpenFileController {
         alert.setContentText("There will be file info");
 
         alert.showAndWait();
+    }
+
+    public void openGammaWindow(){
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/gamma_view.fxml"));
+            Parent root = loader.load();
+            Stage stageGamma = new Stage();
+
+            //set start image in Gamma View as copy of loaded image
+            //by GammaController before showing window
+            GammaController gammaController = loader.getController();
+            gammaController.setImage(image);
+            gammaController.setStartImageInImageView();
+
+            stageGamma.setTitle("Gamma correction");
+            stageGamma.setScene(new Scene(root));
+            stageGamma.show();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void setStage(Stage stage) {
