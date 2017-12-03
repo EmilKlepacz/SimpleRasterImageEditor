@@ -114,6 +114,7 @@ public class OpenFileController {
                     for (String name : names) {
                         System.out.println("Format name: " + name);
                         displayMetadata(metadata.getAsTree(name));
+
                     }
                 }
             } catch (Exception e) {

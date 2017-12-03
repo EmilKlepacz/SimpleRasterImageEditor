@@ -1,4 +1,4 @@
-package portablemap;
+package portablemap.Models;
 
 
 
@@ -37,9 +37,6 @@ public abstract class PortableMap {
 
     @Override
     public String toString() {
-        return "{" +
-                "width=" + width +
-                ", height=" + height +
-                '}';
+        return String.format("{ width = %d, height = %d }", width, height);
     }
 }

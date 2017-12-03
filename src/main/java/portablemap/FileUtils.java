@@ -1,10 +1,13 @@
 package portablemap;
 
+import portablemap.Models.HeadingPmASCII;
+import portablemap.Models.PbmAscii;
+import portablemap.Models.PortableMap;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
