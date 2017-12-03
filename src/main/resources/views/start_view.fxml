@@ -5,42 +5,44 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.app.Controllers.OpenFileController">
-   <top>
-      <MenuBar id="topMenuBar" BorderPane.alignment="CENTER">
-        <menus>
-          <Menu id="fileMenuBar" mnemonicParsing="false" text="File">
-            <items>
-                  <Menu id="fileOpenMenu" mnemonicParsing="false" text="Open">
-                     <items>
-                        <MenuItem fx:id="openFromFileItem" mnemonicParsing="false" onAction="#handleOpenFromFile" text="from File" />
-                        <MenuItem id="openFromURLItem" mnemonicParsing="false" text="from URL" />
-                     </items>
-                  </Menu>
-                  <MenuItem id="fileSaveItem" mnemonicParsing="false" text="Save" />
-                  <MenuItem fx:id="openInformation" mnemonicParsing="false" onAction="#handleOpenFileInformation" text="Information" />
-            </items>
-          </Menu>
-          <Menu id="editMenuBar" mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem id="effectsPalleteItem" mnemonicParsing="false" text="Open Effects Pallete" />
-            </items>
-          </Menu>
-          <Menu id="helpMenuBar" mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem id="aboutItem" mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
-   <center>
-      <ImageView fx:id="imageView" fitHeight="364.0" fitWidth="317.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-         <image>
-            <Image url="/images/default_start_img.gif" />
-         </image>
-      </ImageView>
-   </center>
+<BorderPane id="borderPane" fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.app.Controllers.OpenFileController">
+    <top>
+        <MenuBar id="topMenuBar" prefWidth="580.0" BorderPane.alignment="CENTER">
+            <menus>
+                <Menu id="fileMenuBar" fx:id="menu" mnemonicParsing="false" text="File">
+                    <items>
+                        <Menu id="fileOpenMenu" mnemonicParsing="false" text="Open">
+                            <items>
+                                <MenuItem fx:id="openFromFileItem" mnemonicParsing="false" onAction="#handleOpenFromFile" text="from File" />
+                                <MenuItem id="openFromURLItem" mnemonicParsing="false" text="from URL" />
+                            </items>
+                        </Menu>
+                        <MenuItem id="fileSaveItem" mnemonicParsing="false" text="Save" />
+                        <MenuItem fx:id="openInformation" mnemonicParsing="false" onAction="#handleOpenFileInformation" text="Information" />
+                    </items>
+                </Menu>
+                <Menu id="editMenuBar" mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem id="effectsPalleteItem" mnemonicParsing="false" text="Open Effects Pallete" />
+                    </items>
+                </Menu>
+                <Menu id="helpMenuBar" mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem id="aboutItem" mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <center>
+        <ImageView fx:id="imageView" fitHeight="330.0" fitWidth="265.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <image>
+                <Image url="/images/default_start_img.gif" />
+            </image>
+        </ImageView>
+
+    </center>
 </BorderPane>

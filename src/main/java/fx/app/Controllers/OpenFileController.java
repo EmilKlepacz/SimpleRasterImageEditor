@@ -2,9 +2,12 @@ package fx.app.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -26,6 +29,12 @@ public class OpenFileController {
     private MenuItem openFromFileItem;
 
     @FXML
+    private BorderPane borderPane;
+
+    @FXML
+    private Menu menu;
+
+    @FXML
     private ImageView imageView;
 
     private Stage stage;
@@ -34,6 +43,9 @@ public class OpenFileController {
             if (file != null) {
                 String imageFilePath = file.toURI().toURL().toString();
                 Image image = new Image(imageFilePath);
+
+                imageView.fitHeightProperty().bind(borderPane.widthProperty());
+                imageView.fitWidthProperty().bind(borderPane.heightProperty());
                 imageView.setImage(image);
 
             } else throw new FileNotFoundException();
