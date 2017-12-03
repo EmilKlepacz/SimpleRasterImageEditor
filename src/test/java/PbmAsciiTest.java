@@ -2,7 +2,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import portablemap.FileUtils;
-import portablemap.PbmAscii;
+import portablemap.Models.PbmAscii;
 
 import java.io.IOException;
 
