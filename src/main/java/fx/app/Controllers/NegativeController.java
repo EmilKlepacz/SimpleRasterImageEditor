@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class GammaController implements BeforeShowStage {
+public class NegativeController implements BeforeShowStage {
     @FXML
     ImageView imageViewGamma;
 

@@ -8,7 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.w3c.dom.NamedNodeMap;
@@ -27,8 +27,13 @@ import java.util.Iterator;
 
 public class OpenFileController {
 
+    private static final String GAMMA_VIEW_PATH = "/views/gamma_view.fxml";
+    private static final String NEGATIVE_VIEW_PATH ="/views/negative_view.fxml";
+    private static final String GAMMA_STAGE_TITLE = "Gamma correction";
+    private static final String NEGATIVE_STAGE_TITLE = "Negative operation";
+
     @FXML
-    private BorderPane borderPane;
+    private StackPane stackPane;
     @FXML
     private Button gammaBtn;
     @FXML
@@ -55,8 +60,8 @@ public class OpenFileController {
     }
     
     private void setImageHightWidthFitBorderPane(Image image){
-        imageView.fitHeightProperty().bind(borderPane.widthProperty());
-        imageView.fitWidthProperty().bind(borderPane.heightProperty());
+        imageView.fitHeightProperty().bind(stackPane.widthProperty());
+        imageView.fitWidthProperty().bind(stackPane.heightProperty());
         imageView.setImage(image);
     }
 
@@ -105,25 +110,47 @@ public class OpenFileController {
     public void openGammaWindow(){
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/gamma_view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(GAMMA_VIEW_PATH));
             Parent root = loader.load();
-            Stage stageGamma = new Stage();
 
             //set start image in Gamma View as copy of loaded image
             //by GammaController before showing window
             GammaController gammaController = loader.getController();
             gammaController.setImage(image);
-            gammaController.setStartImageInImageView();
+            gammaController.setStartImageInImageView(image);
 
-            stageGamma.setTitle("Gamma correction");
-            stageGamma.setScene(new Scene(root));
-            stageGamma.show();
+            createAndShowNewStage(GAMMA_STAGE_TITLE, new Scene(root));
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    private void createAndShowNewStage(String stageTitle, Scene scene) {
+        Stage stageGamma = new Stage();
+        stageGamma.setTitle(stageTitle);
+        stageGamma.setScene(scene);
+        stageGamma.setResizable(false);
+        stageGamma.show();
+    }
+
+
+    public void openNegativeWindow(){
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(NEGATIVE_VIEW_PATH));
+            Parent root = loader.load();
+
+            NegativeController negativeController = loader.getController();
+            negativeController.setImage(image);
+            negativeController.setStartImageInImageView(image);
+
+            createAndShowNewStage(NEGATIVE_STAGE_TITLE, new Scene(root));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setStage(Stage stage) {
