@@ -36,14 +36,17 @@ public class OpenFileController {
     private static final String FILTERING_STAGE_TITLE = "Filtering";
     private static final String HISTOGRAM_VIEW_PATH = "/views/histogram_view.fxml";
     private static final String HISTOGRAM_STAGE_TITLE = "Histogram based operations";
-    private static final String GEOMETRIC_VIEW_PATH = "/views/geometric_view.fxml" ;
+    private static final String GEOMETRIC_VIEW_PATH = "/views/geometric_view.fxml";
     private static final String GEOMETRIC_STAGE_TITLE = "Geometric transformations";
+    private static final String URL_STAGE_TITLE = "Loading Image from URL";
+    private static final String URL_VIEW_PATH = "/views/url_view.fxml";
     private static final int MIN_SPINNER_WIDTH_VAL = 1;
     private static final int MAX_SPINNER_WIDTH_VAL = 100000;
     private static final int ON_START_SPINNER_WIDTH_VAL = 0;
     private static final int MIN_SPINNER_HEIGHT_VAL = 1;
     private static final int MAX_SPINNER_HEIGHT_VAL = 100000;
     private static final int ON_START_SPINNER_HEIGHT_VAL = 0;
+
 
     @FXML
     private StackPane stackPane;
@@ -122,7 +125,6 @@ public class OpenFileController {
 
 
     public void openGammaWindow() {
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(GAMMA_VIEW_PATH));
             Parent root = loader.load();
@@ -191,7 +193,7 @@ public class OpenFileController {
         }
     }
 
-    public void openGeometricWindow(ActionEvent actionEvent) {
+    public void openGeometricWindow() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(GEOMETRIC_VIEW_PATH));
             Parent root = loader.load();
@@ -204,6 +206,18 @@ public class OpenFileController {
             geometricController.setHeightSpinnerValue(MIN_SPINNER_HEIGHT_VAL, MAX_SPINNER_HEIGHT_VAL, ON_START_SPINNER_HEIGHT_VAL);
 
             createAndShowNewStage(GEOMETRIC_STAGE_TITLE, new Scene(root));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openUrlWindow() {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(URL_VIEW_PATH));
+            Parent root = loader.load();
+            createAndShowNewStage(URL_STAGE_TITLE, new Scene(root));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -303,5 +317,5 @@ public class OpenFileController {
         indent(level);
         System.out.println("</" + node.getNodeName() + ">");
     }
-    
+
 }

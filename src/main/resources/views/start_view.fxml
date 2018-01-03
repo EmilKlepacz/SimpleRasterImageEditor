@@ -22,7 +22,7 @@
                         <Menu id="fileOpenMenu" mnemonicParsing="false" text="Open">
                             <items>
                                 <MenuItem fx:id="openFromFileItem" mnemonicParsing="false" onAction="#handleOpenFromFile" text="from File" />
-                                <MenuItem id="openFromURLItem" mnemonicParsing="false" text="from URL" />
+                                <MenuItem fx:id="openFromURLItem" mnemonicParsing="false" onAction="#openUrlWindow" text="from URL" />
                             </items>
                         </Menu>
                         <MenuItem id="fileSaveItem" mnemonicParsing="false" text="Save" />
