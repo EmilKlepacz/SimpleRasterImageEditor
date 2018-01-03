@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.app.Controllers.NegativeController">
+<GridPane alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.app.Controllers.FilteringController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="548.0" minWidth="10.0" prefWidth="528.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="72.0" />
@@ -23,7 +23,7 @@
    <children>
       <HBox alignment="CENTER" prefHeight="334.0" prefWidth="549.0">
          <children>
-            <ImageView fx:id="imageViewNegative" fitHeight="319.0" fitWidth="497.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageViewFiltering" fitHeight="319.0" fitWidth="497.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -32,23 +32,20 @@
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
-      <MenuButton mnemonicParsing="false" text="Make negative from:" GridPane.rowIndex="1">
+      <MenuButton mnemonicParsing="false" text="Filter" GridPane.rowIndex="1">
         <items>
-          <MenuItem mnemonicParsing="false" text="red" />
-          <MenuItem mnemonicParsing="false" text="green" />
-            <MenuItem mnemonicParsing="false" text="blue" />
-            <MenuItem mnemonicParsing="false" text="red and green" />
-            <MenuItem mnemonicParsing="false" text="red and blue" />
-            <MenuItem mnemonicParsing="false" text="blue and green" />
+            <MenuItem mnemonicParsing="false" text="High-pass filter" />
+          <MenuItem mnemonicParsing="false" text="Gaussian filter" />
+          <MenuItem mnemonicParsing="false" text="Mean filter" />
+            <MenuItem mnemonicParsing="false" text="Laplacian filter" />
+            <MenuItem mnemonicParsing="false" text="Low-pass filter" />
         </items>
-         <GridPane.margin>
-            <Insets left="220.0" />
-         </GridPane.margin>
-      </MenuButton>
-      <Button mnemonicParsing="false" text="Standard negative (all channels)" GridPane.rowIndex="1">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin>
-      </Button>
+      </MenuButton>
    </children>
 </GridPane>

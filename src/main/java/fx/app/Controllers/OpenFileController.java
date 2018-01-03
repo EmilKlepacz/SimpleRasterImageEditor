@@ -28,9 +28,11 @@ import java.util.Iterator;
 public class OpenFileController {
 
     private static final String GAMMA_VIEW_PATH = "/views/gamma_view.fxml";
-    private static final String NEGATIVE_VIEW_PATH ="/views/negative_view.fxml";
     private static final String GAMMA_STAGE_TITLE = "Gamma correction";
+    private static final String NEGATIVE_VIEW_PATH = "/views/negative_view.fxml";
     private static final String NEGATIVE_STAGE_TITLE = "Negative operation";
+    private static final String FILTERING_VIEW_PATH = "/views/filtering_view.fxml";
+    private static final String FILTERING_STAGE_TITLE = "Filtering";
 
     @FXML
     private StackPane stackPane;
@@ -51,28 +53,28 @@ public class OpenFileController {
     private Image image;
 
 
-    private void enableOperationButtons(){
+    private void enableOperationButtons() {
         gammaBtn.setDisable(false);
         negativeBtn.setDisable(false);
         filteringBtn.setDisable(false);
         histogramBtn.setDisable(false);
         geometricBtn.setDisable(false);
     }
-    
-    private void setImageHightWidthFitBorderPane(Image image){
+
+    private void setImageHightWidthFitBorderPane(Image image) {
         imageView.fitHeightProperty().bind(stackPane.widthProperty());
         imageView.fitWidthProperty().bind(stackPane.heightProperty());
         imageView.setImage(image);
     }
 
     private void setImageFromFileInImageView(File file) throws MalformedURLException, FileNotFoundException {
-            if (file != null) {
-                String imageFilePath = file.toURI().toURL().toString();
-                image = new Image(imageFilePath);
-                setImageHightWidthFitBorderPane(image);
-                
-                enableOperationButtons();
-            } else throw new FileNotFoundException();
+        if (file != null) {
+            String imageFilePath = file.toURI().toURL().toString();
+            image = new Image(imageFilePath);
+            setImageHightWidthFitBorderPane(image);
+
+            enableOperationButtons();
+        } else throw new FileNotFoundException();
 
     }
 
@@ -98,7 +100,7 @@ public class OpenFileController {
         }
     }
 
-    public void handleOpenFileInformation(){
+    public void handleOpenFileInformation() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("File statistics");
         alert.setHeaderText("FILE NAME HERE");
@@ -107,7 +109,7 @@ public class OpenFileController {
         alert.showAndWait();
     }
 
-    public void openGammaWindow(){
+    public void openGammaWindow() {
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(GAMMA_VIEW_PATH));
@@ -127,16 +129,7 @@ public class OpenFileController {
         }
     }
 
-    private void createAndShowNewStage(String stageTitle, Scene scene) {
-        Stage stageGamma = new Stage();
-        stageGamma.setTitle(stageTitle);
-        stageGamma.setScene(scene);
-        stageGamma.setResizable(false);
-        stageGamma.show();
-    }
-
-
-    public void openNegativeWindow(){
+    public void openNegativeWindow() {
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(NEGATIVE_VIEW_PATH));
@@ -153,13 +146,38 @@ public class OpenFileController {
         }
     }
 
+    public void openFilteringWindow() {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(FILTERING_VIEW_PATH));
+            Parent root = loader.load();
+
+            FilteringController filteringController = loader.getController();
+            filteringController.setImage(image);
+            filteringController.setStartImageInImageView(image);
+
+            createAndShowNewStage(FILTERING_STAGE_TITLE, new Scene(root));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createAndShowNewStage(String stageTitle, Scene scene) {
+        Stage stage = new Stage();
+        stage.setTitle(stageTitle);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    private void readAndDisplayMetadata( String fileName ) {
+    private void readAndDisplayMetadata(String fileName) {
 
-        if(fileName!=null) {
+        if (fileName != null) {
             try {
 
                 File file = new File(fileName);
