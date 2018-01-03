@@ -1,5 +1,6 @@
 package fx.app.Controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -33,6 +34,16 @@ public class OpenFileController {
     private static final String NEGATIVE_STAGE_TITLE = "Negative operation";
     private static final String FILTERING_VIEW_PATH = "/views/filtering_view.fxml";
     private static final String FILTERING_STAGE_TITLE = "Filtering";
+    private static final String HISTOGRAM_VIEW_PATH = "/views/histogram_view.fxml";
+    private static final String HISTOGRAM_STAGE_TITLE = "Histogram based operations";
+    private static final String GEOMETRIC_VIEW_PATH = "/views/geometric_view.fxml" ;
+    private static final String GEOMETRIC_STAGE_TITLE = "Geometric transformations";
+    private static final int MIN_SPINNER_WIDTH_VAL = 1;
+    private static final int MAX_SPINNER_WIDTH_VAL = 100000;
+    private static final int ON_START_SPINNER_WIDTH_VAL = 0;
+    private static final int MIN_SPINNER_HEIGHT_VAL = 1;
+    private static final int MAX_SPINNER_HEIGHT_VAL = 100000;
+    private static final int ON_START_SPINNER_HEIGHT_VAL = 0;
 
     @FXML
     private StackPane stackPane;
@@ -109,6 +120,7 @@ public class OpenFileController {
         alert.showAndWait();
     }
 
+
     public void openGammaWindow() {
 
         try {
@@ -157,6 +169,41 @@ public class OpenFileController {
             filteringController.setStartImageInImageView(image);
 
             createAndShowNewStage(FILTERING_STAGE_TITLE, new Scene(root));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openHistogramWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(HISTOGRAM_VIEW_PATH));
+            Parent root = loader.load();
+
+            HistogramController histogramController = loader.getController();
+            histogramController.setImage(image);
+            histogramController.setStartImageInImageView(image);
+
+            createAndShowNewStage(HISTOGRAM_STAGE_TITLE, new Scene(root));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openGeometricWindow(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(GEOMETRIC_VIEW_PATH));
+            Parent root = loader.load();
+
+            GeometricController geometricController = loader.getController();
+            geometricController.setImage(image);
+            geometricController.setStartImageInImageView(image);
+
+            geometricController.setWidthSpinnerValue(MIN_SPINNER_WIDTH_VAL, MAX_SPINNER_WIDTH_VAL, ON_START_SPINNER_WIDTH_VAL);
+            geometricController.setHeightSpinnerValue(MIN_SPINNER_HEIGHT_VAL, MAX_SPINNER_HEIGHT_VAL, ON_START_SPINNER_HEIGHT_VAL);
+
+            createAndShowNewStage(GEOMETRIC_STAGE_TITLE, new Scene(root));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -256,4 +303,5 @@ public class OpenFileController {
         indent(level);
         System.out.println("</" + node.getNodeName() + ">");
     }
+    
 }

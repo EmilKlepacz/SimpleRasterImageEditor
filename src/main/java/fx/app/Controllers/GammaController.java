@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 
 public class GammaController implements BasicController {
     @FXML
-    ImageView imageViewGamma;
+    private ImageView imageViewGamma;
 
     private Image image;
 
