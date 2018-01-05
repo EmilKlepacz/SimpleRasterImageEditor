@@ -45,7 +45,7 @@
             <Insets left="220.0" />
          </GridPane.margin>
       </MenuButton>
-      <Button mnemonicParsing="false" text="Standard negative (all channels)" GridPane.rowIndex="1">
+      <Button fx:id="standNegBtn" mnemonicParsing="false" text="Standard negative (all channels)" GridPane.rowIndex="1" onAction="#negative">
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin>

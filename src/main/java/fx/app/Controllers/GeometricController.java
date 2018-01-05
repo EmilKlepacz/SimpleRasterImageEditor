@@ -18,6 +18,8 @@ public class GeometricController implements BasicController {
 
     private Image image;
 
+    private String imagePath;
+
     public void setImage(Image image) {
         this.image = image;
     }
@@ -36,6 +38,11 @@ public class GeometricController implements BasicController {
     @Override
     public void setStartImageInImageView(Image image) {
         imageViewGeometric.setImage(image);
+    }
+
+    @Override
+    public void setImagePath(String filePath) {
+        imagePath = filePath;
     }
 
 }

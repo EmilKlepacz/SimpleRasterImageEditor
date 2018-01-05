@@ -1,6 +1,5 @@
 package fx.app.Controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -65,6 +64,12 @@ public class OpenFileController {
 
     private Stage stage;
     private Image image;
+    private String imagePath;
+
+    private void setImagePath(String filePath){
+
+        imagePath = filePath;
+    }
 
 
     private void enableOperationButtons() {
@@ -75,17 +80,19 @@ public class OpenFileController {
         geometricBtn.setDisable(false);
     }
 
-    private void setImageHightWidthFitBorderPane(Image image) {
+    private void setImageHeightWidthFitBorderPane(Image image) {
         imageView.fitHeightProperty().bind(stackPane.widthProperty());
         imageView.fitWidthProperty().bind(stackPane.heightProperty());
         imageView.setImage(image);
     }
 
+    //method return image Path of image in ImageView
     private void setImageFromFileInImageView(File file) throws MalformedURLException, FileNotFoundException {
         if (file != null) {
             String imageFilePath = file.toURI().toURL().toString();
+
             image = new Image(imageFilePath);
-            setImageHightWidthFitBorderPane(image);
+            setImageHeightWidthFitBorderPane(image);
 
             enableOperationButtons();
         } else throw new FileNotFoundException();
@@ -103,6 +110,7 @@ public class OpenFileController {
         if (selectedFile != null) {
             readAndDisplayMetadata(selectedFile.getPath());
             setImageFromFileInImageView(selectedFile);
+            setImagePath(selectedFile.getAbsolutePath());
         }
     }
 
@@ -151,6 +159,7 @@ public class OpenFileController {
 
             NegativeController negativeController = loader.getController();
             negativeController.setImage(image);
+            negativeController.setImagePath(imagePath);
             negativeController.setStartImageInImageView(image);
 
             createAndShowNewStage(NEGATIVE_STAGE_TITLE, new Scene(root));

@@ -12,6 +12,8 @@ public class FilteringController implements BasicController {
 
     private Image image;
 
+    private String imagePath;
+
     public void setImage(Image image) {
         this.image = image;
     }
@@ -20,5 +22,10 @@ public class FilteringController implements BasicController {
     @Override
     public void setStartImageInImageView(Image image) {
         imageViewFiltering.setImage(image);
+    }
+
+    @Override
+    public void setImagePath(String filePath) {
+        imagePath = filePath;
     }
 }

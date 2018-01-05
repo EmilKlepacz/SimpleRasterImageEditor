@@ -11,6 +11,8 @@ public class GammaController implements BasicController {
 
     private Image image;
 
+    private String imagePath;
+
     public void setImage(Image image) {
         this.image = image;
     }
@@ -20,4 +22,11 @@ public class GammaController implements BasicController {
     public void setStartImageInImageView(Image image) {
         imageViewGamma.setImage(image);
     }
+
+    @Override
+    public void setImagePath(String filePath) {
+        imagePath = filePath;
+    }
+
+
 }

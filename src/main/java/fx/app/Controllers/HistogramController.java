@@ -10,6 +10,8 @@ public class HistogramController implements BasicController {
 
     private Image image;
 
+    private String imagePath;
+
     public void setImage(Image image) {
         this.image = image;
     }
@@ -19,4 +21,11 @@ public class HistogramController implements BasicController {
     public void setStartImageInImageView(Image image) {
         imageViewHistogram.setImage(image);
     }
+
+    @Override
+    public void setImagePath(String filePath) {
+        imagePath = filePath;
+    }
+
+
 }
