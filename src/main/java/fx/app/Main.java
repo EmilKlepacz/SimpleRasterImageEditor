@@ -1,6 +1,6 @@
 package fx.app;
 
-import fx.app.Controllers.OpenFileController;
+import fx.app.controllers.OpenFileController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

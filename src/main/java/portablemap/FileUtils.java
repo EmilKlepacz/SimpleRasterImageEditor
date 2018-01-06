@@ -1,8 +1,8 @@
 package portablemap;
 
-import portablemap.Models.HeadingPmASCII;
-import portablemap.Models.PbmAscii;
-import portablemap.Models.PortableMap;
+import portablemap.models.HeadingPmASCII;
+import portablemap.models.PbmAscii;
+import portablemap.models.PortableMap;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
