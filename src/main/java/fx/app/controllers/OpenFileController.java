@@ -101,6 +101,7 @@ public class OpenFileController {
 
     private void openFileChooserAndSetImage() throws MalformedURLException, FileNotFoundException {
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("C:/Users/Siekacz/IdeaProjects/SimpleRasterImageEditor/src/main/resources/images"));
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("formats (*.pbm, *.pgm, *.ppm, *.png, *.jpeg)", "*.pbm", "*.pgm", "*.ppm", "*.png", "*.jpeg")
         );
