@@ -1,8 +1,11 @@
 package fx.app.controllers;
 
+import fx.app.processing.ImageProcessorMarvin;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import marvin.image.MarvinImage;
 
 public class HistogramController implements BasicController {
     @FXML
@@ -28,4 +31,9 @@ public class HistogramController implements BasicController {
     }
 
 
+    public void equalization(){
+        MarvinImage histogramEqualImg = ImageProcessorMarvin.histogramEqualization(imagePath);
+        Image histogramEqualImage = SwingFXUtils.toFXImage(histogramEqualImg.getBufferedImage(), null);
+        imageViewHistogram.setImage(histogramEqualImage);
+    }
 }

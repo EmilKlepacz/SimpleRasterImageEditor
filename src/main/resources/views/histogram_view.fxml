@@ -34,7 +34,7 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
       <MenuButton mnemonicParsing="false" text="Histogram operation" GridPane.rowIndex="1">
         <items>
-            <MenuItem mnemonicParsing="false" text="Equalization" />
+            <MenuItem mnemonicParsing="false" text="Equalization" onAction="#equalization"/>
           <MenuItem mnemonicParsing="false" text="Stretch" />
         </items>
          <opaqueInsets>

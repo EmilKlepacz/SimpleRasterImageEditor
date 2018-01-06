@@ -1,7 +1,7 @@
 package fx.app.controllers;
 
 
-import fx.app.processing.ImageNegativeMaker;
+import fx.app.processing.ImageProcessorMarvin;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,8 +12,6 @@ import marvin.image.MarvinImage;
 public class NegativeController implements BasicController {
     @FXML
     private ImageView imageViewNegative;
-    @FXML
-    private Button standNegBtn;
 
     private Image image;
 
@@ -35,12 +33,9 @@ public class NegativeController implements BasicController {
     }
 
     public void negative(){
-        ImageNegativeMaker imgNegativeMaker = new ImageNegativeMaker();
-        MarvinImage negativeMarvinImage = imgNegativeMaker.invertImage(imagePath);
+        MarvinImage negativeMarvinImage = ImageProcessorMarvin.invertImage(imagePath);
         Image negativeImage = SwingFXUtils.toFXImage(negativeMarvinImage.getBufferedImage(), null);
         imageViewNegative.setImage(negativeImage);
-
-
     }
 
 }
