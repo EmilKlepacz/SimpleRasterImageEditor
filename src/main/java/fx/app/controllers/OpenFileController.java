@@ -242,7 +242,12 @@ public class OpenFileController {
         dialog.setHeaderText("Look, put your url to file below");
         dialog.setContentText("Please enter file url:");
 
+
+        Image image = new Image(getClass().getResource("/images/url.png").toExternalForm());
         ImageView imageView = new ImageView(image);
+        dialog.setGraphic(imageView);
+
+
         dialog.setGraphic(imageView);
 
         Optional<String> result = dialog.showAndWait();
