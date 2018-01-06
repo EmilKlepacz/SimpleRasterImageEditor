@@ -1,4 +1,4 @@
-package portablemap.Models;
+package portablemap.models;
 
 
 public abstract class PortableMapASCII extends PortableMap {

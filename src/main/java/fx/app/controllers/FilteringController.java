@@ -1,12 +1,14 @@
-package fx.app.Controllers;
+package fx.app.controllers;
+
 
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class HistogramController implements BasicController {
+public class FilteringController implements BasicController {
+
     @FXML
-    private ImageView imageViewHistogram;
+    ImageView imageViewFiltering;
 
     private Image image;
 
@@ -19,13 +21,11 @@ public class HistogramController implements BasicController {
     // this image is copy of image in start_view
     @Override
     public void setStartImageInImageView(Image image) {
-        imageViewHistogram.setImage(image);
+        imageViewFiltering.setImage(image);
     }
 
     @Override
     public void setImagePath(String filePath) {
         imagePath = filePath;
     }
-
-
 }
