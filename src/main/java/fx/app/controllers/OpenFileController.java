@@ -92,7 +92,7 @@ public class OpenFileController {
     private void setImageFromFileInImageView(ImageReader reader) throws IOException {
 
             BufferedImage bi = reader.read(0);
-            Image image = SwingFXUtils.toFXImage(bi, null);
+            image = SwingFXUtils.toFXImage(bi, null);
             setImageHeightWidthFitBorderPane(image);
             enableOperationButtons();
 
