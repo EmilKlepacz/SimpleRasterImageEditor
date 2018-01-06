@@ -250,6 +250,7 @@ public class OpenFileController {
             try {
                 handleOpenFromURL(dialog.getEditor().getCharacters().toString());
             } catch (Exception e) {
+                e.printStackTrace();
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setContentText("WRONG URL WAS USED!");
                 errorAlert.showAndWait();
