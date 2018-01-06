@@ -253,9 +253,9 @@ public class OpenFileController {
             try {
                 handleOpenFromURL(dialog.getEditor().getCharacters().toString());
             } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("WRONG URL WAS USED!");
-                alert.showAndWait();
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setContentText("WRONG URL WAS USED!");
+                errorAlert.showAndWait();
                 openUrlWindow();
             }
         }
