@@ -252,14 +252,13 @@ public class OpenFileController {
         if (result.isPresent()){
             try {
                 handleOpenFromURL(dialog.getEditor().getCharacters().toString());
-            } catch (IOException e) {
+            } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("WRONG URL WAS USED!");
                 alert.showAndWait();
                 openUrlWindow();
             }
         }
-
     }
 
     private void createAndShowNewStage(String stageTitle, Scene scene) {
