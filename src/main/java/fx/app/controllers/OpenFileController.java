@@ -129,9 +129,15 @@ public class OpenFileController {
         String extension = url.substring(url.lastIndexOf(".") + 1).trim();
         File f = new File("temp." + extension);
         ImageIO.write(img, extension, f);
-        readAndDisplayMetadata(f.getPath());
-        setImageFromFileInImageView(f);
-        setImagePath(f.getAbsolutePath());
+
+        if(f.length()<5){
+           URLError();
+        }
+        else {
+            readAndDisplayMetadata(f.getPath());
+            setImageFromFileInImageView(f);
+            setImagePath(f.getAbsolutePath());
+        }
     }
 
     public void handleOpenFileInformation() {
@@ -250,12 +256,15 @@ public class OpenFileController {
             try {
                 handleOpenFromURL(dialog.getEditor().getCharacters().toString());
             } catch (Exception e) {
-                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                errorAlert.setContentText("WRONG URL WAS USED!");
-                errorAlert.showAndWait();
-                openUrlWindow();
+                URLError();
             }
         }
+    }
+    private void URLError(){
+        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+        errorAlert.setContentText("WRONG URL WAS USED!");
+        errorAlert.showAndWait();
+        openUrlWindow();
     }
 
     private void createAndShowNewStage(String stageTitle, Scene scene) {
