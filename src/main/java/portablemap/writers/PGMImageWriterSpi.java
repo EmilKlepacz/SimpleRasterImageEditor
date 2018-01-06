@@ -11,11 +11,11 @@ public class PGMImageWriterSpi extends ImageWriterSpi {
 
     static final String vendorName="mm's computing";
     static final String version="0.0.1";
-    static final String writerClassName="uk.co.mmscomputing.imageio.ppm.PGMImageWriter";
+    static final String writerClassName="portablemap.writers.PGMImageWriter";
     static final String[] names={"pgm","PGM"};
     static final String[] suffixes={"pgm","PGM"};
     static final String[] MIMETypes={"image/pgm"};
-    static final String[] readerSpiNames={"uk.co.mmscomputing.imageio.ppm.PPMImageReaderSpi"};
+    static final String[] readerSpiNames={"portablemap.readers.PPMImageReaderSpi"};
 
     static final boolean supportsStandardStreamMetadataFormat = false;
     static final String nativeStreamMetadataFormatName = null;

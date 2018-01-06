@@ -1,5 +1,6 @@
 package fx.app.controllers;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,8 +15,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import portablemap.readers.PPMImageReader;
-import portablemap.readers.PPMImageReaderSpi;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -90,15 +89,12 @@ public class OpenFileController {
     }
 
     //method return image Path of image in ImageView
-    private void setImageFromFileInImageView(File file) throws MalformedURLException, FileNotFoundException {
-        if (file != null) {
-            String imageFilePath = file.toURI().toURL().toString();
+    private void setImageFromFileInImageView(ImageReader reader) throws IOException {
 
-            image = new Image(imageFilePath);
+            BufferedImage bi = reader.read(0);
+            Image image = SwingFXUtils.toFXImage(bi, null);
             setImageHeightWidthFitBorderPane(image);
-
             enableOperationButtons();
-        } else throw new FileNotFoundException();
 
     }
 
@@ -111,11 +107,8 @@ public class OpenFileController {
 
         File selectedFile = fileChooser.showOpenDialog(stage);
 
-        if (selectedFile != null) {
-            readAndDisplayMetadata(selectedFile.getPath());
-            setImageFromFileInImageView(selectedFile);
-            setImagePath(selectedFile.getAbsolutePath());
-        }
+        if(selectedFile != null)
+            processImage(selectedFile);
     }
 
     public void handleOpenFromFile() {
@@ -136,9 +129,7 @@ public class OpenFileController {
            URLError();
         }
         else {
-            readAndDisplayMetadata(f.getPath());
-            setImageFromFileInImageView(f);
-            setImagePath(f.getAbsolutePath());
+            processImage(f);
         }
     }
 
@@ -290,20 +281,12 @@ public class OpenFileController {
         this.stage = stage;
     }
 
-    private void readAndDisplayMetadata(String fileName) {
-
-        if (fileName != null) {
+    private void processImage(File file) {
             try {
-
-                File file = new File(fileName);
                 double bytes = file.length();
-                fileSize = "File Size: " + String.format("%.2f", bytes / 1024) + "kb";
-                PPMImageReaderSpi pnmReaderSpi;
-                PPMImageReader pnmReader;
-                if(fileName.contains("pgm")||fileName.contains("pbm")||fileName.contains("ppm")) {
-                    pnmReaderSpi = new PPMImageReaderSpi();
-                    pnmReader = (PPMImageReader) pnmReaderSpi.createReaderInstance();
-                }
+                System.out.println("File Size: " + String.format("%.2f", bytes / 1024) + "kb");
+
+                ImageIO.scanForPlugins();
                 ImageInputStream iis = ImageIO.createImageInputStream(file);
                 Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
 
@@ -311,22 +294,30 @@ public class OpenFileController {
 
                     // pick the first available ImageReader
                     ImageReader reader = readers.next();
-
                     // attach source to the reader
                     reader.setInput(iis, true);
-
                     // read metadata of first image
-                    IIOMetadata metadata = reader.getImageMetadata(0);
 
-                    String[] names = metadata.getMetadataFormatNames();
-                    for (String name : names) {
-                        fileInformation +="Format name: " + name + "\n";
-                        displayMetadata(metadata.getAsTree(name));
-                    }
+                    readAndDisplayMetadata(reader);
+
+                    setImageFromFileInImageView(reader);
+
+                    imagePath = file.getAbsolutePath();
                 }
             } catch (Exception e) {
 
                 e.printStackTrace();
+            }
+    }
+
+    private void readAndDisplayMetadata(ImageReader reader) throws IOException {
+
+        IIOMetadata metadata = reader.getImageMetadata(0);
+        if (metadata != null) {
+            String[] names = metadata.getMetadataFormatNames();
+            for (String name : names) {
+                System.out.println("Format name: " + name);
+                displayMetadata(metadata.getAsTree(name));
             }
         }
     }
