@@ -169,6 +169,7 @@ public class OpenFileController {
         }
     }
 
+    //set Image and ImagePath in new window
     public void openNegativeWindow() {
 
         try {
@@ -211,6 +212,7 @@ public class OpenFileController {
 
             HistogramController histogramController = loader.getController();
             histogramController.setImage(image);
+            histogramController.setImagePath(imagePath);
             histogramController.setStartImageInImageView(image);
 
             createAndShowNewStage(HISTOGRAM_STAGE_TITLE, new Scene(root));
