@@ -44,6 +44,7 @@ public class NegativeController implements BasicController {
         Image negativeImage = SwingFXUtils.toFXImage(negativeMarvinImage.getBufferedImage(), null);
         imageViewNegative.setImage(negativeImage);
 
+
     }
 
 }
