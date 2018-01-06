@@ -22,9 +22,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
@@ -43,8 +41,6 @@ public class OpenFileController {
     private static final String HISTOGRAM_STAGE_TITLE = "Histogram based operations";
     private static final String GEOMETRIC_VIEW_PATH = "/views/geometric_view.fxml";
     private static final String GEOMETRIC_STAGE_TITLE = "Geometric transformations";
-    private static final String URL_STAGE_TITLE = "Loading Image from URL";
-    private static final String URL_VIEW_PATH = "/views/url_view.fxml";
     private static final int MIN_SPINNER_WIDTH_VAL = 1;
     private static final int MAX_SPINNER_WIDTH_VAL = 100000;
     private static final int ON_START_SPINNER_WIDTH_VAL = 0;
@@ -129,12 +125,13 @@ public class OpenFileController {
     }
 
     private void handleOpenFromURL(String url) throws IOException {
-        File f = new File("temp");
-        String chosenURL = url;
-        BufferedImage img = ImageIO.read(new URL(chosenURL));
-        String extension = chosenURL.substring(chosenURL.lastIndexOf(".") + 1).trim();
+        BufferedImage img = ImageIO.read(new URL(url));
+        String extension = url.substring(url.lastIndexOf(".") + 1).trim();
+        File f = new File("temp." + extension);
         ImageIO.write(img, extension, f);
+        readAndDisplayMetadata(f.getPath());
         setImageFromFileInImageView(f);
+        setImagePath(f.getAbsolutePath());
     }
 
     public void handleOpenFileInformation() {
