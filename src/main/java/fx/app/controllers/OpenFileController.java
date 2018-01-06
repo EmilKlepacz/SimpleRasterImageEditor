@@ -128,9 +128,9 @@ public class OpenFileController {
         }
     }
 
-    private void handleOpenFromURL() throws IOException {
+    private void handleOpenFromURL(String url) throws IOException {
         File f = new File("temp");
-        String chosenURL = "https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png"; // tu daj zmienną do choosera FX
+        String chosenURL = url;
         BufferedImage img = ImageIO.read(new URL(chosenURL));
         String extension = chosenURL.substring(chosenURL.lastIndexOf(".") + 1).trim();
         ImageIO.write(img, extension, f);
@@ -237,19 +237,23 @@ public class OpenFileController {
     }
 
     public void openUrlWindow() {
-        TextInputDialog dialog = new TextInputDialog("https://");
+        TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Load from url");
         dialog.setHeaderText("Look, put your url to file below");
         dialog.setContentText("Please enter file url:");
 
-        ImageView imageView = new ImageView(image);
-        dialog.setGraphic(imageView);
-
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
-            System.out.println("Your name: " + result.get());
+            try {
+                handleOpenFromURL(dialog.getEditor().getCharacters().toString());
+            } catch (IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("USED URL IS WRONG!");
+                alert.setHeight(10);
+                alert.setWidth(10);
+                alert.showAndWait();
+            }
         }
-
     }
 
     private void createAndShowNewStage(String stageTitle, Scene scene) {
