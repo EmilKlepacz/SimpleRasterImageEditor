@@ -47,6 +47,8 @@ public class OpenFileController {
     private static final int MIN_SPINNER_HEIGHT_VAL = 1;
     private static final int MAX_SPINNER_HEIGHT_VAL = 100000;
     private static final int ON_START_SPINNER_HEIGHT_VAL = 0;
+    private String fileInformation = "";
+    private String fileSize = "";
 
     @FXML
     private StackPane stackPane;
@@ -141,10 +143,17 @@ public class OpenFileController {
     }
 
     public void handleOpenFileInformation() {
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("File statistics");
-        alert.setHeaderText("FILE NAME HERE");
-        alert.setContentText("There will be file info");
+        alert.setTitle("File information");
+        alert.setHeaderText(fileSize);
+        if(fileInformation.equals("")){
+        alert.setContentText("No file loaded");
+        }
+        else  alert.setContentText(fileInformation);
+
+        alert.setResizable(true);
+        alert.getDialogPane().setPrefSize(1000, 800);
 
         alert.showAndWait();
     }
@@ -286,7 +295,7 @@ public class OpenFileController {
 
                 File file = new File(fileName);
                 double bytes = file.length();
-                System.out.println("File Size: " + String.format("%.2f", bytes / 1024) + "kb");
+                fileSize = "File Size: " + String.format("%.2f", bytes / 1024) + "kb";
                 PPMImageReaderSpi pnmReaderSpi;
                 PPMImageReader pnmReader;
                 if(fileName.contains("pgm")||fileName.contains("pbm")||fileName.contains("ppm")) {
@@ -309,9 +318,8 @@ public class OpenFileController {
 
                     String[] names = metadata.getMetadataFormatNames();
                     for (String name : names) {
-                        System.out.println("Format name: " + name);
+                        fileInformation +="Format name: " + name + "\n";
                         displayMetadata(metadata.getAsTree(name));
-
                     }
                 }
             } catch (Exception e) {
@@ -327,13 +335,13 @@ public class OpenFileController {
 
     private void indent(int level) {
         for (int i = 0; i < level; i++)
-            System.out.print("    ");
+            fileInformation +="    ";
     }
 
     private void displayMetadata(Node node, int level) {
         // print open tag of element
         indent(level);
-        System.out.print("<" + node.getNodeName());
+        fileInformation +="<" + node.getNodeName();
         NamedNodeMap map = node.getAttributes();
         if (map != null) {
 
@@ -341,20 +349,20 @@ public class OpenFileController {
             int length = map.getLength();
             for (int i = 0; i < length; i++) {
                 Node attr = map.item(i);
-                System.out.print(" " + attr.getNodeName() +
-                        "=\"" + attr.getNodeValue() + "\"");
+                fileInformation +=" " + attr.getNodeName() +
+                        "=\"" + attr.getNodeValue() + "\"";
             }
         }
 
         Node child = node.getFirstChild();
         if (child == null) {
             // no children, so close element and return
-            System.out.println("/>");
+            fileInformation +="/>\n";
             return;
         }
 
         // children, so close current tag
-        System.out.println(">");
+        fileInformation +=">\n";
         while (child != null) {
             // print children recursively
             displayMetadata(child, level + 1);
@@ -363,7 +371,7 @@ public class OpenFileController {
 
         // print close tag of element
         indent(level);
-        System.out.println("</" + node.getNodeName() + ">");
+        fileInformation +="</" + node.getNodeName() + ">\n";
     }
 
 }
