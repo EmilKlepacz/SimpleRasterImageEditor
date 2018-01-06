@@ -18,10 +18,12 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Iterator;
 
 
@@ -121,6 +123,15 @@ public class OpenFileController {
         } catch (MalformedURLException | FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void handleOpenFromURL() throws IOException {
+        File f = new File("temp");
+        String chosenURL = "https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png"; // tu daj zmienną do choosera FX
+        BufferedImage img = ImageIO.read(new URL(chosenURL));
+        String extension = chosenURL.substring(chosenURL.lastIndexOf(".") + 1).trim();
+        ImageIO.write(img, extension, f);
+        setImageFromFileInImageView(f);
     }
 
     public void handleOpenFileInformation() {
@@ -228,6 +239,7 @@ public class OpenFileController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(URL_VIEW_PATH));
             Parent root = loader.load();
             createAndShowNewStage(URL_STAGE_TITLE, new Scene(root));
+            handleOpenFromURL();
 
         } catch (IOException e) {
             e.printStackTrace();
