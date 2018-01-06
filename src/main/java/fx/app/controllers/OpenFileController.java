@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.Optional;
 
 
 public class OpenFileController {
@@ -47,7 +49,6 @@ public class OpenFileController {
     private static final int MIN_SPINNER_HEIGHT_VAL = 1;
     private static final int MAX_SPINNER_HEIGHT_VAL = 100000;
     private static final int ON_START_SPINNER_HEIGHT_VAL = 0;
-
 
     @FXML
     private StackPane stackPane;
@@ -233,16 +234,19 @@ public class OpenFileController {
     }
 
     public void openUrlWindow() {
+        TextInputDialog dialog = new TextInputDialog("https://");
+        dialog.setTitle("Load from url");
+        dialog.setHeaderText("Look, put your url to file below");
+        dialog.setContentText("Please enter file url:");
 
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(URL_VIEW_PATH));
-            Parent root = loader.load();
-            createAndShowNewStage(URL_STAGE_TITLE, new Scene(root));
-            handleOpenFromURL();
+        ImageView imageView = new ImageView(image);
+        dialog.setGraphic(imageView);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            System.out.println("Your name: " + result.get());
         }
+
     }
 
     private void createAndShowNewStage(String stageTitle, Scene scene) {
