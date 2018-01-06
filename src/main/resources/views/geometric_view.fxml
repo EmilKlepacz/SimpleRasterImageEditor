@@ -39,27 +39,32 @@
          </children></AnchorPane>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Width" wrappingWidth="49.13671875" GridPane.rowIndex="1">
          <GridPane.margin>
-            <Insets left="180.0" />
+            <Insets left="170.0" />
          </GridPane.margin>
       </Text>
       <Spinner fx:id="widthSpinner" editable="true" prefHeight="25.0" prefWidth="90.0" GridPane.rowIndex="1">
          <GridPane.margin>
-            <Insets left="220.0" />
+            <Insets left="210.0" />
          </GridPane.margin>
       </Spinner>
       <Spinner fx:id="heightSpinner" editable="true" prefHeight="25.0" prefWidth="90.0" GridPane.rowIndex="1">
          <GridPane.margin>
-            <Insets left="370.0" />
+            <Insets left="350.0" />
          </GridPane.margin>
       </Spinner>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Height" wrappingWidth="49.13671875" GridPane.rowIndex="1">
          <GridPane.margin>
-            <Insets left="325.0" />
+            <Insets left="310.0" />
          </GridPane.margin>
       </Text>
       <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="Scaling (Resizing)" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="20.0" />
+         </GridPane.margin>
+      </Button>
+      <Button mnemonicParsing="false" text="Revert" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="450.0" />
          </GridPane.margin>
       </Button>
    </children>
