@@ -14,6 +14,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import portablemap.readers.PPMImageReader;
+import portablemap.readers.PPMImageReaderSpi;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -104,6 +106,7 @@ public class OpenFileController {
 
     private void openFileChooserAndSetImage() throws MalformedURLException, FileNotFoundException {
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File(getClass().getClassLoader().getResource("images").getPath()));
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("formats (*.pbm, *.pgm, *.ppm, *.png, *.jpeg)", "*.pbm", "*.pgm", "*.ppm", "*.png", "*.jpeg")
         );
@@ -269,7 +272,12 @@ public class OpenFileController {
                 File file = new File(fileName);
                 double bytes = file.length();
                 System.out.println("File Size: " + String.format("%.2f", bytes / 1024) + "kb");
-
+                PPMImageReaderSpi pnmReaderSpi;
+                PPMImageReader pnmReader;
+                if(fileName.contains("pgm")||fileName.contains("pbm")||fileName.contains("ppm")) {
+                    pnmReaderSpi = new PPMImageReaderSpi();
+                    pnmReader = (PPMImageReader) pnmReaderSpi.createReaderInstance();
+                }
                 ImageInputStream iis = ImageIO.createImageInputStream(file);
                 Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
 
