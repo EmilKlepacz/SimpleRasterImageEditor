@@ -77,11 +77,10 @@ public class FilteringController extends BasicController {
         addChangesToImage(negativeImage);
     }
 
-    public void laplacianFilter(){
-        ImagePlus laplacianImage = new ImagePlus(temporaryImagePath);
-        ImageProcessor imageProcessor = laplacianImage.getProcessor();
-        laplacianImage.
-    }
+//    public void laplacianFilter(){
+//        ImagePlus laplacianImage = new ImagePlus(temporaryImagePath);
+//        ImageProcessor imageProcessor = laplacianImage.getProcessor();
+//    }
 
     public void setSigmaSliderVisible(){
         sigmaSlider.setVisible(true);
