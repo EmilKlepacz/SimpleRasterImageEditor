@@ -80,8 +80,7 @@ public class FilteringController extends BasicController {
     public void laplacianFilter(){
         ImagePlus laplacianImage = new ImagePlus(temporaryImagePath);
         ImageProcessor imageProcessor = laplacianImage.getProcessor();
-
-
+        laplacianImage.
     }
 
     public void setSigmaSliderVisible(){
