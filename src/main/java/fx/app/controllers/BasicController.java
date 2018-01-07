@@ -6,13 +6,14 @@ import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.awt.image.ConvolveOp;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class BasicController {
+public abstract class BasicController{
 
     protected Stage stage;
     protected List<Image> imageChanges;

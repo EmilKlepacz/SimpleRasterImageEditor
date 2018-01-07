@@ -1,9 +1,14 @@
 package fx.app.controllers;
 
-
+import ij.ImagePlus;
+import ij.process.ImageProcessor;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+
+import java.io.IOException;
 
 public class FilteringController extends BasicController {
 
@@ -56,5 +61,14 @@ public class FilteringController extends BasicController {
     public void setOpenFileController(OpenFileController openFileController) {
         if(this.openFileController == null)
             this.openFileController = openFileController;
+    }
+
+    public void gaussianFilter() throws IOException {
+        ImagePlus gaussianBlur = new ImagePlus(temporaryImagePath);
+        ImageProcessor imgProcessor = gaussianBlur.getProcessor();
+        imgProcessor.blurGaussian(8);  // TO DO EMIL SIGMA FRONTEND
+
+        Image negativeImage = SwingFXUtils.toFXImage(gaussianBlur.getBufferedImage(), null);
+        addChangesToImage(negativeImage);
     }
 }

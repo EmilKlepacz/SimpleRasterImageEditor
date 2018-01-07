@@ -35,7 +35,7 @@
       <MenuButton mnemonicParsing="false" text="Filter" GridPane.rowIndex="1">
         <items>
             <MenuItem mnemonicParsing="false" text="High-pass filter" />
-          <MenuItem mnemonicParsing="false" text="Gaussian filter" />
+          <MenuItem mnemonicParsing="false" text="Gaussian filter" onAction="#gaussianFilter" />
           <MenuItem mnemonicParsing="false" text="Mean filter" />
             <MenuItem mnemonicParsing="false" text="Laplacian filter" />
             <MenuItem mnemonicParsing="false" text="Low-pass filter" />
