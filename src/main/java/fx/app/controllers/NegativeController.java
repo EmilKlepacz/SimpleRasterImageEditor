@@ -33,7 +33,6 @@ public class NegativeController extends BasicController {
         addChangesToImage(image);
     }
 
-    //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
     @Override
     protected void addChangesToImage(Image image) {
         imageViewNegative.setImage(image);

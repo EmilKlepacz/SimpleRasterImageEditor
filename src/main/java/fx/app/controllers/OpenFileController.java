@@ -92,7 +92,7 @@ public class OpenFileController extends BasicController {
         addChangesToImage(image);
     }
 
-    //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
+
     @Override
     protected void addChangesToImage(Image image) {
         imageView.setImage(image);
@@ -147,6 +147,14 @@ public class OpenFileController extends BasicController {
             BufferedImage bi = SwingFXUtils.fromFXImage(this.imageView.getImage(), null);
             ImageIO.write(bi, extension, file);
         } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("File saving error:");
+            if(e.getMessage().equals(""))
+                alert.setContentText("Unable to load this file! ");
+            else
+                alert.setContentText(e.getMessage());
+            alert.showAndWait();
             e.printStackTrace();
         }
         return true;
@@ -174,18 +182,11 @@ public class OpenFileController extends BasicController {
                 temporaryImagePath = null;
             }
             else if(selectedFile.getAbsolutePath().equals(temporaryImagePath)){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("File loading error");
-                alert.setContentText("Unable to load this file!");
-                alert.showAndWait();
-                return;
+                throw new IOException("Active temporary file selected!");
             }
             File selectedFileCopy = createTmpCopyOfOriginalFile(selectedFile);
             processImage(selectedFile, selectedFileCopy);
         }
-
-        //@TODO Obsluzyc przypadek bledu odczytu pliku
     }
 
     private File createTmpCopyOfOriginalFile(File selectedFile) throws IOException {
@@ -204,6 +205,14 @@ public class OpenFileController extends BasicController {
             openFileChooserAndSetImage();
 
         } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("File loading error:");
+            if(e.getMessage().equals(""))
+                alert.setContentText("Unable to load this file! ");
+            else
+                alert.setContentText(e.getMessage());
+            alert.showAndWait();
             e.printStackTrace();
         }
     }

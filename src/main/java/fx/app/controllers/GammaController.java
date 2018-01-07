@@ -20,7 +20,6 @@ public class GammaController extends BasicController {
 
     private OpenFileController openFileController;
 
-    //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
     @Override
     protected void addChangesToImage(Image image) {
         imageViewGamma.setImage(image);

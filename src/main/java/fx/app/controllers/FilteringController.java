@@ -24,7 +24,6 @@ public class FilteringController extends BasicController {
 
     private OpenFileController openFileController;
 
-    //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
     @Override
     protected void addChangesToImage(Image image) {
         imageViewFiltering.setImage(image);

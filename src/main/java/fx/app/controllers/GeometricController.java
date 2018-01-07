@@ -30,7 +30,6 @@ public class GeometricController extends BasicController {
 
     private OpenFileController openFileController;
 
-    //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
     @Override
     protected void addChangesToImage(Image image) {
         imageViewGeometric.setImage(image);

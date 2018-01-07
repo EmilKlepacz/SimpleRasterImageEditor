@@ -31,7 +31,6 @@ public class HistogramController extends BasicController {
         addChangesToImage(image);
     }
 
-    //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
     @Override
     protected void addChangesToImage(Image image) {
         imageViewHistogram.setImage(image);
