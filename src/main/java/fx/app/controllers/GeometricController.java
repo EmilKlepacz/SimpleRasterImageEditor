@@ -84,7 +84,9 @@ public class GeometricController extends BasicController {
     public void scale() {
         ImagePlus imgPlus = new ImagePlus(temporaryImagePath);
         ImageProcessor imgProcessor = imgPlus.getProcessor();
-        ImageProcessor imageProcessorAfterResize = imgProcessor.resize(widthSpinner.getValue(), heightSpinner.getValue(), true);
+        int x = Integer.parseInt(widthSpinner.getEditor().getCharacters().toString());
+        int y = Integer.parseInt(heightSpinner.getEditor().getCharacters().toString());
+        ImageProcessor imageProcessorAfterResize = imgProcessor.resize(x,y, true);
 
         BufferedImage bufferedImage = imageProcessorAfterResize.getBufferedImage();
         ImagePlus scaledImagePlus = new ImagePlus("", bufferedImage);
