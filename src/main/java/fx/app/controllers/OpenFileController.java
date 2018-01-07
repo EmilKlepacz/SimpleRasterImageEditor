@@ -130,6 +130,8 @@ public class OpenFileController extends BasicController {
             saveFile(saveFile);
         }
 
+        //@TODO Obsluzyc przypadek bledu zapisu pliku
+
     }
 
     private boolean saveFile(File file)
@@ -171,6 +173,8 @@ public class OpenFileController extends BasicController {
 
         if(selectedFile != null)
             processImage(selectedFile);
+
+        //@TODO Obsluzyc przypadek bledu odczytu pliku
     }
 
     public void handleOpenFromFile() {
