@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 public class NegativeController extends BasicController {
     @FXML
     private ImageView imageViewNegative;
+    private boolean[] rgbChannels = {false,false,false};
 
     public void setImage(Image image) {
         this.image = image;
@@ -38,5 +39,81 @@ public class NegativeController extends BasicController {
         MarvinImage negativeMarvinImage = ImageProcessorMarvin.invertImage(imagePath);
         Image negativeImage = SwingFXUtils.toFXImage(negativeMarvinImage.getBufferedImage(), null);
         imageViewNegative.setImage(negativeImage);
+    }
+
+    public void channelR(){
+        resetChannels();
+        rgbChannels[0] = true;
+        negativeChannels(rgbChannels);
+    }
+    public void channelG(){
+        resetChannels();
+        rgbChannels[1] = true;
+        negativeChannels(rgbChannels);
+    }
+    public void channelB(){
+        resetChannels();
+        rgbChannels[2] = true;
+        negativeChannels(rgbChannels);
+    }
+    public void channelRG(){
+        resetChannels();
+        rgbChannels[0] = true;
+        rgbChannels[1] = true;
+        negativeChannels(rgbChannels);
+    }
+    public void channelRB(){
+        resetChannels();
+        rgbChannels[0] = true;
+        rgbChannels[2] = true;
+        negativeChannels(rgbChannels);
+    }
+    public void channelGB(){
+        resetChannels();
+        rgbChannels[1] = true;
+        rgbChannels[2] = true;
+        negativeChannels(rgbChannels);
+    }
+
+    private void resetChannels(){
+        rgbChannels[0] = false;
+        rgbChannels[1] = false;
+        rgbChannels[2] = false;
+    }
+
+    private void negativeChannels(boolean rgb[]){
+
+        ImagePlus imgPlus = new ImagePlus(imagePath);
+        ImageProcessor imgProcessor = imgPlus.getProcessor();
+        imgProcessor.invert();
+        int r,g,b;
+
+        BufferedImage bufferedImage = imgProcessor.getBufferedImage();
+        for(int y=0;y<bufferedImage.getHeight();y++)
+        {
+            for(int x=0;x<bufferedImage.getWidth();x++)
+            {
+                Color color = new Color(bufferedImage.getRGB(x, y));
+                r = color.getRed();
+                g = color.getGreen();
+                b =  color.getBlue();
+                if(rgb[0]){
+                    r  = 255-r;
+                }
+                else if(rgb[1]){
+                    g = 255 - g;
+                }
+                else if(rgb[2]){
+                    b = 255 - b;
+                }
+
+                Color cl = new Color(r, g, b);
+
+                bufferedImage.setRGB(x, y, cl.getRGB());
+            }
+        }
+        ImagePlus grayImg = new ImagePlus("gray", bufferedImage);
+        Image test = SwingFXUtils.toFXImage(grayImg.getBufferedImage(), null);
+        imageViewNegative.setImage(test);
     }
 }
