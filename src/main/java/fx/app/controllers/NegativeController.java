@@ -57,8 +57,8 @@ public class NegativeController extends BasicController {
     @Override
     protected void handleSaveAction() {
         try {
-            openFileController.setImagePath(imagePath);
             openFileController.addChangesToImage(image);
+            saveTemporaryFile(this.imageViewNegative.getImage());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -66,7 +66,7 @@ public class NegativeController extends BasicController {
 
     public void negative(){
 
-        MarvinImage negativeMarvinImage = ImageProcessorMarvin.invertImage(imagePath);
+        MarvinImage negativeMarvinImage = ImageProcessorMarvin.invertImage(temporaryImagePath);
         Image negativeImage = SwingFXUtils.toFXImage(negativeMarvinImage.getBufferedImage(), null);
         addChangesToImage(negativeImage);
     }
@@ -113,7 +113,7 @@ public class NegativeController extends BasicController {
 
     private void negativeChannels(boolean rgb[]){
 
-        ImagePlus imgPlus = new ImagePlus(imagePath);
+        ImagePlus imgPlus = new ImagePlus(temporaryImagePath);
         ImageProcessor imgProcessor = imgPlus.getProcessor();
         imgProcessor.invert();
         int r,g,b;

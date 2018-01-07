@@ -42,8 +42,8 @@ public class GreyscaleController extends BasicController{
     @Override
     protected void handleSaveAction() {
         try {
-            openFileController.setImagePath(imagePath);
             openFileController.addChangesToImage(image);
+            saveTemporaryFile(imageViewGreyscale.getImage());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ public class GreyscaleController extends BasicController{
     }
 
     public void greyscale(){
-        ImagePlus imgPlus = new ImagePlus(imagePath);
+        ImagePlus imgPlus = new ImagePlus(temporaryImagePath);
         ImageProcessor imgProcessor = imgPlus.getProcessor();
         int r,g,b;
 

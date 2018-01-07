@@ -1,7 +1,6 @@
 package fx.app.controllers;
 
 
-import fx.app.processing.ImageProcessorMarvin;
 import ij.ImagePlus;
 import ij.process.ImageProcessor;
 import javafx.embed.swing.SwingFXUtils;
@@ -11,7 +10,6 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import marvin.image.MarvinImage;
 
 import java.awt.image.BufferedImage;
 
@@ -47,8 +45,8 @@ public class GeometricController extends BasicController {
     @Override
     protected void handleSaveAction() {
         try {
-            openFileController.setImagePath(imagePath);
             openFileController.addChangesToImage(image);
+            saveTemporaryFile(imageViewGeometric.getImage());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -72,7 +70,7 @@ public class GeometricController extends BasicController {
     }
 
     public void rotate(){
-        ImagePlus imgPlus = new ImagePlus(imagePath);
+        ImagePlus imgPlus = new ImagePlus(temporaryImagePath);
         ImageProcessor imgProcessor = imgPlus.getProcessor();
         imgProcessor.rotate(rotateSlider.getValue());
 

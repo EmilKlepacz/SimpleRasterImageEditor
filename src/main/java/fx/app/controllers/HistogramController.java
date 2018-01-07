@@ -43,8 +43,8 @@ public class HistogramController extends BasicController {
     @Override
     protected void handleSaveAction() {
         try {
-            openFileController.setImagePath(imagePath);
             openFileController.addChangesToImage(image);
+            saveTemporaryFile(imageViewHistogram.getImage());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -55,7 +55,7 @@ public class HistogramController extends BasicController {
     }
 
     public void equalization(){
-        MarvinImage histogramEqualImg = ImageProcessorMarvin.histogramEqualization(imagePath);
+        MarvinImage histogramEqualImg = ImageProcessorMarvin.histogramEqualization(temporaryImagePath);
         Image histogramEqualImage = SwingFXUtils.toFXImage(histogramEqualImg.getBufferedImage(), null);
         imageViewHistogram.setImage(histogramEqualImage);
     }

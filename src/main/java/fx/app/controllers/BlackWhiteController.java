@@ -43,8 +43,8 @@ public class BlackWhiteController extends BasicController {
     @Override
     protected void handleSaveAction() {
         try {
-            openFileController.setImagePath(imagePath);
             openFileController.addChangesToImage(image);
+            saveTemporaryFile(imageViewBlackWhite.getImage());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class BlackWhiteController extends BasicController {
     public void blackAndWhite() throws IOException {
         BufferedImage startingImage;
         BufferedImage blackWhite;
-        startingImage = ImageIO.read(new File(imagePath));
+        startingImage = ImageIO.read(new File(temporaryImagePath));
 
         blackWhite = new BufferedImage(startingImage.getWidth(), startingImage.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
         Graphics2D g2d = blackWhite.createGraphics();

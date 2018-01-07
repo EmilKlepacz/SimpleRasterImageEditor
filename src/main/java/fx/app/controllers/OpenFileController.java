@@ -22,8 +22,10 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -55,8 +57,6 @@ public class OpenFileController extends BasicController {
     private String fileSize = "";
     private String URLPath = "";
 
-    @FXML
-    private StackPane stackPane;
     @FXML
     private Button gammaBtn;
     @FXML
@@ -116,20 +116,20 @@ public class OpenFileController extends BasicController {
     @Override
     protected void handleSaveAction() {
 
-        File originalFile = new File(imagePath);
+            File originalFile = new File(originalImagePath);
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(originalFile.getParentFile());
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("formats (*.pbm, *.pgm, *.ppm, *.png, *.jpeg)", "*.pbm", "*.pgm", "*.ppm", "*.png", "*.jpeg")
-        );
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialDirectory(originalFile.getParentFile());
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("formats (*.pbm, *.pgm, *.ppm, *.png, *.jpeg)", "*.pbm", "*.pgm", "*.ppm", "*.png", "*.jpeg")
+            );
 
 
-        File saveFile =  fileChooser.showSaveDialog(stage);
+            File saveFile = fileChooser.showSaveDialog(stage);
 
-        if(saveFile != null){
-            saveFile(saveFile);
-        }
+            if (saveFile != null) {
+                saveFile(saveFile);
+            }
 
         //@TODO Obsluzyc przypadek bledu zapisu pliku
 
@@ -148,7 +148,7 @@ public class OpenFileController extends BasicController {
             if (i > p) {
                 extension = file.getName().substring(i+1);
             }
-            BufferedImage bi = SwingFXUtils.fromFXImage(this.image, null);
+            BufferedImage bi = SwingFXUtils.fromFXImage(this.imageView.getImage(), null);
             ImageIO.write(bi, extension, file);
         } catch (IOException e) {
             e.printStackTrace();
@@ -163,7 +163,7 @@ public class OpenFileController extends BasicController {
             enableOperationButtons();
     }
 
-    private void openFileChooserAndSetImage() throws MalformedURLException, FileNotFoundException {
+    private void openFileChooserAndSetImage() throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(getClass().getClassLoader().getResource("images").getPath()));
         fileChooser.getExtensionFilters().addAll(
@@ -172,17 +172,32 @@ public class OpenFileController extends BasicController {
 
         File selectedFile = fileChooser.showOpenDialog(stage);
 
-        if(selectedFile != null)
-            processImage(selectedFile);
+        if(selectedFile != null) {
+            if(temporaryImagePath!=null)
+                Files.delete(Paths.get(temporaryImagePath));
+            File selectedFileCopy = createTmpCopyOfOriginalFile(selectedFile);
+            processImage(selectedFile, selectedFileCopy);
+        }
 
         //@TODO Obsluzyc przypadek bledu odczytu pliku
+    }
+
+    private File createTmpCopyOfOriginalFile(File selectedFile) throws IOException {
+        String tmpFileName = selectedFile.getName();
+        tmpFileName="~"+tmpFileName;
+        String tmpFilePath = selectedFile.getAbsolutePath();
+        tmpFilePath = tmpFilePath.replace(selectedFile.getName(), tmpFileName);
+        File tmpFile = new File(tmpFilePath);
+        Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(tmpFilePath), StandardCopyOption.REPLACE_EXISTING);
+        return tmpFile;
     }
 
     public void handleOpenFromFile() {
         try {
             fileInformation = "No metadata to display";
             openFileChooserAndSetImage();
-        } catch (MalformedURLException | FileNotFoundException e) {
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -198,15 +213,18 @@ public class OpenFileController extends BasicController {
         if (f.length() < 5) {
             URLError();
         } else {
-            processImage(f);
+            if(temporaryImagePath!=null)
+                Files.delete(Paths.get(temporaryImagePath));
+            File tmpFile = createTmpCopyOfOriginalFile(f);
+            processImage(f, tmpFile);
         }
     }
 
     public void handleOpenFileInformation() {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        if(imagePath != null) {
-            String fileName = imagePath.substring(imagePath.lastIndexOf("\\") + 1).trim();
+        if(originalImagePath != null) {
+            String fileName = originalImagePath.substring(originalImagePath.lastIndexOf("\\") + 1).trim();
             alert.setTitle(fileName);
         }
         else
@@ -246,7 +264,8 @@ public class OpenFileController extends BasicController {
             //by GammaController before showing window
             GammaController gammaController = loader.getController();
             gammaController.setImage(image);
-            gammaController.setImagePath(imagePath);
+            gammaController.setOriginalImagePath(originalImagePath);
+            gammaController.setTemporaryImagePath(temporaryImagePath);
             gammaController.setStartImageInImageView(image);
 
             createAndShowNewStage(GAMMA_STAGE_TITLE, new Scene(root));
@@ -266,7 +285,8 @@ public class OpenFileController extends BasicController {
 
             NegativeController negativeController = loader.getController();
             negativeController.setImage(image);
-            negativeController.setImagePath(imagePath);
+            negativeController.setOriginalImagePath(originalImagePath);
+            negativeController.setTemporaryImagePath(temporaryImagePath);
             negativeController.setStartImageInImageView(image);
             negativeController.setOpenFileController(this);
 
@@ -285,8 +305,9 @@ public class OpenFileController extends BasicController {
 
             FilteringController filteringController = loader.getController();
             filteringController.setImage(image);
-            filteringController.setImagePath(imagePath);
+            filteringController.setOriginalImagePath(originalImagePath);
             filteringController.setStartImageInImageView(image);
+            filteringController.setTemporaryImagePath(temporaryImagePath);
             filteringController.setOpenFileController(this);
 
             createAndShowNewStage(FILTERING_STAGE_TITLE, new Scene(root));
@@ -303,8 +324,9 @@ public class OpenFileController extends BasicController {
 
             HistogramController histogramController = loader.getController();
             histogramController.setImage(image);
-            histogramController.setImagePath(imagePath);
+            histogramController.setOriginalImagePath(originalImagePath);
             histogramController.setStartImageInImageView(image);
+            histogramController.setTemporaryImagePath(temporaryImagePath);
             histogramController.setOpenFileController(this);
 
             createAndShowNewStage(HISTOGRAM_STAGE_TITLE, new Scene(root));
@@ -321,7 +343,8 @@ public class OpenFileController extends BasicController {
 
             GeometricController geometricController = loader.getController();
             geometricController.setImage(image);
-            geometricController.setImagePath(imagePath);
+            geometricController.setOriginalImagePath(originalImagePath);
+            geometricController.setTemporaryImagePath(temporaryImagePath);
             geometricController.setStartImageInImageView(image);
             geometricController.setOpenFileController(this);
 
@@ -342,7 +365,8 @@ public class OpenFileController extends BasicController {
 
             GreyscaleController greyscaleController = loader.getController();
             greyscaleController.setImage(image);
-            greyscaleController.setImagePath(imagePath);
+            greyscaleController.setOriginalImagePath(originalImagePath);
+            greyscaleController.setTemporaryImagePath(temporaryImagePath);
             greyscaleController.setStartImageInImageView(image);
             greyscaleController.setOpenFileController(this);
 
@@ -360,7 +384,8 @@ public class OpenFileController extends BasicController {
 
             BlackWhiteController blackWhiteController = loader.getController();
             blackWhiteController.setImage(image);
-            blackWhiteController.setImagePath(imagePath);
+            blackWhiteController.setOriginalImagePath(originalImagePath);
+            blackWhiteController.setTemporaryImagePath(temporaryImagePath);
             blackWhiteController.setStartImageInImageView(image);
             blackWhiteController.setOpenFileController(this);
 
@@ -412,13 +437,13 @@ public class OpenFileController extends BasicController {
         this.stage = stage;
     }
 
-    private void processImage(File file) {
+    private void processImage(File originalFile, File tmpFile) {
             try {
-                double bytes = file.length();
+                double bytes = originalFile.length();
                 fileSize = "File Size: " + String.format("%.2f", bytes / 1024) + "kb";
 
                 ImageIO.scanForPlugins();
-                ImageInputStream iis = ImageIO.createImageInputStream(file);
+                ImageInputStream iis = ImageIO.createImageInputStream(originalFile);
                 Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
 
                 if (readers.hasNext()) {
@@ -433,7 +458,8 @@ public class OpenFileController extends BasicController {
 
                     setImageFromFileInImageView(reader);
 
-                    imagePath = file.getAbsolutePath();
+                    originalImagePath = originalFile.getAbsolutePath();
+                    temporaryImagePath = tmpFile.getAbsolutePath();
                 }
             } catch (Exception e) {
 

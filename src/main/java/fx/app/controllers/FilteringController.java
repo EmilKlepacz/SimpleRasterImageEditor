@@ -36,8 +36,8 @@ public class FilteringController extends BasicController {
     @Override
     protected void handleSaveAction() {
         try {
-            openFileController.setImagePath(imagePath);
             openFileController.addChangesToImage(image);
+            saveTemporaryFile(imageViewFiltering.getImage());
         } catch (Exception e){
             e.printStackTrace();
         }

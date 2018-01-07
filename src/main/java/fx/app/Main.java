@@ -7,6 +7,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
+
 public class Main extends Application {
 
     @Override
@@ -15,10 +21,22 @@ public class Main extends Application {
         Parent root = loader.load();
         primaryStage.setTitle("Simple Raster Image Editor 1.0");
         primaryStage.setScene(new Scene(root));
-
         //pass stage to openFileController
         OpenFileController openFileController = loader.getController();
         openFileController.setStage(primaryStage);
+        openFileController.getStage().setOnCloseRequest(event -> {
+            try {
+                if(openFileController.getTemporaryImagePath()!=null)
+                    Files.delete(Paths.get(openFileController.getTemporaryImagePath()));
+            } catch (NoSuchFileException x) {
+                System.err.format("%s: no such" + " file or directory%n", Paths.get(openFileController.getTemporaryImagePath()));
+            } catch (DirectoryNotEmptyException x) {
+                System.err.format("%s not empty%n", Paths.get(openFileController.getTemporaryImagePath()));
+            } catch (IOException x) {
+                // File permission problems are caught here.
+                System.err.println(x);
+            }
+        });
         primaryStage.show();
 
 
