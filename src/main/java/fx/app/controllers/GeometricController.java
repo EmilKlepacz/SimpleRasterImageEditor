@@ -40,7 +40,7 @@ public class GeometricController extends BasicController {
         imageViewGeometric.setImage(image);
     }
 
-    public void saveActionForGeometricController(){
+    public void saveActionForGeometricController() {
         handleSaveAction();
     }
 
@@ -49,7 +49,7 @@ public class GeometricController extends BasicController {
         try {
             openFileController.setImagePath(imagePath);
             openFileController.addChangesToImage(image);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -71,7 +71,7 @@ public class GeometricController extends BasicController {
         addChangesToImage(image);
     }
 
-    public void rotate(){
+    public void rotate() {
         ImagePlus imgPlus = new ImagePlus(imagePath);
         ImageProcessor imgProcessor = imgPlus.getProcessor();
         imgProcessor.rotate(rotateSlider.getValue());
@@ -83,12 +83,24 @@ public class GeometricController extends BasicController {
         addChangesToImage(rotatedImage);
     }
 
+    public void scale() {
+        ImagePlus imgPlus = new ImagePlus(imagePath);
+        ImageProcessor imgProcessor = imgPlus.getProcessor();
+        ImageProcessor imageProcessorAfterResize = imgProcessor.resize(widthSpinner.getValue(), heightSpinner.getValue(), true);
+
+        BufferedImage bufferedImage = imageProcessorAfterResize.getBufferedImage();
+        ImagePlus scaledImagePlus = new ImagePlus("", bufferedImage);
+        Image scaledImage = SwingFXUtils.toFXImage(scaledImagePlus.getBufferedImage(), null);
+
+        addChangesToImage(scaledImage);
+    }
+
     public OpenFileController getOpenFileController() {
         return openFileController;
     }
 
     public void setOpenFileController(OpenFileController openFileController) {
-        if(this.openFileController == null)
+        if (this.openFileController == null)
             this.openFileController = openFileController;
     }
 }
