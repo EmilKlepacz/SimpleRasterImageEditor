@@ -12,10 +12,10 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<GridPane alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.app.controllers.GeometricController">
+<GridPane alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.app.controllers.GeometricController">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="548.0" minWidth="10.0" prefWidth="528.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="72.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="728.0" minWidth="10.0" prefWidth="670.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="80.0" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints maxHeight="351.0" minHeight="10.0" prefHeight="334.0" vgrow="SOMETIMES" />
@@ -27,7 +27,7 @@
             <ImageView fx:id="imageViewGeometric" fitHeight="319.0" fitWidth="497.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <AnchorPane prefHeight="66.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
             <Button layoutY="21.0" mnemonicParsing="false" onAction="#saveActionForGeometricController" prefHeight="25.0" prefWidth="44.0" text="SAVE" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="21.0" />
          </children>
@@ -57,7 +57,7 @@
             <Insets left="310.0" />
          </GridPane.margin>
       </Text>
-      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="Scaling (Resizing)" GridPane.rowIndex="1" onAction="#scale">
+      <Button mnemonicParsing="false" onAction="#scale" prefHeight="25.0" prefWidth="139.0" text="Scaling (Resizing)" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin>
@@ -67,5 +67,25 @@
             <Insets left="450.0" />
          </GridPane.margin>
       </Button>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="width:" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets bottom="50.0" left="520.0" />
+         </GridPane.margin>
+      </Text>
+      <Text fx:id="widthValText" strokeType="OUTSIDE" strokeWidth="0.0" text="width_value" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets bottom="50.0" left="560.0" />
+         </GridPane.margin>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="height:" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="520.0" />
+         </GridPane.margin>
+      </Text>
+      <Text fx:id="heightValText" strokeType="OUTSIDE" strokeWidth="0.0" text="height_value" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="560.0" />
+         </GridPane.margin>
+      </Text>
    </children>
 </GridPane>

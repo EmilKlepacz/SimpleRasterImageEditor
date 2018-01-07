@@ -336,6 +336,8 @@ public class OpenFileController extends BasicController {
         }
     }
 
+
+
     public void openGeometricWindow() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(GEOMETRIC_VIEW_PATH));
@@ -350,6 +352,9 @@ public class OpenFileController extends BasicController {
 
             geometricController.setWidthSpinnerValue(MIN_SPINNER_WIDTH_VAL, MAX_SPINNER_WIDTH_VAL, ON_START_SPINNER_WIDTH_VAL);
             geometricController.setHeightSpinnerValue(MIN_SPINNER_HEIGHT_VAL, MAX_SPINNER_HEIGHT_VAL, ON_START_SPINNER_HEIGHT_VAL);
+
+            geometricController.setTextInHeightValText(String.valueOf((int)image.getHeight()));
+            geometricController.setTextInWidthValText(String.valueOf((int)image.getHeight()));
 
             createAndShowNewStage(GEOMETRIC_STAGE_TITLE, new Scene(root));
 

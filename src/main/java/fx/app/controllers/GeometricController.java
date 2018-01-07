@@ -10,6 +10,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
 import java.awt.image.BufferedImage;
 
@@ -22,6 +23,10 @@ public class GeometricController extends BasicController {
     private Spinner<Integer> heightSpinner;
     @FXML
     private Slider rotateSlider;
+    @FXML
+    private Text widthValText;
+    @FXML
+    private Text heightValText;
 
     private OpenFileController openFileController;
 
@@ -52,6 +57,13 @@ public class GeometricController extends BasicController {
         }
     }
 
+    void setTextInWidthValText(String text){
+        this.widthValText.setText(text);
+    }
+
+    void setTextInHeightValText(String text){
+        this.heightValText.setText(text);
+    }
 
     void setWidthSpinnerValue(int min, int max, int onStart) {
         SpinnerValueFactory<Integer> widthValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, onStart);
@@ -88,11 +100,18 @@ public class GeometricController extends BasicController {
         int y = Integer.parseInt(heightSpinner.getEditor().getCharacters().toString());
         ImageProcessor imageProcessorAfterResize = imgProcessor.resize(x,y, true);
 
+
         BufferedImage bufferedImage = imageProcessorAfterResize.getBufferedImage();
         ImagePlus scaledImagePlus = new ImagePlus("", bufferedImage);
         Image scaledImage = SwingFXUtils.toFXImage(scaledImagePlus.getBufferedImage(), null);
 
         addChangesToImage(scaledImage);
+        changeImagePropertiesInText();
+    }
+
+    private void changeImagePropertiesInText(){
+        widthValText.setText(String.valueOf((int)image.getWidth()));
+        heightValText.setText(String.valueOf((int)image.getHeight()));
     }
 
     public OpenFileController getOpenFileController() {
