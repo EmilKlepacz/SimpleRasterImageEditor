@@ -15,6 +15,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import portablemap.operators.GrayScale;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -41,6 +42,10 @@ public class OpenFileController extends BasicController {
     private static final String HISTOGRAM_STAGE_TITLE = "Histogram based operations";
     private static final String GEOMETRIC_VIEW_PATH = "/views/geometric_view.fxml";
     private static final String GEOMETRIC_STAGE_TITLE = "Geometric transformations";
+    private static final String GREYSCALE_VIEW_PATH = "/views/greyscale_view.fxml";
+    private static final String GREYSCALE_STAGE_TITLE = "Greyscale";
+    private static final String BLACK_AND_WHITE_VIEW_PATH = "/views/black_and_white_view.fxml";
+    private static final String BLACK_AND_WHITE_STAGE_TITLE = "Black and White";
     private static final int MIN_SPINNER_WIDTH_VAL = 1;
     private static final int MAX_SPINNER_WIDTH_VAL = 100000;
     private static final int ON_START_SPINNER_WIDTH_VAL = 0;
@@ -64,6 +69,10 @@ public class OpenFileController extends BasicController {
     private Button geometricBtn;
     @FXML
     private ImageView imageView;
+    @FXML
+    private Button greyscaleBtn;
+    @FXML
+    private Button blackWhiteBtn;
 
 
     private void enableOperationButtons() {
@@ -72,13 +81,14 @@ public class OpenFileController extends BasicController {
         filteringBtn.setDisable(false);
         histogramBtn.setDisable(false);
         geometricBtn.setDisable(false);
+        greyscaleBtn.setDisable(false);
+        blackWhiteBtn.setDisable(false);
     }
 
     private void setImageHeightWidthFitBorderPane(Image image) {
         imageView.fitHeightProperty().bind(stackPane.widthProperty());
         imageView.fitWidthProperty().bind(stackPane.heightProperty());
         addChangesToImage(image);
-        imageView.setImage(image);
     }
 
     //method return image Path of image in ImageView
@@ -97,9 +107,9 @@ public class OpenFileController extends BasicController {
 
     private void setImageFromFileInImageView(ImageReader reader) throws IOException {
 
-            BufferedImage bi = reader.read(0);
-            setStartImageInImageView(SwingFXUtils.toFXImage(bi, null));
-            enableOperationButtons();
+        BufferedImage bi = reader.read(0);
+        setStartImageInImageView(SwingFXUtils.toFXImage(bi, null));
+        enableOperationButtons();
 
     }
 
@@ -112,7 +122,7 @@ public class OpenFileController extends BasicController {
 
         File selectedFile = fileChooser.showOpenDialog(stage);
 
-        if(selectedFile != null)
+        if (selectedFile != null)
             processImage(selectedFile);
     }
 
@@ -130,10 +140,9 @@ public class OpenFileController extends BasicController {
         File f = new File("temp." + extension);
         ImageIO.write(img, extension, f);
 
-        if(f.length()<5){
-           URLError();
-        }
-        else {
+        if (f.length() < 5) {
+            URLError();
+        } else {
             processImage(f);
         }
     }
@@ -143,10 +152,9 @@ public class OpenFileController extends BasicController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("File information");
         alert.setHeaderText(fileSize);
-        if(fileInformation.equals("")){
-        alert.setContentText("No file loaded");
-        }
-        else  alert.setContentText(fileInformation);
+        if (fileInformation.equals("")) {
+            alert.setContentText("No file loaded");
+        } else alert.setContentText(fileInformation);
 
         alert.setResizable(true);
         alert.getDialogPane().setPrefSize(1000, 800);
@@ -164,6 +172,7 @@ public class OpenFileController extends BasicController {
             //by GammaController before showing window
             GammaController gammaController = loader.getController();
             gammaController.setImage(image);
+            gammaController.setImagePath(imagePath);
             gammaController.setStartImageInImageView(image);
 
             createAndShowNewStage(GAMMA_STAGE_TITLE, new Scene(root));
@@ -201,6 +210,7 @@ public class OpenFileController extends BasicController {
 
             FilteringController filteringController = loader.getController();
             filteringController.setImage(image);
+            filteringController.setImagePath(imagePath);
             filteringController.setStartImageInImageView(image);
 
             createAndShowNewStage(FILTERING_STAGE_TITLE, new Scene(root));
@@ -234,12 +244,47 @@ public class OpenFileController extends BasicController {
 
             GeometricController geometricController = loader.getController();
             geometricController.setImage(image);
+            geometricController.setImagePath(imagePath);
             geometricController.setStartImageInImageView(image);
 
             geometricController.setWidthSpinnerValue(MIN_SPINNER_WIDTH_VAL, MAX_SPINNER_WIDTH_VAL, ON_START_SPINNER_WIDTH_VAL);
             geometricController.setHeightSpinnerValue(MIN_SPINNER_HEIGHT_VAL, MAX_SPINNER_HEIGHT_VAL, ON_START_SPINNER_HEIGHT_VAL);
 
             createAndShowNewStage(GEOMETRIC_STAGE_TITLE, new Scene(root));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openGreyscaleWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(GREYSCALE_VIEW_PATH));
+            Parent root = loader.load();
+
+            GreyscaleController greyscaleController = loader.getController();
+            greyscaleController.setImage(image);
+            greyscaleController.setImagePath(imagePath);
+            greyscaleController.setStartImageInImageView(image);
+
+            createAndShowNewStage(GREYSCALE_STAGE_TITLE, new Scene(root));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openBlackWhiteWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(BLACK_AND_WHITE_VIEW_PATH));
+            Parent root = loader.load();
+
+            BlackWhiteController blackWhiteController = loader.getController();
+            blackWhiteController.setImage(image);
+            blackWhiteController.setImagePath(imagePath);
+            blackWhiteController.setStartImageInImageView(image);
+
+            createAndShowNewStage(BLACK_AND_WHITE_STAGE_TITLE, new Scene(root));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -259,7 +304,7 @@ public class OpenFileController extends BasicController {
         dialog.setGraphic(imageView);
 
         Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()){
+        if (result.isPresent()) {
             try {
                 handleOpenFromURL(dialog.getEditor().getCharacters().toString());
             } catch (Exception e) {
@@ -267,7 +312,8 @@ public class OpenFileController extends BasicController {
             }
         }
     }
-    private void URLError(){
+
+    private void URLError() {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.setContentText("WRONG URL WAS USED!");
         errorAlert.showAndWait();
@@ -287,32 +333,32 @@ public class OpenFileController extends BasicController {
     }
 
     private void processImage(File file) {
-            try {
-                double bytes = file.length();
-                System.out.println("File Size: " + String.format("%.2f", bytes / 1024) + "kb");
+        try {
+            double bytes = file.length();
+            System.out.println("File Size: " + String.format("%.2f", bytes / 1024) + "kb");
 
-                ImageIO.scanForPlugins();
-                ImageInputStream iis = ImageIO.createImageInputStream(file);
-                Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
+            ImageIO.scanForPlugins();
+            ImageInputStream iis = ImageIO.createImageInputStream(file);
+            Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
 
-                if (readers.hasNext()) {
+            if (readers.hasNext()) {
 
-                    // pick the first available ImageReader
-                    ImageReader reader = readers.next();
-                    // attach source to the reader
-                    reader.setInput(iis, true);
-                    // read metadata of first image
+                // pick the first available ImageReader
+                ImageReader reader = readers.next();
+                // attach source to the reader
+                reader.setInput(iis, true);
+                // read metadata of first image
 
-                    readAndDisplayMetadata(reader);
+                readAndDisplayMetadata(reader);
 
-                    setImageFromFileInImageView(reader);
+                setImageFromFileInImageView(reader);
 
-                    imagePath = file.getAbsolutePath();
-                }
-            } catch (Exception e) {
-
-                e.printStackTrace();
+                imagePath = file.getAbsolutePath();
             }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
     }
 
     private void readAndDisplayMetadata(ImageReader reader) throws IOException {
@@ -333,13 +379,13 @@ public class OpenFileController extends BasicController {
 
     private void indent(int level) {
         for (int i = 0; i < level; i++)
-            fileInformation +="    ";
+            fileInformation += "    ";
     }
 
     private void displayMetadata(Node node, int level) {
         // print open tag of element
         indent(level);
-        fileInformation +="<" + node.getNodeName();
+        fileInformation += "<" + node.getNodeName();
         NamedNodeMap map = node.getAttributes();
         if (map != null) {
 
@@ -347,7 +393,7 @@ public class OpenFileController extends BasicController {
             int length = map.getLength();
             for (int i = 0; i < length; i++) {
                 Node attr = map.item(i);
-                fileInformation +=" " + attr.getNodeName() +
+                fileInformation += " " + attr.getNodeName() +
                         "=\"" + attr.getNodeValue() + "\"";
             }
         }
@@ -355,12 +401,12 @@ public class OpenFileController extends BasicController {
         Node child = node.getFirstChild();
         if (child == null) {
             // no children, so close element and return
-            fileInformation +="/>\n";
+            fileInformation += "/>\n";
             return;
         }
 
         // children, so close current tag
-        fileInformation +=">\n";
+        fileInformation += ">\n";
         while (child != null) {
             // print children recursively
             displayMetadata(child, level + 1);
@@ -369,7 +415,7 @@ public class OpenFileController extends BasicController {
 
         // print close tag of element
         indent(level);
-        fileInformation +="</" + node.getNodeName() + ">\n";
+        fileInformation += "</" + node.getNodeName() + ">\n";
     }
 
     public List<Image> getImageChanges() {
