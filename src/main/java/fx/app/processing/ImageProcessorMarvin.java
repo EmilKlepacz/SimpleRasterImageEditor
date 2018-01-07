@@ -3,7 +3,6 @@ package fx.app.processing;
 import marvin.image.MarvinImage;
 import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
-import marvin.plugin.MarvinPlugin;
 import marvin.util.MarvinPluginLoader;
 
 public class ImageProcessorMarvin {
@@ -40,4 +39,13 @@ public class ImageProcessorMarvin {
         return marvinImage;
     }
 
+    public static MarvinImage rotate(String filePath, int angle){
+        setMarvinImage(filePath);
+        setMarvinImagePlugin("org.marvinproject.image.transform.rotate.jar");
+
+        marvinImagePlugin.setAttribute("RotateAngle", angle);
+        processMarvinImageAndUpdate();
+
+        return marvinImage;
+    }
 }

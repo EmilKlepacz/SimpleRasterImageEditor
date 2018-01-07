@@ -1,11 +1,14 @@
 package fx.app.controllers;
 
 
+import fx.app.processing.ImageProcessorMarvin;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import marvin.image.MarvinImage;
 
 public class GeometricController extends BasicController {
     @FXML
@@ -36,6 +39,12 @@ public class GeometricController extends BasicController {
     @Override
     public void setStartImageInImageView(Image image) {
         imageViewGeometric.setImage(image);
+    }
+
+    public void rotate(){
+        MarvinImage rotateMarvinImage = ImageProcessorMarvin.rotate(imagePath, 90);
+        Image negativeImage = SwingFXUtils.toFXImage(rotateMarvinImage.getBufferedImage(), null);
+        imageViewGeometric.setImage(negativeImage);
     }
 
 }
