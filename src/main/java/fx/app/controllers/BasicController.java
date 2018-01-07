@@ -15,6 +15,18 @@ public abstract class BasicController {
 
     abstract void setStartImageInImageView(Image image);
 
+    abstract void addChangesToImage(Image image);
+
+    protected void addChangesToHistory(Image image)
+    {
+        if(imageChanges.size()>=10) {
+            imageChanges.remove(imageChanges.size()-1);
+            imageChanges.add(image);
+        } else {
+            imageChanges.add(image);
+        }
+    }
+
     public Stage getStage() {
         return stage;
     }
@@ -47,4 +59,10 @@ public abstract class BasicController {
     public String getImagePath() {
         return imagePath;
     }
+
+    protected void undoAction()
+    {
+
+    }
+
 }

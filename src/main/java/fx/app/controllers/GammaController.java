@@ -9,6 +9,13 @@ public class GammaController extends BasicController {
     @FXML
     private ImageView imageViewGamma;
 
+    //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
+    @Override
+    void addChangesToImage(Image image) {
+        imageViewGamma.setImage(image);
+        addChangesToHistory(image);
+    }
+
     // this image is copy of image in start_view
     @Override
     public void setStartImageInImageView(Image image) {

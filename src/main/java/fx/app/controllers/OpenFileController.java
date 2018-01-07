@@ -77,6 +77,7 @@ public class OpenFileController extends BasicController {
     private void setImageHeightWidthFitBorderPane(Image image) {
         imageView.fitHeightProperty().bind(stackPane.widthProperty());
         imageView.fitWidthProperty().bind(stackPane.heightProperty());
+        addChangesToImage(image);
         imageView.setImage(image);
     }
 
@@ -85,6 +86,13 @@ public class OpenFileController extends BasicController {
     void setStartImageInImageView(Image image) {
         this.image = image;
         setImageHeightWidthFitBorderPane(image);
+    }
+
+    //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
+    @Override
+    void addChangesToImage(Image image) {
+        imageView.setImage(image);
+        addChangesToHistory(image);
     }
 
     private void setImageFromFileInImageView(ImageReader reader) throws IOException {

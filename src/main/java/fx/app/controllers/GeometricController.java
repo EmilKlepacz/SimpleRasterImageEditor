@@ -15,6 +15,13 @@ public class GeometricController extends BasicController {
     @FXML
     private Spinner<Integer> heightSpinner;
 
+    //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
+    @Override
+    void addChangesToImage(Image image) {
+        imageViewGeometric.setImage(image);
+        addChangesToHistory(image);
+    }
+
     void setWidthSpinnerValue(int min, int max, int onStart) {
         SpinnerValueFactory<Integer> widthValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, onStart);
         this.widthSpinner.setValueFactory(widthValueFactory);

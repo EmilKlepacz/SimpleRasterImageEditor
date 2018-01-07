@@ -23,6 +23,13 @@ public class NegativeController extends BasicController {
         imageViewNegative.setImage(image);
     }
 
+    //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
+    @Override
+    void addChangesToImage(Image image) {
+        imageViewNegative.setImage(image);
+        addChangesToHistory(image);
+    }
+
     public void negative(){
         MarvinImage negativeMarvinImage = ImageProcessorMarvin.invertImage(imagePath);
         Image negativeImage = SwingFXUtils.toFXImage(negativeMarvinImage.getBufferedImage(), null);

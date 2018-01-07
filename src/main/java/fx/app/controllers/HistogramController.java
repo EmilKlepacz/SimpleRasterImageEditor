@@ -21,6 +21,13 @@ public class HistogramController extends BasicController {
         imageViewHistogram.setImage(image);
     }
 
+    //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
+    @Override
+    void addChangesToImage(Image image) {
+        imageViewHistogram.setImage(image);
+        addChangesToHistory(image);
+    }
+
     public void equalization(){
         MarvinImage histogramEqualImg = ImageProcessorMarvin.histogramEqualization(imagePath);
         Image histogramEqualImage = SwingFXUtils.toFXImage(histogramEqualImg.getBufferedImage(), null);
