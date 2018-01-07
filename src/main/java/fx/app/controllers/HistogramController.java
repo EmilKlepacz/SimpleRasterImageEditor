@@ -69,7 +69,7 @@ public class HistogramController extends BasicController {
     }
 
     public void stretch() throws IOException {
-            File imageFile = new File(imagePath);
+            File imageFile = new File(temporaryImagePath);
             BufferedImage originalImage = ImageIO.read(imageFile);
             BufferedImage correctedImage = whiteBalanceBuffImage(originalImage);
 
