@@ -35,6 +35,7 @@ public class GeometricController extends BasicController {
     protected void addChangesToImage(Image image) {
         imageViewGeometric.setImage(image);
         addChangesToHistory(image);
+        saveTemporaryFile(imageViewGeometric.getImage());
     }
 
     @Override
@@ -51,7 +52,6 @@ public class GeometricController extends BasicController {
     protected void handleSaveAction() {
         try {
             openFileController.addChangesToImage(image);
-            saveTemporaryFile(imageViewGeometric.getImage());
         } catch (Exception e){
             e.printStackTrace();
         }

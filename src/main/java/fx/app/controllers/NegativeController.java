@@ -38,6 +38,7 @@ public class NegativeController extends BasicController {
     protected void addChangesToImage(Image image) {
         imageViewNegative.setImage(image);
         addChangesToHistory(image);
+        saveTemporaryFile(imageViewNegative.getImage());
     }
 
     public void undoActionForNegativeController(){
@@ -58,7 +59,6 @@ public class NegativeController extends BasicController {
     protected void handleSaveAction() {
         try {
             openFileController.addChangesToImage(image);
-            saveTemporaryFile(this.imageViewNegative.getImage());
         } catch (Exception e){
             e.printStackTrace();
         }

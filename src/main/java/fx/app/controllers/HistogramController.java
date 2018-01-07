@@ -36,6 +36,7 @@ public class HistogramController extends BasicController {
     protected void addChangesToImage(Image image) {
         imageViewHistogram.setImage(image);
         addChangesToHistory(image);
+        saveTemporaryFile(imageViewHistogram.getImage());
     }
 
     @Override
@@ -52,7 +53,6 @@ public class HistogramController extends BasicController {
     protected void handleSaveAction() {
         try {
             openFileController.addChangesToImage(image);
-            saveTemporaryFile(imageViewHistogram.getImage());
         } catch (Exception e){
             e.printStackTrace();
         }

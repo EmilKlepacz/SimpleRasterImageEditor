@@ -27,6 +27,7 @@ public class GreyscaleController extends BasicController{
     protected void addChangesToImage(Image image) {
         imageViewGreyscale.setImage(image);
         addChangesToHistory(image);
+        saveTemporaryFile(imageViewGreyscale.getImage());
     }
 
     @Override
@@ -43,7 +44,6 @@ public class GreyscaleController extends BasicController{
     protected void handleSaveAction() {
         try {
             openFileController.addChangesToImage(image);
-            saveTemporaryFile(imageViewGreyscale.getImage());
         } catch (Exception e){
             e.printStackTrace();
         }

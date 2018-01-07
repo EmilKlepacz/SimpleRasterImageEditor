@@ -17,6 +17,7 @@ public class FilteringController extends BasicController {
     protected void addChangesToImage(Image image) {
         imageViewFiltering.setImage(image);
         addChangesToHistory(image);
+        saveTemporaryFile(imageViewFiltering.getImage());
     }
 
     public void undoActionForFilterController(){
@@ -37,7 +38,6 @@ public class FilteringController extends BasicController {
     protected void handleSaveAction() {
         try {
             openFileController.addChangesToImage(image);
-            saveTemporaryFile(imageViewFiltering.getImage());
         } catch (Exception e){
             e.printStackTrace();
         }

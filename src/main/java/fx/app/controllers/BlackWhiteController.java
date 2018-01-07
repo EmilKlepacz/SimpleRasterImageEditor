@@ -28,6 +28,7 @@ public class BlackWhiteController extends BasicController {
     protected void addChangesToImage(Image image) {
         imageViewBlackWhite.setImage(image);
         addChangesToHistory(image);
+        saveTemporaryFile(imageViewBlackWhite.getImage());
     }
 
     @Override
@@ -44,7 +45,6 @@ public class BlackWhiteController extends BasicController {
     protected void handleSaveAction() {
         try {
             openFileController.addChangesToImage(image);
-            saveTemporaryFile(imageViewBlackWhite.getImage());
         } catch (Exception e){
             e.printStackTrace();
         }

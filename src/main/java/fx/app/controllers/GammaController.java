@@ -31,6 +31,7 @@ public class GammaController extends BasicController {
     protected void addChangesToImage(Image image) {
         imageViewGamma.setImage(image);
         addChangesToHistory(image);
+        saveTemporaryFile(imageViewGamma.getImage());
     }
 
     public void undoActionForGammaController(){
@@ -51,7 +52,6 @@ public class GammaController extends BasicController {
     protected void handleSaveAction() {
         try {
             openFileController.addChangesToImage(image);
-            saveTemporaryFile(imageViewGamma.getImage());
         } catch (Exception e){
             e.printStackTrace();
         }

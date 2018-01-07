@@ -35,18 +35,21 @@ public abstract class BasicController {
 
     protected boolean saveTemporaryFile(Image image){
         try {
-            File tmpFile = new File(temporaryImagePath);
+            if(temporaryImagePath!=null){
+                File tmpFile = new File(temporaryImagePath);
+                String extension = "";
 
-            String extension = "";
+                int i = tmpFile.getName().lastIndexOf('.');
+                int p = Math.max(tmpFile.getName().lastIndexOf('/'), tmpFile.getName().lastIndexOf('\\'));
 
-            int i = tmpFile.getName().lastIndexOf('.');
-            int p = Math.max(tmpFile.getName().lastIndexOf('/'), tmpFile.getName().lastIndexOf('\\'));
-
-            if (i > p) {
-                extension = tmpFile.getName().substring(i+1);
+                if (i > p) {
+                    extension = tmpFile.getName().substring(i + 1);
+                }
+                BufferedImage bi = SwingFXUtils.fromFXImage(image, null);
+                ImageIO.write(bi, extension, tmpFile);
+            } else {
+                return false;
             }
-            BufferedImage bi = SwingFXUtils.fromFXImage(image, null);
-            ImageIO.write(bi, extension, tmpFile);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -97,10 +97,12 @@ public class OpenFileController extends BasicController {
     protected void addChangesToImage(Image image) {
         imageView.setImage(image);
         addChangesToHistory(image);
+        saveTemporaryFile(imageView.getImage());
     }
 
     public void undoActionForOpenFileController(){
         handleUndoAction();
+        saveTemporaryFile(this.imageView.getImage());
     }
 
     @Override
