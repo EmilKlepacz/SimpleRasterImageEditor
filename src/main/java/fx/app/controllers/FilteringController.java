@@ -17,9 +17,19 @@ public class FilteringController extends BasicController {
         addChangesToHistory(image);
     }
 
+    public void undoActionForFilterController(){
+        handleUndoAction();
+    }
+
+    @Override
+    public void handleUndoAction() {
+        setPreviousImageAsActualAndErase();
+        imageViewFiltering.setImage(image);
+    }
+
     // this image is copy of image in start_view
     @Override
     public void setStartImageInImageView(Image image) {
-        imageViewFiltering.setImage(image);
+        addChangesToImage(image);
     }
 }

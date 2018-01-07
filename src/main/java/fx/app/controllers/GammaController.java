@@ -15,9 +15,19 @@ public class GammaController extends BasicController {
         addChangesToHistory(image);
     }
 
+    public void undoActionForGammaController(){
+        handleUndoAction();
+    }
+
+    @Override
+    public void handleUndoAction() {
+        setPreviousImageAsActualAndErase();
+        imageViewGamma.setImage(image);
+    }
+
     // this image is copy of image in start_view
     @Override
     public void setStartImageInImageView(Image image) {
-        imageViewGamma.setImage(image);
+        addChangesToImage(image);
     }
 }

@@ -21,9 +21,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
@@ -97,6 +95,7 @@ public class OpenFileController extends BasicController {
     void setStartImageInImageView(Image image) {
         this.image = image;
         setImageHeightWidthFitBorderPane(image);
+        addChangesToImage(image);
     }
 
     //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
@@ -106,12 +105,22 @@ public class OpenFileController extends BasicController {
         addChangesToHistory(image);
     }
 
+    public void undoActionForOpenFileController(){
+        handleUndoAction();
+    }
+
+    @Override
+    public void handleUndoAction() {
+        setPreviousImageAsActualAndErase();
+        imageView.setImage(image);
+    }
+
+
     private void setImageFromFileInImageView(ImageReader reader) throws IOException {
 
-        BufferedImage bi = reader.read(0);
-        setStartImageInImageView(SwingFXUtils.toFXImage(bi, null));
-        enableOperationButtons();
-
+            BufferedImage bi = reader.read(0);
+            setStartImageInImageView(SwingFXUtils.toFXImage(bi, null));
+            enableOperationButtons();
     }
 
     private void openFileChooserAndSetImage() throws MalformedURLException, FileNotFoundException {
@@ -123,7 +132,7 @@ public class OpenFileController extends BasicController {
 
         File selectedFile = fileChooser.showOpenDialog(stage);
 
-        if (selectedFile != null)
+        if(selectedFile != null)
             processImage(selectedFile);
     }
 
@@ -334,32 +343,32 @@ public class OpenFileController extends BasicController {
     }
 
     private void processImage(File file) {
-        try {
-            double bytes = file.length();
-            System.out.println("File Size: " + String.format("%.2f", bytes / 1024) + "kb");
+            try {
+                double bytes = file.length();
+                System.out.println("File Size: " + String.format("%.2f", bytes / 1024) + "kb");
 
-            ImageIO.scanForPlugins();
-            ImageInputStream iis = ImageIO.createImageInputStream(file);
-            Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
+                ImageIO.scanForPlugins();
+                ImageInputStream iis = ImageIO.createImageInputStream(file);
+                Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
 
-            if (readers.hasNext()) {
+                if (readers.hasNext()) {
 
-                // pick the first available ImageReader
-                ImageReader reader = readers.next();
-                // attach source to the reader
-                reader.setInput(iis, true);
-                // read metadata of first image
+                    // pick the first available ImageReader
+                    ImageReader reader = readers.next();
+                    // attach source to the reader
+                    reader.setInput(iis, true);
+                    // read metadata of first image
 
-                readAndDisplayMetadata(reader);
+                    readAndDisplayMetadata(reader);
 
-                setImageFromFileInImageView(reader);
+                    setImageFromFileInImageView(reader);
 
-                imagePath = file.getAbsolutePath();
+                    imagePath = file.getAbsolutePath();
+                }
+            } catch (Exception e) {
+
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
     }
 
     private void readAndDisplayMetadata(ImageReader reader) throws IOException {
