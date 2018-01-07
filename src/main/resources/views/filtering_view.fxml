@@ -37,8 +37,8 @@
         <items>
             <MenuItem mnemonicParsing="false" text="High-pass filter" />
           <MenuItem mnemonicParsing="false" onAction="#setSigmaSliderVisible" text="Gaussian filter" />
-          <MenuItem mnemonicParsing="false" text="Mean filter" />
-            <MenuItem mnemonicParsing="false" text="Laplacian filter" />
+          <MenuItem mnemonicParsing="false" text="Mean filter" onAction="#meanFilter" />
+            <MenuItem mnemonicParsing="false" text="Laplacian filter" onAction="#laplacianFilter"/>
             <MenuItem mnemonicParsing="false" text="Low-pass filter" />
         </items>
          <opaqueInsets>
