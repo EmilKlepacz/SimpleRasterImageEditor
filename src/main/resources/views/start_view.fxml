@@ -29,6 +29,11 @@
                         <MenuItem fx:id="openInformation" mnemonicParsing="false" onAction="#handleOpenFileInformation" text="Information" />
                     </items>
                 </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+              <items>
+                  <MenuItem mnemonicParsing="false" text="Undo" />
+              </items>
+            </Menu>
                 <Menu id="helpMenuBar" mnemonicParsing="false" text="Help">
                     <items>
                         <MenuItem id="aboutItem" mnemonicParsing="false" text="About" />
@@ -38,7 +43,7 @@
         </MenuBar>
     </top>
     <center>
-      <StackPane fx:id="stackPane">
+      <StackPane fx:id="stackPane" prefHeight="361.0" prefWidth="431.0">
          <children>
               <ImageView fx:id="imageView" fitHeight="330.0" fitWidth="265.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -69,22 +74,22 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <Button fx:id="negativeBtn" disable="true" layoutX="21.0" layoutY="36.0" mnemonicParsing="false" text="Negative" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" onAction="#openNegativeWindow"/>
+                  <Button fx:id="negativeBtn" disable="true" layoutX="21.0" layoutY="36.0" mnemonicParsing="false" onAction="#openNegativeWindow" text="Negative" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                <children>
-                  <Button fx:id="filteringBtn" disable="true" layoutX="14.0" layoutY="25.0" mnemonicParsing="false" text="Filtering" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" onAction="#openFilteringWindow" />
+                  <Button fx:id="filteringBtn" disable="true" layoutX="14.0" layoutY="25.0" mnemonicParsing="false" onAction="#openFilteringWindow" text="Filtering" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                <children>
-                  <Button fx:id="histogramBtn" disable="true" layoutX="14.0" layoutY="25.0" mnemonicParsing="false" prefWidth="86.0" text="Histogram Based Operations" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" onAction="#openHistogramWindow"/>
+                  <Button fx:id="histogramBtn" disable="true" layoutX="14.0" layoutY="25.0" mnemonicParsing="false" onAction="#openHistogramWindow" prefWidth="86.0" text="Histogram Based Operations" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                <children>
-                  <Button fx:id="geometricBtn" disable="true" layoutX="14.0" layoutY="36.0" mnemonicParsing="false" text="Geometric Transformations" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" onAction="#openGeometricWindow"/>
+                  <Button fx:id="geometricBtn" disable="true" layoutX="14.0" layoutY="36.0" mnemonicParsing="false" onAction="#openGeometricWindow" text="Geometric Transformations" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
          </children>
