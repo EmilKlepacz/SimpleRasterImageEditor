@@ -29,12 +29,12 @@
       </HBox>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <Button layoutY="21.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="44.0" text="SAVE" onAction="#saveActionForGeometricController" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="21.0" />
+            <Button layoutY="21.0" mnemonicParsing="false" onAction="#saveActionForGeometricController" prefHeight="25.0" prefWidth="44.0" text="SAVE" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="21.0" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
          <children>
-            <Slider layoutY="48.0" max="360.0" orientation="VERTICAL" prefHeight="286.0" prefWidth="72.0" showTickLabels="true" showTickMarks="true" onDragDetected="#rotate"/>
+            <Slider fx:id="rotateSlider" blockIncrement="1.0" layoutY="48.0" max="90.0" min="-90.0" onMouseClicked="#rotate" orientation="VERTICAL" prefHeight="286.0" prefWidth="72.0" showTickLabels="true" showTickMarks="true" />
             <Text layoutX="11.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rotation" wrappingWidth="49.13671910762787" />
          </children></AnchorPane>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Width" wrappingWidth="49.13671875" GridPane.rowIndex="1">

@@ -39,13 +39,4 @@ public class ImageProcessorMarvin {
         return marvinImage;
     }
 
-    public static MarvinImage rotate(String filePath, int angle){
-        setMarvinImage(filePath);
-        setMarvinImagePlugin("org.marvinproject.image.transform.rotate.jar");
-
-        marvinImagePlugin.setAttribute("RotateAngle", angle);
-        processMarvinImageAndUpdate();
-
-        return marvinImage;
-    }
 }

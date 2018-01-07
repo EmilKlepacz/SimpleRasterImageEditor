@@ -1,12 +1,19 @@
 package fx.app.controllers;
 
 
+import fx.app.processing.ImageProcessorMarvin;
+import ij.ImagePlus;
+import ij.process.ImageProcessor;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import marvin.image.MarvinImage;
+
+import java.awt.image.BufferedImage;
 
 public class GeometricController extends BasicController {
     @FXML
@@ -15,6 +22,8 @@ public class GeometricController extends BasicController {
     private Spinner<Integer> widthSpinner;
     @FXML
     private Spinner<Integer> heightSpinner;
+    @FXML
+    private Slider rotateSlider;
 
     private OpenFileController openFileController;
 
@@ -45,6 +54,7 @@ public class GeometricController extends BasicController {
         }
     }
 
+
     void setWidthSpinnerValue(int min, int max, int onStart) {
         SpinnerValueFactory<Integer> widthValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, onStart);
         this.widthSpinner.setValueFactory(widthValueFactory);
@@ -62,9 +72,15 @@ public class GeometricController extends BasicController {
     }
 
     public void rotate(){
-        MarvinImage rotateMarvinImage = ImageProcessorMarvin.rotate(imagePath, 90);
-        Image negativeImage = SwingFXUtils.toFXImage(rotateMarvinImage.getBufferedImage(), null);
-        imageViewGeometric.setImage(negativeImage);
+        ImagePlus imgPlus = new ImagePlus(imagePath);
+        ImageProcessor imgProcessor = imgPlus.getProcessor();
+        imgProcessor.rotate(rotateSlider.getValue());
+
+        BufferedImage bufferedImage = imgProcessor.getBufferedImage();
+        ImagePlus rotatedImagePlus = new ImagePlus("", bufferedImage);
+        Image rotatedImage = SwingFXUtils.toFXImage(rotatedImagePlus.getBufferedImage(), null);
+
+        addChangesToImage(rotatedImage);
     }
 
     public OpenFileController getOpenFileController() {

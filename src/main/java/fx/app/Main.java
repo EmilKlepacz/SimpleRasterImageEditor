@@ -20,6 +20,8 @@ public class Main extends Application {
         OpenFileController openFileController = loader.getController();
         openFileController.setStage(primaryStage);
         primaryStage.show();
+
+
     }
 
     public static void main(String[] args) {
