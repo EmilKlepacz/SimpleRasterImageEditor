@@ -15,14 +15,15 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import portablemap.operators.GrayScale;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
@@ -86,8 +87,8 @@ public class OpenFileController extends BasicController {
     }
 
     private void setImageHeightWidthFitBorderPane(Image image) {
-        imageView.fitHeightProperty().bind(stackPane.widthProperty());
-        imageView.fitWidthProperty().bind(stackPane.heightProperty());
+//        imageView.fitHeightProperty().bind(stackPane.widthProperty());
+//        imageView.fitWidthProperty().bind(stackPane.heightProperty());
         addChangesToImage(image);
     }
 

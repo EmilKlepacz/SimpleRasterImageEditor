@@ -34,12 +34,12 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
       <MenuButton mnemonicParsing="false" text="Make negative from:" GridPane.rowIndex="1">
         <items>
-          <MenuItem mnemonicParsing="false" text="red" />
-          <MenuItem mnemonicParsing="false" text="green" />
-            <MenuItem mnemonicParsing="false" text="blue" />
-            <MenuItem mnemonicParsing="false" text="red and green" />
-            <MenuItem mnemonicParsing="false" text="red and blue" />
-            <MenuItem mnemonicParsing="false" text="blue and green" />
+          <MenuItem mnemonicParsing="false" text="red" onAction="#channelR"/>
+          <MenuItem mnemonicParsing="false" text="green" onAction="#channelG"/>
+            <MenuItem mnemonicParsing="false" text="blue" onAction="#channelB"/>
+            <MenuItem mnemonicParsing="false" text="red and green" onAction="#channelRG"/>
+            <MenuItem mnemonicParsing="false" text="red and blue" onAction="#channelRB"/>
+            <MenuItem mnemonicParsing="false" text="blue and green" onAction="#channelGB"/>
         </items>
          <GridPane.margin>
             <Insets left="220.0" />
