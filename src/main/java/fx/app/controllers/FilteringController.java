@@ -79,8 +79,8 @@ public class FilteringController extends BasicController {
         ImageProcessor imgProcessor = gaussianBlur.getProcessor();
         imgProcessor.blurGaussian(sigmaSlider.getValue());
 
-        Image negativeImage = SwingFXUtils.toFXImage(gaussianBlur.getBufferedImage(), null);
-        addChangesToImage(negativeImage);
+        Image finalImage = SwingFXUtils.toFXImage(gaussianBlur.getBufferedImage(), null);
+        addChangesToImage(finalImage);
     }
 
     public void meanFilter() throws IOException {
@@ -140,13 +140,13 @@ public class FilteringController extends BasicController {
     }
 
     public void laplacianFilter(){
-        ImagePlus gaussianBlur = new ImagePlus(temporaryImagePath);
-        ImageProcessor imgProcessor = gaussianBlur.getProcessor();
+        ImagePlus laplace = new ImagePlus(temporaryImagePath);
+        ImageProcessor imgProcessor = laplace.getProcessor();
         imgProcessor.findEdges();
 
 
-        Image negativeImage = SwingFXUtils.toFXImage(gaussianBlur.getBufferedImage(), null);
-        addChangesToImage(negativeImage);
+        Image finalImage = SwingFXUtils.toFXImage(laplace.getBufferedImage(), null);
+        addChangesToImage(finalImage);
     }
 
     public void setSigmaSliderVisible(){
