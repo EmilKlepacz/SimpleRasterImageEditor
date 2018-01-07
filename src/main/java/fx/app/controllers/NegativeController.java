@@ -43,35 +43,35 @@ public class NegativeController extends BasicController {
 
     public void channelR(){
         resetChannels();
-        rgbChannels[0] = true;
+        rgbChannels[1] = true;
+        rgbChannels[2] = true;
         negativeChannels(rgbChannels);
     }
     public void channelG(){
         resetChannels();
-        rgbChannels[1] = true;
+        rgbChannels[0] = true;
+        rgbChannels[2] = true;
         negativeChannels(rgbChannels);
     }
     public void channelB(){
         resetChannels();
-        rgbChannels[2] = true;
+        rgbChannels[0] = true;
+        rgbChannels[1] = true;
         negativeChannels(rgbChannels);
     }
     public void channelRG(){
         resetChannels();
-        rgbChannels[0] = true;
-        rgbChannels[1] = true;
+        rgbChannels[2] = true;
         negativeChannels(rgbChannels);
     }
     public void channelRB(){
         resetChannels();
-        rgbChannels[0] = true;
-        rgbChannels[2] = true;
+        rgbChannels[1] = true;
         negativeChannels(rgbChannels);
     }
     public void channelGB(){
         resetChannels();
-        rgbChannels[1] = true;
-        rgbChannels[2] = true;
+        rgbChannels[0] = true;
         negativeChannels(rgbChannels);
     }
 
@@ -100,16 +100,16 @@ public class NegativeController extends BasicController {
                 if(rgb[0]){
                     r  = 255-r;
                 }
-                else if(rgb[1]){
+                if(rgb[1]){
                     g = 255 - g;
                 }
-                else if(rgb[2]){
+                if(rgb[2]){
                     b = 255 - b;
                 }
 
-                Color cl = new Color(r, g, b);
+                Color finalImage = new Color(r, g, b);
 
-                bufferedImage.setRGB(x, y, cl.getRGB());
+                bufferedImage.setRGB(x, y, finalImage.getRGB());
             }
         }
         ImagePlus grayImg = new ImagePlus("gray", bufferedImage);
