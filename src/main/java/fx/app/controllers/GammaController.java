@@ -3,18 +3,26 @@ package fx.app.controllers;
 import ij.ImagePlus;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 public class GammaController extends BasicController {
+
     @FXML
     private ImageView imageViewGamma;
+
+    @FXML
+    private Slider gammaCorrectionSlider;
 
     private OpenFileController openFileController;
 
@@ -65,15 +73,23 @@ public class GammaController extends BasicController {
     }
 
     public void gammaCorrection() throws IOException {
-        BufferedImage original, gamma_corrected;
-        File original_f = new File(temporaryImagePath);
-        original = ImageIO.read(original_f);
-        double corValue = 5;
-        gamma_corrected = gammaCorrection(original, corValue);
 
-        ImagePlus preparedGamma = new ImagePlus("gamma", gamma_corrected);
-        Image convertedGamma = SwingFXUtils.toFXImage(preparedGamma.getBufferedImage(), null);
-        addChangesToImage(convertedGamma);
+        ImageInputStream iis = ImageIO.createImageInputStream(new File(temporaryImagePath));
+        Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
+        if (readers.hasNext()) {
+
+            // pick the first available ImageReader
+            ImageReader reader = readers.next();
+            // attach source to the reader
+            reader.setInput(iis, true);
+            // read metadata of first image
+
+            BufferedImage bi = reader.read(0);
+            bi = gammaCorrection(bi, gammaCorrectionSlider.getValue());
+            Image convertedGamma = SwingFXUtils.toFXImage(bi, null);
+            addChangesToImage(convertedGamma);
+        }
+        iis.close();
     }
 
     private static BufferedImage gammaCorrection(BufferedImage original, double gamma) {

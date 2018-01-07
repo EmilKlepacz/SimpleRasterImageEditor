@@ -172,11 +172,17 @@ public class OpenFileController extends BasicController {
 
         File selectedFile = fileChooser.showOpenDialog(stage);
 
-        if(selectedFile != null) {
+        if(selectedFile != null && !selectedFile.getAbsolutePath().equals(temporaryImagePath)) {
             if(temporaryImagePath!=null)
                 Files.delete(Paths.get(temporaryImagePath));
             File selectedFileCopy = createTmpCopyOfOriginalFile(selectedFile);
             processImage(selectedFile, selectedFileCopy);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("File loading error");
+            alert.setContentText("Unable to load this file!");
+            alert.showAndWait();
         }
 
         //@TODO Obsluzyc przypadek bledu odczytu pliku
@@ -267,6 +273,7 @@ public class OpenFileController extends BasicController {
             gammaController.setOriginalImagePath(originalImagePath);
             gammaController.setTemporaryImagePath(temporaryImagePath);
             gammaController.setStartImageInImageView(image);
+            gammaController.setOpenFileController(this);
 
             createAndShowNewStage(GAMMA_STAGE_TITLE, new Scene(root));
 

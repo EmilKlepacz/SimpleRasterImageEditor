@@ -25,7 +25,7 @@
             <ImageView fx:id="imageViewGamma" fitHeight="319.0" fitWidth="497.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <Slider majorTickUnit="1.0" max="10.0" minorTickCount="5" prefHeight="38.0" prefWidth="510.0" showTickLabels="true" showTickMarks="true" GridPane.rowIndex="1">
+      <Slider fx:id="gammaCorrectionSlider" majorTickUnit="1.0" value="1.0" onMouseClicked="#gammaCorrection" max="10.0" minorTickCount="5" prefHeight="38.0" prefWidth="510.0" showTickLabels="true" showTickMarks="true" GridPane.rowIndex="1">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
