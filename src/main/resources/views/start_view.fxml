@@ -25,7 +25,7 @@
                                 <MenuItem fx:id="openFromURLItem" mnemonicParsing="false" onAction="#openUrlWindow" text="from URL" />
                             </items>
                         </Menu>
-                        <MenuItem id="fileSaveItem" mnemonicParsing="false" text="Save" />
+                        <MenuItem id="fileSaveItem" mnemonicParsing="false" onAction="#saveActionForOpenFileController" text="Save" />
                         <MenuItem fx:id="openInformation" mnemonicParsing="false" onAction="#handleOpenFileInformation" text="Information" />
                     </items>
                 </Menu>

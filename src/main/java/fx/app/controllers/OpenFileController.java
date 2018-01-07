@@ -108,9 +108,49 @@ public class OpenFileController extends BasicController {
         imageView.setImage(image);
     }
 
+    public void saveActionForOpenFileController(){
+        handleSaveAction();
+    }
+
     @Override
     protected void handleSaveAction() {
 
+        File originalFile = new File(imagePath);
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(originalFile.getParentFile());
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("formats (*.pbm, *.pgm, *.ppm, *.png, *.jpeg)", "*.pbm", "*.pgm", "*.ppm", "*.png", "*.jpeg")
+        );
+
+
+        File saveFile =  fileChooser.showSaveDialog(stage);
+
+        if(saveFile != null){
+            saveFile(saveFile);
+        }
+
+    }
+
+    private boolean saveFile(File file)
+    {
+        try {
+            // retrieve image
+
+            String extension = "";
+
+            int i = file.getName().lastIndexOf('.');
+            int p = Math.max(file.getName().lastIndexOf('/'), file.getName().lastIndexOf('\\'));
+
+            if (i > p) {
+                extension = file.getName().substring(i+1);
+            }
+            BufferedImage bi = SwingFXUtils.fromFXImage(this.image, null);
+            ImageIO.write(bi, extension, file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     private void setImageFromFileInImageView(ImageReader reader) throws IOException {
