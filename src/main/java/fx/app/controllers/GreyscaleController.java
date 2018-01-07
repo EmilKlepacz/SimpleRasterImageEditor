@@ -34,6 +34,7 @@ public class GreyscaleController extends BasicController{
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
         imageViewGreyscale.setImage(image);
+        saveTemporaryFile(imageViewGreyscale.getImage());
     }
 
     public void saveActionForHistogramController(){

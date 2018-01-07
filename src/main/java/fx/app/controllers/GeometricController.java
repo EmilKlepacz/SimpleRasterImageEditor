@@ -42,6 +42,7 @@ public class GeometricController extends BasicController {
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
         imageViewGeometric.setImage(image);
+        saveTemporaryFile(imageViewGeometric.getImage());
     }
 
     public void saveActionForGeometricController() {

@@ -175,8 +175,10 @@ public class OpenFileController extends BasicController {
         File selectedFile = fileChooser.showOpenDialog(stage);
 
         if(selectedFile != null && !selectedFile.getAbsolutePath().equals(temporaryImagePath)) {
-            if(temporaryImagePath!=null)
+            if(temporaryImagePath!=null) {
                 Files.delete(Paths.get(temporaryImagePath));
+                temporaryImagePath=null;
+            }
             File selectedFileCopy = createTmpCopyOfOriginalFile(selectedFile);
             processImage(selectedFile, selectedFileCopy);
         } else {

@@ -35,6 +35,7 @@ public class BlackWhiteController extends BasicController {
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
         imageViewBlackWhite.setImage(image);
+        saveTemporaryFile(imageViewBlackWhite.getImage());
     }
 
     public void saveActionForBlackWhiteController(){

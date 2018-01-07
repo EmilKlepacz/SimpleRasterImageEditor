@@ -49,6 +49,7 @@ public class NegativeController extends BasicController {
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
         imageViewNegative.setImage(image);
+        saveTemporaryFile(imageViewNegative.getImage());
     }
 
     public void saveActionForNegativeController(){
