@@ -71,10 +71,17 @@ public class FilteringController extends BasicController {
 
         ImagePlus gaussianBlur = new ImagePlus(temporaryImagePath);
         ImageProcessor imgProcessor = gaussianBlur.getProcessor();
-        imgProcessor.blurGaussian(sigmaSlider.getValue());  // TO DO EMIL SIGMA FRONTEND
+        imgProcessor.blurGaussian(sigmaSlider.getValue());
 
         Image negativeImage = SwingFXUtils.toFXImage(gaussianBlur.getBufferedImage(), null);
         addChangesToImage(negativeImage);
+    }
+
+    public void laplacianFilter(){
+        ImagePlus laplacianImage = new ImagePlus(temporaryImagePath);
+        ImageProcessor imageProcessor = laplacianImage.getProcessor();
+
+
     }
 
     public void setSigmaSliderVisible(){
