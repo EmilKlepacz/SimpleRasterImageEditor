@@ -53,6 +53,7 @@ public class OpenFileController extends BasicController {
     private static final int ON_START_SPINNER_HEIGHT_VAL = 0;
     private String fileInformation = "";
     private String fileSize = "";
+    private String URLPath = "";
 
     @FXML
     private StackPane stackPane;
@@ -130,6 +131,8 @@ public class OpenFileController extends BasicController {
             saveFile(saveFile);
         }
 
+        //@TODO Obsluzyc przypadek bledu zapisu pliku
+
     }
 
     private boolean saveFile(File file)
@@ -171,6 +174,8 @@ public class OpenFileController extends BasicController {
 
         if(selectedFile != null)
             processImage(selectedFile);
+
+        //@TODO Obsluzyc przypadek bledu odczytu pliku
     }
 
     public void handleOpenFromFile() {
@@ -184,6 +189,7 @@ public class OpenFileController extends BasicController {
 
     private void handleOpenFromURL(String url) throws IOException {
         fileInformation = "No metadata to display";
+        URLPath = url;
         BufferedImage img = ImageIO.read(new URL(url));
         String extension = url.substring(url.lastIndexOf(".") + 1).trim();
         File f = new File("temp." + extension);
@@ -199,8 +205,14 @@ public class OpenFileController extends BasicController {
     public void handleOpenFileInformation() {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        String fileName = imagePath.substring(imagePath.lastIndexOf("\\") + 1).trim();
-        alert.setTitle(fileName);
+        if(imagePath != null) {
+            String fileName = imagePath.substring(imagePath.lastIndexOf("\\") + 1).trim();
+            alert.setTitle(fileName);
+        }
+        else
+            alert.setTitle("Load file first!");
+        if(alert.getTitle().contains("temp"))
+            alert.setTitle(URLPath);
         alert.setHeaderText(fileSize);
         if (fileInformation.equals("")) {
             alert.setContentText("No file loaded");
@@ -213,7 +225,7 @@ public class OpenFileController extends BasicController {
         else if(fileInformation.contains("JPEG")){
             alert.setContentText(fileInformation);
             alert.setResizable(true);
-            alert.getDialogPane().setPrefSize(400, 470);
+            alert.getDialogPane().setPrefSize(400, 490);
         }
         else {
             alert.setContentText(fileInformation);
@@ -434,7 +446,7 @@ public class OpenFileController extends BasicController {
         if (metadata != null) {
             String[] names = metadata.getMetadataFormatNames();
             for (String name : names) {
-                fileInformation="Format name: " + name;
+                fileInformation="Format name: " + name + "\n";
                 displayMetadata(metadata.getAsTree(name));
             }
         }
