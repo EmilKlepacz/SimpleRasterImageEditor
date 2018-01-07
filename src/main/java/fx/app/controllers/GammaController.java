@@ -8,9 +8,11 @@ public class GammaController extends BasicController {
     @FXML
     private ImageView imageViewGamma;
 
+    private OpenFileController openFileController;
+
     //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
     @Override
-    void addChangesToImage(Image image) {
+    protected void addChangesToImage(Image image) {
         imageViewGamma.setImage(image);
         addChangesToHistory(image);
     }
@@ -25,9 +27,32 @@ public class GammaController extends BasicController {
         imageViewGamma.setImage(image);
     }
 
+    public void saveActionForGammaController(){
+        handleSaveAction();
+    }
+
+    @Override
+    protected void handleSaveAction() {
+        try {
+            openFileController.setImagePath(imagePath);
+            openFileController.addChangesToImage(image);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     // this image is copy of image in start_view
     @Override
     public void setStartImageInImageView(Image image) {
         addChangesToImage(image);
+    }
+
+    public OpenFileController getOpenFileController() {
+        return openFileController;
+    }
+
+    public void setOpenFileController(OpenFileController openFileController) {
+        if(this.openFileController == null)
+            this.openFileController = openFileController;
     }
 }

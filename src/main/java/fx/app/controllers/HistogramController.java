@@ -11,6 +11,8 @@ public class HistogramController extends BasicController {
     @FXML
     private ImageView imageViewHistogram;
 
+    private OpenFileController openFileController;
+
     public void setImage(Image image) {
         this.image = image;
     }
@@ -23,7 +25,7 @@ public class HistogramController extends BasicController {
 
     //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
     @Override
-    void addChangesToImage(Image image) {
+    protected void addChangesToImage(Image image) {
         imageViewHistogram.setImage(image);
         addChangesToHistory(image);
     }
@@ -34,6 +36,20 @@ public class HistogramController extends BasicController {
         imageViewHistogram.setImage(image);
     }
 
+    public void saveActionForHistogramController(){
+        handleSaveAction();
+    }
+
+    @Override
+    protected void handleSaveAction() {
+        try {
+            openFileController.setImagePath(imagePath);
+            openFileController.addChangesToImage(image);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public void undoActionForHistogramController(){
         handleUndoAction();
     }
@@ -42,5 +58,14 @@ public class HistogramController extends BasicController {
         MarvinImage histogramEqualImg = ImageProcessorMarvin.histogramEqualization(imagePath);
         Image histogramEqualImage = SwingFXUtils.toFXImage(histogramEqualImg.getBufferedImage(), null);
         imageViewHistogram.setImage(histogramEqualImage);
+    }
+
+    public OpenFileController getOpenFileController() {
+        return openFileController;
+    }
+
+    public void setOpenFileController(OpenFileController openFileController) {
+        if(this.openFileController == null)
+            this.openFileController = openFileController;
     }
 }

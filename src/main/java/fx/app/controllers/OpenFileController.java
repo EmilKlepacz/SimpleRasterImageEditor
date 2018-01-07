@@ -84,23 +84,16 @@ public class OpenFileController extends BasicController {
         blackWhiteBtn.setDisable(false);
     }
 
-    private void setImageHeightWidthFitBorderPane(Image image) {
-//        imageView.fitHeightProperty().bind(stackPane.widthProperty());
-//        imageView.fitWidthProperty().bind(stackPane.heightProperty());
-        addChangesToImage(image);
-    }
-
     //method return image Path of image in ImageView
     @Override
-    void setStartImageInImageView(Image image) {
+    protected void setStartImageInImageView(Image image) {
         this.image = image;
-        setImageHeightWidthFitBorderPane(image);
         addChangesToImage(image);
     }
 
     //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
     @Override
-    void addChangesToImage(Image image) {
+    protected void addChangesToImage(Image image) {
         imageView.setImage(image);
         addChangesToHistory(image);
     }
@@ -113,6 +106,11 @@ public class OpenFileController extends BasicController {
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
         imageView.setImage(image);
+    }
+
+    @Override
+    protected void handleSaveAction() {
+
     }
 
 
@@ -204,6 +202,7 @@ public class OpenFileController extends BasicController {
             negativeController.setImage(image);
             negativeController.setImagePath(imagePath);
             negativeController.setStartImageInImageView(image);
+            negativeController.setOpenFileController(this);
 
             createAndShowNewStage(NEGATIVE_STAGE_TITLE, new Scene(root));
 
@@ -222,6 +221,7 @@ public class OpenFileController extends BasicController {
             filteringController.setImage(image);
             filteringController.setImagePath(imagePath);
             filteringController.setStartImageInImageView(image);
+            filteringController.setOpenFileController(this);
 
             createAndShowNewStage(FILTERING_STAGE_TITLE, new Scene(root));
 
@@ -239,6 +239,7 @@ public class OpenFileController extends BasicController {
             histogramController.setImage(image);
             histogramController.setImagePath(imagePath);
             histogramController.setStartImageInImageView(image);
+            histogramController.setOpenFileController(this);
 
             createAndShowNewStage(HISTOGRAM_STAGE_TITLE, new Scene(root));
 
@@ -256,6 +257,7 @@ public class OpenFileController extends BasicController {
             geometricController.setImage(image);
             geometricController.setImagePath(imagePath);
             geometricController.setStartImageInImageView(image);
+            geometricController.setOpenFileController(this);
 
             geometricController.setWidthSpinnerValue(MIN_SPINNER_WIDTH_VAL, MAX_SPINNER_WIDTH_VAL, ON_START_SPINNER_WIDTH_VAL);
             geometricController.setHeightSpinnerValue(MIN_SPINNER_HEIGHT_VAL, MAX_SPINNER_HEIGHT_VAL, ON_START_SPINNER_HEIGHT_VAL);
@@ -276,6 +278,7 @@ public class OpenFileController extends BasicController {
             greyscaleController.setImage(image);
             greyscaleController.setImagePath(imagePath);
             greyscaleController.setStartImageInImageView(image);
+            greyscaleController.setOpenFileController(this);
 
             createAndShowNewStage(GREYSCALE_STAGE_TITLE, new Scene(root));
 
@@ -293,6 +296,7 @@ public class OpenFileController extends BasicController {
             blackWhiteController.setImage(image);
             blackWhiteController.setImagePath(imagePath);
             blackWhiteController.setStartImageInImageView(image);
+            blackWhiteController.setOpenFileController(this);
 
             createAndShowNewStage(BLACK_AND_WHITE_STAGE_TITLE, new Scene(root));
 

@@ -17,13 +17,15 @@ public class BlackWhiteController extends BasicController {
     @FXML
     ImageView imageViewBlackWhite;
 
+    private OpenFileController openFileController;
+
     @Override
-    void setStartImageInImageView(Image image) {
+    protected void setStartImageInImageView(Image image) {
         addChangesToImage(image);
     }
 
     @Override
-    void addChangesToImage(Image image) {
+    protected void addChangesToImage(Image image) {
         imageViewBlackWhite.setImage(image);
         addChangesToHistory(image);
     }
@@ -32,6 +34,20 @@ public class BlackWhiteController extends BasicController {
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
         imageViewBlackWhite.setImage(image);
+    }
+
+    public void saveActionForBlackWhiteController(){
+        handleSaveAction();
+    }
+
+    @Override
+    protected void handleSaveAction() {
+        try {
+            openFileController.setImagePath(imagePath);
+            openFileController.addChangesToImage(image);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void undoActionForBlackWhiteController(){
@@ -50,5 +66,14 @@ public class BlackWhiteController extends BasicController {
         ImagePlus blackAndWhiteImagePlus = new ImagePlus("gray", blackWhite);
         Image blackAndWhiteImage = SwingFXUtils.toFXImage(blackAndWhiteImagePlus.getBufferedImage(), null);
         addChangesToImage(blackAndWhiteImage);
+    }
+
+    public OpenFileController getOpenFileController() {
+        return openFileController;
+    }
+
+    public void setOpenFileController(OpenFileController openFileController) {
+        if(this.openFileController == null)
+            this.openFileController = openFileController;
     }
 }

@@ -19,11 +19,13 @@ public abstract class BasicController {
         this.imageChanges = new ArrayList<>();
     }
 
-    abstract void setStartImageInImageView(Image image);
+    protected abstract void setStartImageInImageView(Image image);
 
-    abstract void addChangesToImage(Image image);
+    protected abstract void addChangesToImage(Image image);
 
-    public abstract void handleUndoAction();
+    protected abstract void handleUndoAction();
+
+    protected abstract void handleSaveAction();
 
     protected void setPreviousImageAsActualAndErase(){
         if(imageChanges.size()>1) {
@@ -34,6 +36,7 @@ public abstract class BasicController {
 
     protected void addChangesToHistory(Image image)
     {
+        this.image = image;
         if(imageChanges.size()>=10) {
             imageChanges.remove(0);
             imageChanges.add(image);
