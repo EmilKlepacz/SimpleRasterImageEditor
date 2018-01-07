@@ -113,7 +113,6 @@ public class OpenFileController extends BasicController {
 
     }
 
-
     private void setImageFromFileInImageView(ImageReader reader) throws IOException {
 
             BufferedImage bi = reader.read(0);
@@ -136,6 +135,7 @@ public class OpenFileController extends BasicController {
 
     public void handleOpenFromFile() {
         try {
+            fileInformation = "No metadata to display";
             openFileChooserAndSetImage();
         } catch (MalformedURLException | FileNotFoundException e) {
             e.printStackTrace();
@@ -143,6 +143,7 @@ public class OpenFileController extends BasicController {
     }
 
     private void handleOpenFromURL(String url) throws IOException {
+        fileInformation = "No metadata to display";
         BufferedImage img = ImageIO.read(new URL(url));
         String extension = url.substring(url.lastIndexOf(".") + 1).trim();
         File f = new File("temp." + extension);
@@ -158,14 +159,27 @@ public class OpenFileController extends BasicController {
     public void handleOpenFileInformation() {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("File information");
+        String fileName = imagePath.substring(imagePath.lastIndexOf("\\") + 1).trim();
+        alert.setTitle(fileName);
         alert.setHeaderText(fileSize);
         if (fileInformation.equals("")) {
             alert.setContentText("No file loaded");
-        } else alert.setContentText(fileInformation);
-
-        alert.setResizable(true);
-        alert.getDialogPane().setPrefSize(1000, 800);
+            alert.getDialogPane().setPrefSize(200, 100);
+        }
+        else if (fileInformation.equals("No metadata to display")){
+            alert.setContentText(fileInformation);
+            alert.getDialogPane().setPrefSize(300, 100);
+        }
+        else if(fileInformation.contains("JPEG")){
+            alert.setContentText(fileInformation);
+            alert.setResizable(true);
+            alert.getDialogPane().setPrefSize(400, 470);
+        }
+        else {
+            alert.setContentText(fileInformation);
+            alert.setResizable(true);
+            alert.getDialogPane().setPrefSize(400, 700);
+        }
 
         alert.showAndWait();
     }
@@ -349,7 +363,7 @@ public class OpenFileController extends BasicController {
     private void processImage(File file) {
             try {
                 double bytes = file.length();
-                System.out.println("File Size: " + String.format("%.2f", bytes / 1024) + "kb");
+                fileSize = "File Size: " + String.format("%.2f", bytes / 1024) + "kb";
 
                 ImageIO.scanForPlugins();
                 ImageInputStream iis = ImageIO.createImageInputStream(file);
@@ -376,12 +390,11 @@ public class OpenFileController extends BasicController {
     }
 
     private void readAndDisplayMetadata(ImageReader reader) throws IOException {
-
         IIOMetadata metadata = reader.getImageMetadata(0);
         if (metadata != null) {
             String[] names = metadata.getMetadataFormatNames();
             for (String name : names) {
-                System.out.println("Format name: " + name);
+                fileInformation="Format name: " + name;
                 displayMetadata(metadata.getAsTree(name));
             }
         }
@@ -393,7 +406,7 @@ public class OpenFileController extends BasicController {
 
     private void indent(int level) {
         for (int i = 0; i < level; i++)
-            fileInformation += "    ";
+           fileInformation += ("    ");
     }
 
     private void displayMetadata(Node node, int level) {
