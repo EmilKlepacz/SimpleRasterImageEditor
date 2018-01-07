@@ -1,8 +1,6 @@
 package fx.app.controllers;
 
 
-import fx.app.processing.ImageProcessorMarvin;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -18,9 +16,11 @@ public class GeometricController extends BasicController {
     @FXML
     private Spinner<Integer> heightSpinner;
 
+    private OpenFileController openFileController;
+
     //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
     @Override
-    void addChangesToImage(Image image) {
+    protected void addChangesToImage(Image image) {
         imageViewGeometric.setImage(image);
         addChangesToHistory(image);
     }
@@ -29,6 +29,20 @@ public class GeometricController extends BasicController {
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
         imageViewGeometric.setImage(image);
+    }
+
+    public void saveActionForGeometricController(){
+        handleSaveAction();
+    }
+
+    @Override
+    protected void handleSaveAction() {
+        try {
+            openFileController.setImagePath(imagePath);
+            openFileController.addChangesToImage(image);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     void setWidthSpinnerValue(int min, int max, int onStart) {
@@ -53,4 +67,12 @@ public class GeometricController extends BasicController {
         imageViewGeometric.setImage(negativeImage);
     }
 
+    public OpenFileController getOpenFileController() {
+        return openFileController;
+    }
+
+    public void setOpenFileController(OpenFileController openFileController) {
+        if(this.openFileController == null)
+            this.openFileController = openFileController;
+    }
 }

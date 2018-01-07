@@ -6,14 +6,22 @@ import ij.ImagePlus;
 import ij.process.ImageProcessor;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import marvin.image.MarvinImage;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class NegativeController extends BasicController {
+
+    private static final String START_VIEW_PATH = "/views/start_view.fxml";
+
+    private OpenFileController openFileController;
+
     @FXML
     private ImageView imageViewNegative;
     private boolean[] rgbChannels = {false,false,false};
@@ -30,12 +38,12 @@ public class NegativeController extends BasicController {
 
     //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
     @Override
-    void addChangesToImage(Image image) {
+    protected void addChangesToImage(Image image) {
         imageViewNegative.setImage(image);
         addChangesToHistory(image);
     }
 
-    public void undoActionForNegativeeController(){
+    public void undoActionForNegativeController(){
         handleUndoAction();
     }
 
@@ -43,6 +51,20 @@ public class NegativeController extends BasicController {
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
         imageViewNegative.setImage(image);
+    }
+
+    public void saveActionForNegativeController(){
+        handleSaveAction();
+    }
+
+    @Override
+    protected void handleSaveAction() {
+        try {
+            openFileController.setImagePath(imagePath);
+            openFileController.addChangesToImage(image);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void negative(){
@@ -126,5 +148,14 @@ public class NegativeController extends BasicController {
         ImagePlus grayImg = new ImagePlus("", bufferedImage);
         Image negativeImage = SwingFXUtils.toFXImage(grayImg.getBufferedImage(), null);
         addChangesToImage(negativeImage);
+    }
+
+    public OpenFileController getOpenFileController() {
+        return openFileController;
+    }
+
+    public void setOpenFileController(OpenFileController openFileController) {
+        if(this.openFileController == null)
+            this.openFileController = openFileController;
     }
 }

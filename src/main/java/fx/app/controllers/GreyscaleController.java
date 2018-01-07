@@ -16,13 +16,15 @@ public class GreyscaleController extends BasicController{
     @FXML
     private ImageView imageViewGreyscale;
 
+    private OpenFileController openFileController;
+
     @Override
-    void setStartImageInImageView(Image image) {
+    protected void setStartImageInImageView(Image image) {
         addChangesToImage(image);
     }
 
     @Override
-    void addChangesToImage(Image image) {
+    protected void addChangesToImage(Image image) {
         imageViewGreyscale.setImage(image);
         addChangesToHistory(image);
     }
@@ -31,6 +33,20 @@ public class GreyscaleController extends BasicController{
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
         imageViewGreyscale.setImage(image);
+    }
+
+    public void saveActionForHistogramController(){
+        handleSaveAction();
+    }
+
+    @Override
+    protected void handleSaveAction() {
+        try {
+            openFileController.setImagePath(imagePath);
+            openFileController.addChangesToImage(image);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void undoActionForGrayscaleController(){
@@ -59,5 +75,15 @@ public class GreyscaleController extends BasicController{
         ImagePlus grayImg = new ImagePlus("gray", bufferedImage);
         Image grayScale = SwingFXUtils.toFXImage(grayImg.getBufferedImage(), null);
         addChangesToImage(grayScale);
+    }
+
+    public OpenFileController getOpenFileController() {
+        return openFileController;
+    }
+
+    public void setOpenFileController(OpenFileController openFileController) {
+
+        if(this.openFileController == null)
+            this.openFileController = openFileController;
     }
 }

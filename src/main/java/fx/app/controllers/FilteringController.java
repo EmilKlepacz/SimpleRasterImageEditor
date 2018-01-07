@@ -10,9 +10,11 @@ public class FilteringController extends BasicController {
     @FXML
     ImageView imageViewFiltering;
 
+    private OpenFileController openFileController;
+
     //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
     @Override
-    void addChangesToImage(Image image) {
+    protected void addChangesToImage(Image image) {
         imageViewFiltering.setImage(image);
         addChangesToHistory(image);
     }
@@ -27,9 +29,32 @@ public class FilteringController extends BasicController {
         imageViewFiltering.setImage(image);
     }
 
+    public void saveActionForFilteringController(){
+        handleSaveAction();
+    }
+
+    @Override
+    protected void handleSaveAction() {
+        try {
+            openFileController.setImagePath(imagePath);
+            openFileController.addChangesToImage(image);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     // this image is copy of image in start_view
     @Override
     public void setStartImageInImageView(Image image) {
         addChangesToImage(image);
+    }
+
+    public OpenFileController getOpenFileController() {
+        return openFileController;
+    }
+
+    public void setOpenFileController(OpenFileController openFileController) {
+        if(this.openFileController == null)
+            this.openFileController = openFileController;
     }
 }
