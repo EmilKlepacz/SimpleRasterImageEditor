@@ -9,13 +9,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import marvin.image.MarvinImage;
 
-public class NegativeController implements BasicController {
+public class NegativeController extends BasicController {
     @FXML
     private ImageView imageViewNegative;
-
-    private Image image;
-
-    private String imagePath;
 
     public void setImage(Image image) {
         this.image = image;
@@ -25,11 +21,6 @@ public class NegativeController implements BasicController {
     @Override
     public void setStartImageInImageView(Image image) {
         imageViewNegative.setImage(image);
-    }
-
-    @Override
-    public void setImagePath(String filePath) {
-        imagePath = filePath;
     }
 
     public void negative(){

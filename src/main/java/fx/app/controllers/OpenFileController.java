@@ -25,10 +25,11 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 
-public class OpenFileController {
+public class OpenFileController extends BasicController {
 
     private static final String GAMMA_VIEW_PATH = "/views/gamma_view.fxml";
     private static final String GAMMA_STAGE_TITLE = "Gamma correction";
@@ -64,15 +65,6 @@ public class OpenFileController {
     @FXML
     private ImageView imageView;
 
-    private Stage stage;
-    private Image image;
-    private String imagePath;
-
-    private void setImagePath(String filePath){
-
-        imagePath = filePath;
-    }
-
 
     private void enableOperationButtons() {
         gammaBtn.setDisable(false);
@@ -89,11 +81,16 @@ public class OpenFileController {
     }
 
     //method return image Path of image in ImageView
+    @Override
+    void setStartImageInImageView(Image image) {
+        this.image = image;
+        setImageHeightWidthFitBorderPane(image);
+    }
+
     private void setImageFromFileInImageView(ImageReader reader) throws IOException {
 
             BufferedImage bi = reader.read(0);
-            image = SwingFXUtils.toFXImage(bi, null);
-            setImageHeightWidthFitBorderPane(image);
+            setStartImageInImageView(SwingFXUtils.toFXImage(bi, null));
             enableOperationButtons();
 
     }
@@ -367,4 +364,11 @@ public class OpenFileController {
         fileInformation +="</" + node.getNodeName() + ">\n";
     }
 
+    public List<Image> getImageChanges() {
+        return imageChanges;
+    }
+
+    public void setImageChanges(List<Image> imageChanges) {
+        this.imageChanges = imageChanges;
+    }
 }
