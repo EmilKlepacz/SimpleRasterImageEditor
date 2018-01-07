@@ -38,7 +38,7 @@ public class GeometricController extends BasicController {
         imageViewGeometric.setImage(image);
     }
 
-    public void saveActionForGeometricController(){
+    public void saveActionForGeometricController() {
         handleSaveAction();
     }
 
@@ -79,6 +79,18 @@ public class GeometricController extends BasicController {
         Image rotatedImage = SwingFXUtils.toFXImage(rotatedImagePlus.getBufferedImage(), null);
 
         addChangesToImage(rotatedImage);
+    }
+
+    public void scale() {
+        ImagePlus imgPlus = new ImagePlus(temporaryImagePath);
+        ImageProcessor imgProcessor = imgPlus.getProcessor();
+        ImageProcessor imageProcessorAfterResize = imgProcessor.resize(widthSpinner.getValue(), heightSpinner.getValue(), true);
+
+        BufferedImage bufferedImage = imageProcessorAfterResize.getBufferedImage();
+        ImagePlus scaledImagePlus = new ImagePlus("", bufferedImage);
+        Image scaledImage = SwingFXUtils.toFXImage(scaledImagePlus.getBufferedImage(), null);
+
+        addChangesToImage(scaledImage);
     }
 
     public OpenFileController getOpenFileController() {
