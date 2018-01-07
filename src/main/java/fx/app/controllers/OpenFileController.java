@@ -112,29 +112,23 @@ public class OpenFileController extends BasicController {
     }
 
     public void saveActionForOpenFileController(){
-        handleSaveAction();
-    }
 
-    @Override
-    protected void handleSaveAction() {
+        File originalFile = new File(originalImagePath);
 
-            File originalFile = new File(originalImagePath);
-
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setInitialDirectory(originalFile.getParentFile());
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("formats (*.pbm, *.pgm, *.ppm, *.png, *.jpeg)", "*.pbm", "*.pgm", "*.ppm", "*.png", "*.jpeg")
-            );
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(originalFile.getParentFile());
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("formats (*.pbm, *.pgm, *.ppm, *.png, *.jpeg)", "*.pbm", "*.pgm", "*.ppm", "*.png", "*.jpeg")
+        );
 
 
-            File saveFile = fileChooser.showSaveDialog(stage);
+        File saveFile = fileChooser.showSaveDialog(stage);
 
-            if (saveFile != null) {
-                saveFile(saveFile);
-            }
+        if (saveFile != null) {
+            saveFile(saveFile);
+        }
 
         //@TODO Obsluzyc przypadek bledu zapisu pliku
-
     }
 
     private boolean saveFile(File file)
@@ -174,19 +168,21 @@ public class OpenFileController extends BasicController {
 
         File selectedFile = fileChooser.showOpenDialog(stage);
 
-        if(selectedFile != null && !selectedFile.getAbsolutePath().equals(temporaryImagePath)) {
-            if(temporaryImagePath!=null) {
+        if(selectedFile != null) {
+            if (temporaryImagePath != null && !selectedFile.getAbsolutePath().equals(temporaryImagePath)) {
                 Files.delete(Paths.get(temporaryImagePath));
-                temporaryImagePath=null;
+                temporaryImagePath = null;
+            }
+            else if(selectedFile.getAbsolutePath().equals(temporaryImagePath)){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("File loading error");
+                alert.setContentText("Unable to load this file!");
+                alert.showAndWait();
+                return;
             }
             File selectedFileCopy = createTmpCopyOfOriginalFile(selectedFile);
             processImage(selectedFile, selectedFileCopy);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("File loading error");
-            alert.setContentText("Unable to load this file!");
-            alert.showAndWait();
         }
 
         //@TODO Obsluzyc przypadek bledu odczytu pliku

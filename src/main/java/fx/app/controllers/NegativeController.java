@@ -53,16 +53,7 @@ public class NegativeController extends BasicController {
     }
 
     public void saveActionForNegativeController(){
-        handleSaveAction();
-    }
-
-    @Override
-    protected void handleSaveAction() {
-        try {
-            openFileController.addChangesToImage(image);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        handleSaveAction(this.openFileController, imageViewNegative.getImage());
     }
 
     public void negative(){

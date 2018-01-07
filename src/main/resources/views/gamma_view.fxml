@@ -25,7 +25,7 @@
             <ImageView fx:id="imageViewGamma" fitHeight="319.0" fitWidth="497.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <Slider fx:id="gammaCorrectionSlider" majorTickUnit="1.0" max="10.0" minorTickCount="5" onMouseClicked="#gammaCorrection" prefHeight="38.0" prefWidth="510.0" showTickLabels="true" showTickMarks="true" value="1.0" GridPane.rowIndex="1">
+      <Slider fx:id="gammaCorrectionSlider" majorTickUnit="1.0" max="10.0" minorTickCount="5" onMouseClicked="#gammaCorrection" prefHeight="38.0" prefWidth="510.0" showTickLabels="true" value="1.0" showTickMarks="true" GridPane.rowIndex="1">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -42,7 +42,7 @@
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
-      <Button mnemonicParsing="false" text="Revert" GridPane.rowIndex="1">
+      <Button mnemonicParsing="false" text="Revert" onAction="#undoActionForGammaController" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="450.0" />
          </GridPane.margin>

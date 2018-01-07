@@ -32,7 +32,16 @@ public abstract class BasicController{
 
     protected abstract void handleUndoAction();
 
-    protected abstract void handleSaveAction();
+    protected void handleSaveAction(OpenFileController openFileController, Image image)
+    {
+        try {
+            openFileController.addChangesToImage(image);
+            openFileController.setImage(image);
+            saveTemporaryFile(image);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     protected boolean saveTemporaryFile(Image image){
         try {
@@ -57,6 +66,8 @@ public abstract class BasicController{
         return true;
     }
 
+
+
     protected void setPreviousImageAsActualAndErase(){
         if(imageChanges.size()>1) {
             this.image = imageChanges.get(imageChanges.size()-2);
@@ -66,7 +77,6 @@ public abstract class BasicController{
 
     protected void addChangesToHistory(Image image)
     {
-        this.image = image;
         if(imageChanges.size()>=10) {
             imageChanges.remove(0);
             imageChanges.add(image);

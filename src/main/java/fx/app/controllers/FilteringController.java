@@ -21,6 +21,7 @@ public class FilteringController extends BasicController {
     @FXML
     Slider sigmaSlider;
 
+
     private OpenFileController openFileController;
 
     //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
@@ -37,22 +38,13 @@ public class FilteringController extends BasicController {
 
     @Override
     public void handleUndoAction() {
-        setPreviousImageAsActualAndErase();
         imageViewFiltering.setImage(image);
         saveTemporaryFile(imageViewFiltering.getImage());
+        sigmaSlider.setValue(0.0);
     }
 
     public void saveActionForFilteringController(){
-        handleSaveAction();
-    }
-
-    @Override
-    protected void handleSaveAction() {
-        try {
-            openFileController.addChangesToImage(image);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        handleSaveAction(this.openFileController, imageViewFiltering.getImage());
     }
 
     // this image is copy of image in start_view
@@ -72,9 +64,11 @@ public class FilteringController extends BasicController {
 
     public void gaussianFilter() throws IOException {
 
-        ImagePlus gaussianBlur = new ImagePlus(temporaryImagePath);
+        Image tempImage = image;
+        BufferedImage buff = SwingFXUtils.fromFXImage(tempImage, null);
+        ImagePlus gaussianBlur = new ImagePlus("ForGaussianBlur", buff);
         ImageProcessor imgProcessor = gaussianBlur.getProcessor();
-        imgProcessor.blurGaussian(sigmaSlider.getValue());  // TO DO EMIL SIGMA FRONTEND
+        imgProcessor.blurGaussian(sigmaSlider.getValue());
 
         Image negativeImage = SwingFXUtils.toFXImage(gaussianBlur.getBufferedImage(), null);
         addChangesToImage(negativeImage);

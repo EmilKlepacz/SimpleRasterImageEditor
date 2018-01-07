@@ -46,16 +46,7 @@ public class HistogramController extends BasicController {
     }
 
     public void saveActionForHistogramController(){
-        handleSaveAction();
-    }
-
-    @Override
-    protected void handleSaveAction() {
-        try {
-            openFileController.addChangesToImage(image);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        handleSaveAction(this.openFileController, imageViewHistogram.getImage());
     }
 
     public void undoActionForHistogramController(){
@@ -69,13 +60,12 @@ public class HistogramController extends BasicController {
     }
 
     public void stretch() throws IOException {
-            File imageFile = new File(temporaryImagePath);
-            BufferedImage originalImage = ImageIO.read(imageFile);
-            BufferedImage correctedImage = whiteBalanceBuffImage(originalImage);
 
-            ImagePlus bufferedPrepared = new ImagePlus("hist", correctedImage);
-            Image bufferedConverted = SwingFXUtils.toFXImage(bufferedPrepared.getBufferedImage(), null);
-            addChangesToImage(bufferedConverted);
+        BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
+        buff = whiteBalanceBuffImage(buff);
+        ImagePlus bufferedPrepared = new ImagePlus("", buff);
+        Image bufferedConverted = SwingFXUtils.toFXImage(bufferedPrepared.getBufferedImage(), null);
+        addChangesToImage(bufferedConverted);
     }
 
     private BufferedImage whiteBalanceBuffImage(BufferedImage image) {

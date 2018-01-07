@@ -1,20 +1,14 @@
 package fx.app.controllers;
 
-import ij.ImagePlus;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 
 public class GammaController extends BasicController {
 
@@ -31,6 +25,7 @@ public class GammaController extends BasicController {
     protected void addChangesToImage(Image image) {
         imageViewGamma.setImage(image);
         addChangesToHistory(image);
+        saveTemporaryFile(image);
     }
 
     public void undoActionForGammaController(){
@@ -39,23 +34,13 @@ public class GammaController extends BasicController {
 
     @Override
     public void handleUndoAction() {
-        setPreviousImageAsActualAndErase();
         imageViewGamma.setImage(image);
         saveTemporaryFile(imageViewGamma.getImage());
+        gammaCorrectionSlider.setValue(1.0);
     }
 
     public void saveActionForGammaController(){
-        handleSaveAction();
-    }
-
-    @Override
-    protected void handleSaveAction() {
-        try {
-            openFileController.addChangesToImage(image);
-            saveTemporaryFile(imageViewGamma.getImage());
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        handleSaveAction(this.openFileController, imageViewGamma.getImage());
     }
 
     // this image is copy of image in start_view
@@ -75,22 +60,12 @@ public class GammaController extends BasicController {
 
     public void gammaCorrection() throws IOException {
 
-        ImageInputStream iis = ImageIO.createImageInputStream(new File(temporaryImagePath));
-        Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
-        if (readers.hasNext()) {
+        Image tempImage = image;
+        BufferedImage buff = SwingFXUtils.fromFXImage(tempImage, null);
 
-            // pick the first available ImageReader
-            ImageReader reader = readers.next();
-            // attach source to the reader
-            reader.setInput(iis, true);
-            // read metadata of first image
-
-            BufferedImage bi = reader.read(0);
-            bi = gammaCorrection(bi, gammaCorrectionSlider.getValue());
-            Image convertedGamma = SwingFXUtils.toFXImage(bi, null);
-            addChangesToImage(convertedGamma);
-        }
-        iis.close();
+        buff = gammaCorrection(buff, gammaCorrectionSlider.getValue());
+        Image convertedGamma = SwingFXUtils.toFXImage(buff, null);
+        addChangesToImage(convertedGamma);
     }
 
     private static BufferedImage gammaCorrection(BufferedImage original, double gamma) {

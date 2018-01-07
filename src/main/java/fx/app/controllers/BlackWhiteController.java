@@ -39,16 +39,7 @@ public class BlackWhiteController extends BasicController {
     }
 
     public void saveActionForBlackWhiteController(){
-        handleSaveAction();
-    }
-
-    @Override
-    protected void handleSaveAction() {
-        try {
-            openFileController.addChangesToImage(image);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        handleSaveAction(this.openFileController, imageViewBlackWhite.getImage());
     }
 
     public void undoActionForBlackWhiteController(){

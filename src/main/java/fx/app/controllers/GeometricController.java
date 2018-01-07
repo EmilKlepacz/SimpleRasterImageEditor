@@ -38,6 +38,11 @@ public class GeometricController extends BasicController {
         saveTemporaryFile(imageViewGeometric.getImage());
     }
 
+    public void undoActionForGeometricController()
+    {
+        handleUndoAction();
+    }
+
     @Override
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
@@ -46,16 +51,7 @@ public class GeometricController extends BasicController {
     }
 
     public void saveActionForGeometricController() {
-        handleSaveAction();
-    }
-
-    @Override
-    protected void handleSaveAction() {
-        try {
-            openFileController.addChangesToImage(image);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        handleSaveAction(this.openFileController, imageViewGeometric.getImage());
     }
 
     void setTextInWidthValText(String text){
@@ -92,6 +88,7 @@ public class GeometricController extends BasicController {
         Image rotatedImage = SwingFXUtils.toFXImage(rotatedImagePlus.getBufferedImage(), null);
 
         addChangesToImage(rotatedImage);
+        rotateSlider.setValue(0.0);
     }
 
     public void scale() {

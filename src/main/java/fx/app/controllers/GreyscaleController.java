@@ -38,16 +38,7 @@ public class GreyscaleController extends BasicController{
     }
 
     public void saveActionForHistogramController(){
-        handleSaveAction();
-    }
-
-    @Override
-    protected void handleSaveAction() {
-        try {
-            openFileController.addChangesToImage(image);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        handleSaveAction(this.openFileController, imageViewGreyscale.getImage());
     }
 
     public void undoActionForGrayscaleController(){
