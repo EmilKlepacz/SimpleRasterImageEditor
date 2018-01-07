@@ -3,6 +3,7 @@ package fx.app.controllers;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,6 +13,11 @@ public abstract class BasicController {
     protected List<Image> imageChanges;
     protected Image image;
     protected String imagePath;
+
+    public BasicController()
+    {
+        this.imageChanges = new ArrayList<>();
+    }
 
     abstract void setStartImageInImageView(Image image);
 
