@@ -25,7 +25,7 @@ public class NegativeController extends BasicController {
     // this image is copy of image in start_view
     @Override
     public void setStartImageInImageView(Image image) {
-        imageViewNegative.setImage(image);
+        addChangesToImage(image);
     }
 
     //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
@@ -35,10 +35,21 @@ public class NegativeController extends BasicController {
         addChangesToHistory(image);
     }
 
+    public void undoActionForNegativeeController(){
+        handleUndoAction();
+    }
+
+    @Override
+    public void handleUndoAction() {
+        setPreviousImageAsActualAndErase();
+        imageViewNegative.setImage(image);
+    }
+
     public void negative(){
+
         MarvinImage negativeMarvinImage = ImageProcessorMarvin.invertImage(imagePath);
         Image negativeImage = SwingFXUtils.toFXImage(negativeMarvinImage.getBufferedImage(), null);
-        imageViewNegative.setImage(negativeImage);
+        addChangesToImage(negativeImage);
     }
 
     public void channelR(){
@@ -112,8 +123,8 @@ public class NegativeController extends BasicController {
                 bufferedImage.setRGB(x, y, finalImage.getRGB());
             }
         }
-        ImagePlus grayImg = new ImagePlus("gray", bufferedImage);
-        Image test = SwingFXUtils.toFXImage(grayImg.getBufferedImage(), null);
-        imageViewNegative.setImage(test);
+        ImagePlus grayImg = new ImagePlus("", bufferedImage);
+        Image negativeImage = SwingFXUtils.toFXImage(grayImg.getBufferedImage(), null);
+        addChangesToImage(negativeImage);
     }
 }

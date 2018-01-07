@@ -35,7 +35,7 @@
             <Insets left="20.0" />
          </GridPane.margin>
       </Button>
-      <Button mnemonicParsing="false" text="Revert" GridPane.rowIndex="1">
+      <Button mnemonicParsing="false" text="Revert" onAction="#undoActionForGrayscaleController" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="160.0" />
          </GridPane.margin>

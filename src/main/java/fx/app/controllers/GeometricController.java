@@ -25,6 +25,12 @@ public class GeometricController extends BasicController {
         addChangesToHistory(image);
     }
 
+    @Override
+    public void handleUndoAction() {
+        setPreviousImageAsActualAndErase();
+        imageViewGeometric.setImage(image);
+    }
+
     void setWidthSpinnerValue(int min, int max, int onStart) {
         SpinnerValueFactory<Integer> widthValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, onStart);
         this.widthSpinner.setValueFactory(widthValueFactory);
@@ -38,7 +44,7 @@ public class GeometricController extends BasicController {
     // this image is copy of image in start_view
     @Override
     public void setStartImageInImageView(Image image) {
-        imageViewGeometric.setImage(image);
+        addChangesToImage(image);
     }
 
     public void rotate(){

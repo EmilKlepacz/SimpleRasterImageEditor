@@ -18,13 +18,23 @@ public class GreyscaleController extends BasicController{
 
     @Override
     void setStartImageInImageView(Image image) {
-        imageViewGreyscale.setImage(image);
+        addChangesToImage(image);
     }
 
     @Override
     void addChangesToImage(Image image) {
         imageViewGreyscale.setImage(image);
         addChangesToHistory(image);
+    }
+
+    @Override
+    public void handleUndoAction() {
+        setPreviousImageAsActualAndErase();
+        imageViewGreyscale.setImage(image);
+    }
+
+    public void undoActionForGrayscaleController(){
+        handleUndoAction();
     }
 
     public void greyscale(){

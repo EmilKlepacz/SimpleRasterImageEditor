@@ -19,13 +19,23 @@ public class BlackWhiteController extends BasicController {
 
     @Override
     void setStartImageInImageView(Image image) {
-        imageViewBlackWhite.setImage(image);
+        addChangesToImage(image);
     }
 
     @Override
     void addChangesToImage(Image image) {
         imageViewBlackWhite.setImage(image);
         addChangesToHistory(image);
+    }
+
+    @Override
+    public void handleUndoAction() {
+        setPreviousImageAsActualAndErase();
+        imageViewBlackWhite.setImage(image);
+    }
+
+    public void undoActionForBlackWhiteController(){
+        handleUndoAction();
     }
 
     public void blackAndWhite() throws IOException {

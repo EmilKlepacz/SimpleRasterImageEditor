@@ -18,7 +18,7 @@ public class HistogramController extends BasicController {
     // this image is copy of image in start_view
     @Override
     public void setStartImageInImageView(Image image) {
-        imageViewHistogram.setImage(image);
+        addChangesToImage(image);
     }
 
     //@TODO podstawiac zmieniony obraz za pomoca tej funkcji
@@ -26,6 +26,16 @@ public class HistogramController extends BasicController {
     void addChangesToImage(Image image) {
         imageViewHistogram.setImage(image);
         addChangesToHistory(image);
+    }
+
+    @Override
+    public void handleUndoAction() {
+        setPreviousImageAsActualAndErase();
+        imageViewHistogram.setImage(image);
+    }
+
+    public void undoActionForHistogramController(){
+        handleUndoAction();
     }
 
     public void equalization(){

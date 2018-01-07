@@ -23,10 +23,19 @@ public abstract class BasicController {
 
     abstract void addChangesToImage(Image image);
 
+    public abstract void handleUndoAction();
+
+    protected void setPreviousImageAsActualAndErase(){
+        if(imageChanges.size()>1) {
+            this.image = imageChanges.get(imageChanges.size()-2);
+            imageChanges.remove(imageChanges.size()-1);
+        }
+    }
+
     protected void addChangesToHistory(Image image)
     {
         if(imageChanges.size()>=10) {
-            imageChanges.remove(imageChanges.size()-1);
+            imageChanges.remove(0);
             imageChanges.add(image);
         } else {
             imageChanges.add(image);
@@ -65,10 +74,4 @@ public abstract class BasicController {
     public String getImagePath() {
         return imagePath;
     }
-
-    protected void undoAction()
-    {
-
-    }
-
 }
