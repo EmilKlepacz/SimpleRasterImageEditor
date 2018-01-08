@@ -29,6 +29,7 @@ public class GeometricController extends BasicController {
     private Text heightValText;
 
     private OpenFileController openFileController;
+    private int rotationAngle = 0;
 
     @Override
     protected void addChangesToImage(Image image) {
@@ -47,6 +48,7 @@ public class GeometricController extends BasicController {
         setPreviousImageAsActualAndErase();
         imageViewGeometric.setImage(image);
         saveTemporaryFile(imageViewGeometric.getImage());
+        rotationAngle = 0;
     }
 
     public void saveActionForGeometricController() {
@@ -119,4 +121,25 @@ public class GeometricController extends BasicController {
         if(this.openFileController == null)
             this.openFileController = openFileController;
     }
+
+    private void rotateBy90(int angle){
+        Image tempImage = image;
+        BufferedImage buff = SwingFXUtils.fromFXImage(tempImage, null);
+        ImagePlus rotated = new ImagePlus("", buff);
+        ImageProcessor imgProcessor = rotated.getProcessor();
+        rotationAngle +=angle;
+        imgProcessor.rotate(rotationAngle);
+
+        Image finalImage = SwingFXUtils.toFXImage(rotated.getBufferedImage(), null);
+        addChangesToImage(finalImage);
+    }
+
+    public void rotateRight(){
+        rotateBy90(90);
+    }
+
+    public void rotateLeft(){
+        rotateBy90(-90);
+    }
+
 }
