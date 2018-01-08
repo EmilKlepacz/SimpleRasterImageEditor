@@ -27,9 +27,9 @@
                         </Menu>
                         <MenuItem id="fileSaveItem" mnemonicParsing="false" onAction="#saveActionForOpenFileController" text="Save" />
                         <MenuItem fx:id="openInformation" mnemonicParsing="false" onAction="#handleOpenFileInformation" text="Information" />
-                        <MenuItem mnemonicParsing="false" text="Clean Image " />
-                        <MenuItem mnemonicParsing="false" onAction="#showColorHistogram" text="Show Color Histogram" />
-                  <MenuItem mnemonicParsing="false" text="Show Grey Histogram" onAction="#showGreyHistogram"/>
+                        <MenuItem mnemonicParsing="false" text="Clean Image" onAction="#cleanImage" />
+                        <MenuItem fx:id="colorHistogramItem" disable="true" mnemonicParsing="false" onAction="#showColorHistogram" text="Show Color Histogram" />
+                        <MenuItem fx:id="greyHistogramItem" disable="true" mnemonicParsing="false" onAction="#showGreyHistogram" text="Show Grey Histogram" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
