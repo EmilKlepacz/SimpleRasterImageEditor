@@ -150,4 +150,6 @@ public class FilteringController extends BasicController {
         Image sobelImage = SwingFXUtils.toFXImage(sobelMarvinImage.getBufferedImage(), null);
         addChangesToImage(sobelImage);
     }
+
+
 }

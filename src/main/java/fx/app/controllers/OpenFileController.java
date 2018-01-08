@@ -1,5 +1,6 @@
 package fx.app.controllers;
 
+import fx.app.processing.ImageProcessorMarvin;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -46,6 +48,9 @@ public class OpenFileController extends BasicController {
     private static final String GREYSCALE_STAGE_TITLE = "Greyscale";
     private static final String BLACK_AND_WHITE_VIEW_PATH = "/views/black_and_white_view.fxml";
     private static final String BLACK_AND_WHITE_STAGE_TITLE = "Black and White";
+    private static final String SEPIA_VIEW_PATH = "/views/sepia_view.fxml";
+    private static final String SEPIA_STAGE_TITLE = "Sepia";
+
     private static final int MIN_SPINNER_WIDTH_VAL = 1;
     private static final int MAX_SPINNER_WIDTH_VAL = 100000;
     private static final int ON_START_SPINNER_WIDTH_VAL = 0;
@@ -72,16 +77,41 @@ public class OpenFileController extends BasicController {
     private Button greyscaleBtn;
     @FXML
     private Button blackWhiteBtn;
+    @FXML
+    private Button sepiaBtn;
+    @FXML
+    private MenuItem colorHistogramItem;
+    @FXML
+    private MenuItem greyHistogramItem;
 
 
-    private void enableOperationButtons() {
-        gammaBtn.setDisable(false);
-        negativeBtn.setDisable(false);
-        filteringBtn.setDisable(false);
-        histogramBtn.setDisable(false);
-        geometricBtn.setDisable(false);
-        greyscaleBtn.setDisable(false);
-        blackWhiteBtn.setDisable(false);
+
+    private void disableOperationButtons(boolean isDisable) {
+        gammaBtn.setDisable(isDisable);
+        negativeBtn.setDisable(isDisable);
+        filteringBtn.setDisable(isDisable);
+        histogramBtn.setDisable(isDisable);
+        geometricBtn.setDisable(isDisable);
+        greyscaleBtn.setDisable(isDisable);
+        blackWhiteBtn.setDisable(isDisable);
+        sepiaBtn.setDisable(isDisable);
+    }
+
+    private void enableHistogramMenuItems(){
+        colorHistogramItem.setDisable(false);
+        greyHistogramItem.setDisable(false);
+    }
+
+    private void disableHistogramMenuItems(){
+        colorHistogramItem.setDisable(true);
+        greyHistogramItem.setDisable(true);
+    }
+    private void setHistogramMenuItems() {
+        if (image == null) {
+            disableHistogramMenuItems();
+        }else{
+            enableHistogramMenuItems();
+        }
     }
 
     //method return image Path of image in ImageView
@@ -89,6 +119,7 @@ public class OpenFileController extends BasicController {
     protected void setStartImageInImageView(Image image) {
         this.image = image;
         addChangesToImage(image);
+        setHistogramMenuItems();
     }
 
 
@@ -99,7 +130,7 @@ public class OpenFileController extends BasicController {
         saveTemporaryFile(imageView.getImage());
     }
 
-    public void undoActionForOpenFileController(){
+    public void undoActionForOpenFileController() {
         handleUndoAction();
         saveTemporaryFile(this.imageView.getImage());
     }
@@ -110,7 +141,7 @@ public class OpenFileController extends BasicController {
         imageView.setImage(image);
     }
 
-    public void saveActionForOpenFileController(){
+    public void saveActionForOpenFileController() {
 
         File originalFile = new File(originalImagePath);
 
@@ -128,8 +159,7 @@ public class OpenFileController extends BasicController {
         }
     }
 
-    private boolean saveFile(File file)
-    {
+    private boolean saveFile(File file) {
         try {
             // retrieve image
 
@@ -139,7 +169,7 @@ public class OpenFileController extends BasicController {
             int p = Math.max(file.getName().lastIndexOf('/'), file.getName().lastIndexOf('\\'));
 
             if (i > p) {
-                extension = file.getName().substring(i+1);
+                extension = file.getName().substring(i + 1);
             }
             BufferedImage bi = SwingFXUtils.fromFXImage(this.imageView.getImage(), null);
             ImageIO.write(bi, extension, file);
@@ -147,7 +177,7 @@ public class OpenFileController extends BasicController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("File saving error:");
-            if(e.getMessage().equals(""))
+            if (e.getMessage().equals(""))
                 alert.setContentText("Unable to load this file! ");
             else
                 alert.setContentText(e.getMessage());
@@ -159,9 +189,9 @@ public class OpenFileController extends BasicController {
 
     private void setImageFromFileInImageView(ImageReader reader) throws IOException {
 
-            BufferedImage bi = reader.read(0);
-            setStartImageInImageView(SwingFXUtils.toFXImage(bi, null));
-            enableOperationButtons();
+        BufferedImage bi = reader.read(0);
+        setStartImageInImageView(SwingFXUtils.toFXImage(bi, null));
+        disableOperationButtons(false);
     }
 
     private void openFileChooserAndSetImage() throws IOException {
@@ -172,12 +202,11 @@ public class OpenFileController extends BasicController {
 
         File selectedFile = fileChooser.showOpenDialog(stage);
 
-        if(selectedFile != null) {
+        if (selectedFile != null) {
             if (temporaryImagePath != null && !selectedFile.getAbsolutePath().equals(temporaryImagePath)) {
                 Files.delete(Paths.get(temporaryImagePath));
                 temporaryImagePath = null;
-            }
-            else if(selectedFile.getAbsolutePath().equals(temporaryImagePath)){
+            } else if (selectedFile.getAbsolutePath().equals(temporaryImagePath)) {
                 throw new IOException("Active temporary file selected!");
             }
             File selectedFileCopy = createTmpCopyOfOriginalFile(selectedFile);
@@ -187,7 +216,7 @@ public class OpenFileController extends BasicController {
 
     private File createTmpCopyOfOriginalFile(File selectedFile) throws IOException {
         String tmpFileName = selectedFile.getName();
-        tmpFileName="~"+tmpFileName;
+        tmpFileName = "~" + tmpFileName;
         String tmpFilePath = selectedFile.getAbsolutePath();
         tmpFilePath = tmpFilePath.replace(selectedFile.getName(), tmpFileName);
         File tmpFile = new File(tmpFilePath);
@@ -204,7 +233,7 @@ public class OpenFileController extends BasicController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("File loading error:");
-            if(e.getMessage().equals(""))
+            if (e.getMessage().equals(""))
                 alert.setContentText("Unable to load this file! ");
             else
                 alert.setContentText(e.getMessage());
@@ -224,7 +253,7 @@ public class OpenFileController extends BasicController {
         if (f.length() < 5) {
             URLError();
         } else {
-            if(temporaryImagePath!=null)
+            if (temporaryImagePath != null)
                 Files.delete(Paths.get(temporaryImagePath));
             File tmpFile = createTmpCopyOfOriginalFile(f);
             processImage(f, tmpFile);
@@ -234,29 +263,25 @@ public class OpenFileController extends BasicController {
     public void handleOpenFileInformation() {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        if(originalImagePath != null) {
+        if (originalImagePath != null) {
             String fileName = originalImagePath.substring(originalImagePath.lastIndexOf("\\") + 1).trim();
             alert.setTitle(fileName);
-        }
-        else
+        } else
             alert.setTitle("Load file first!");
-        if(alert.getTitle().contains("temp"))
+        if (alert.getTitle().contains("temp"))
             alert.setTitle(URLPath);
         alert.setHeaderText(fileSize);
         if (fileInformation.equals("")) {
             alert.setContentText("No file loaded");
             alert.getDialogPane().setPrefSize(200, 100);
-        }
-        else if (fileInformation.equals("No metadata to display")){
+        } else if (fileInformation.equals("No metadata to display")) {
             alert.setContentText(fileInformation);
             alert.getDialogPane().setPrefSize(300, 100);
-        }
-        else if(fileInformation.contains("JPEG")){
+        } else if (fileInformation.contains("JPEG")) {
             alert.setContentText(fileInformation);
             alert.setResizable(true);
             alert.getDialogPane().setPrefSize(400, 490);
-        }
-        else {
+        } else {
             alert.setContentText(fileInformation);
             alert.setResizable(true);
             alert.getDialogPane().setPrefSize(400, 700);
@@ -265,7 +290,7 @@ public class OpenFileController extends BasicController {
         alert.showAndWait();
     }
 
-    public void handleOpenAbout(){
+    public void handleOpenAbout() {
         Alert about = new Alert(Alert.AlertType.INFORMATION);
         about.setTitle("Version 1.0");
         about.setHeaderText("Simple Raster Image Editor");
@@ -294,6 +319,28 @@ public class OpenFileController extends BasicController {
             gammaController.setOpenFileController(this);
 
             createAndShowNewStage(GAMMA_STAGE_TITLE, new Scene(root));
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openSepiaWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(SEPIA_VIEW_PATH));
+            Parent root = loader.load();
+
+            //set start image in Gamma View as copy of loaded image
+            //by GammaController before showing window
+            SepiaController sepiaController = loader.getController();
+            sepiaController.setImage(image);
+            sepiaController.setOriginalImagePath(originalImagePath);
+            sepiaController.setTemporaryImagePath(temporaryImagePath);
+            sepiaController.setStartImageInImageView(image);
+            sepiaController.setOpenFileController(this);
+
+            createAndShowNewStage(SEPIA_STAGE_TITLE, new Scene(root));
 
 
         } catch (IOException e) {
@@ -362,7 +409,6 @@ public class OpenFileController extends BasicController {
     }
 
 
-
     public void openGeometricWindow() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(GEOMETRIC_VIEW_PATH));
@@ -378,8 +424,8 @@ public class OpenFileController extends BasicController {
             geometricController.setWidthSpinnerValue(MIN_SPINNER_WIDTH_VAL, MAX_SPINNER_WIDTH_VAL, ON_START_SPINNER_WIDTH_VAL);
             geometricController.setHeightSpinnerValue(MIN_SPINNER_HEIGHT_VAL, MAX_SPINNER_HEIGHT_VAL, ON_START_SPINNER_HEIGHT_VAL);
 
-            geometricController.setTextInHeightValText(String.valueOf((int)image.getHeight()));
-            geometricController.setTextInWidthValText(String.valueOf((int)image.getHeight()));
+            geometricController.setTextInHeightValText(String.valueOf((int) image.getHeight()));
+            geometricController.setTextInWidthValText(String.valueOf((int) image.getHeight()));
 
             createAndShowNewStage(GEOMETRIC_STAGE_TITLE, new Scene(root));
 
@@ -466,33 +512,33 @@ public class OpenFileController extends BasicController {
     }
 
     private void processImage(File originalFile, File tmpFile) {
-            try {
-                double bytes = originalFile.length();
-                fileSize = "File Size: " + String.format("%.2f", bytes / 1024) + "kb";
+        try {
+            double bytes = originalFile.length();
+            fileSize = "File Size: " + String.format("%.2f", bytes / 1024) + "kb";
 
-                ImageIO.scanForPlugins();
-                ImageInputStream iis = ImageIO.createImageInputStream(originalFile);
-                Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
+            ImageIO.scanForPlugins();
+            ImageInputStream iis = ImageIO.createImageInputStream(originalFile);
+            Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
 
-                if (readers.hasNext()) {
+            if (readers.hasNext()) {
 
-                    // pick the first available ImageReader
-                    ImageReader reader = readers.next();
-                    // attach source to the reader
-                    reader.setInput(iis, true);
-                    // read metadata of first image
+                // pick the first available ImageReader
+                ImageReader reader = readers.next();
+                // attach source to the reader
+                reader.setInput(iis, true);
+                // read metadata of first image
 
-                    readAndDisplayMetadata(reader);
+                readAndDisplayMetadata(reader);
 
-                    setImageFromFileInImageView(reader);
+                setImageFromFileInImageView(reader);
 
-                    originalImagePath = originalFile.getAbsolutePath();
-                    temporaryImagePath = tmpFile.getAbsolutePath();
-                }
-            } catch (Exception e) {
-
-                e.printStackTrace();
+                originalImagePath = originalFile.getAbsolutePath();
+                temporaryImagePath = tmpFile.getAbsolutePath();
             }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
     }
 
     private void readAndDisplayMetadata(ImageReader reader) throws IOException {
@@ -500,7 +546,7 @@ public class OpenFileController extends BasicController {
         if (metadata != null) {
             String[] names = metadata.getMetadataFormatNames();
             for (String name : names) {
-                fileInformation="Format name: " + name + "\n";
+                fileInformation = "Format name: " + name + "\n";
                 displayMetadata(metadata.getAsTree(name));
             }
         }
@@ -512,7 +558,7 @@ public class OpenFileController extends BasicController {
 
     private void indent(int level) {
         for (int i = 0; i < level; i++)
-           fileInformation += ("    ");
+            fileInformation += ("    ");
     }
 
     private void displayMetadata(Node node, int level) {
@@ -557,5 +603,23 @@ public class OpenFileController extends BasicController {
 
     public void setImageChanges(List<Image> imageChanges) {
         this.imageChanges = imageChanges;
+    }
+
+    public void showColorHistogram() {
+        BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
+        ImageProcessorMarvin.showColorHistogram(buff, getImageFormat());
+    }
+
+    public void showGreyHistogram() {
+        BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
+        ImageProcessorMarvin.showGreyHistogram(buff, getImageFormat());
+    }
+
+    public void cleanImage(){
+            image = null;
+            disableOperationButtons(true);
+            imageView.setImage(new Image("/images/default_start_img.gif"));
+            setHistogramMenuItems();
+
     }
 }
