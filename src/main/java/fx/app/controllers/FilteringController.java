@@ -112,6 +112,7 @@ public class FilteringController extends BasicController {
         ImageProcessor imgProcessor = sharpenImg.getProcessor();
         imgProcessor.sharpen();
 
+
         Image finalImage = SwingFXUtils.toFXImage(sharpenImg.getBufferedImage(), null);
         addChangesToImage(finalImage);
     }
@@ -135,7 +136,7 @@ public class FilteringController extends BasicController {
         BufferedImage buff = SwingFXUtils.fromFXImage(tempImage, null);
         ImagePlus noiseImg = new ImagePlus("", buff);
         ImageProcessor imgProcessor = noiseImg.getProcessor();
-        imgProcessor.noise(50); // ADD HERE VALUE FROM FRONTEND
+        imgProcessor.noise(noiseSlider.getValue());
 
         Image finalImage = SwingFXUtils.toFXImage(noiseImg.getBufferedImage(), null);
         addChangesToImage(finalImage);
