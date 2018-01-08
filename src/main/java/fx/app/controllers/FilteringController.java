@@ -8,10 +8,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class FilteringController extends BasicController {
@@ -20,6 +17,8 @@ public class FilteringController extends BasicController {
     ImageView imageViewFiltering;
     @FXML
     Slider sigmaSlider;
+    @FXML
+    Slider noiseSlider;
 
 
     private OpenFileController openFileController;
@@ -75,6 +74,17 @@ public class FilteringController extends BasicController {
 
     public void setSigmaSliderVisible(){
         sigmaSlider.setVisible(true);
+        noiseSlider.setVisible(false);
+    }
+
+    public void setNoiseSliderVisible(){
+        noiseSlider.setVisible(true);
+        sigmaSlider.setVisible(false);
+    }
+
+    public void setAllSlidersInvisible(){
+        noiseSlider.setVisible(false);
+        sigmaSlider.setVisible(false);
     }
 
 
@@ -82,7 +92,6 @@ public class FilteringController extends BasicController {
         ImagePlus laplace = new ImagePlus(temporaryImagePath);
         ImageProcessor imgProcessor = laplace.getProcessor();
         imgProcessor.findEdges();
-
 
         Image finalImage = SwingFXUtils.toFXImage(laplace.getBufferedImage(), null);
         addChangesToImage(finalImage);

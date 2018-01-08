@@ -35,11 +35,11 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
       <MenuButton mnemonicParsing="false" text="Filter" GridPane.rowIndex="1">
         <items>
-            <MenuItem mnemonicParsing="false" text="High-pass filter" />
+            <MenuItem mnemonicParsing="false" onAction="#setAllSlidersInvisible" text="Sharpen filter" />
           <MenuItem mnemonicParsing="false" onAction="#setSigmaSliderVisible" text="Gaussian filter" />
-          <MenuItem mnemonicParsing="false" text="Mean filter"  />
-            <MenuItem mnemonicParsing="false" text="Laplacian filter" onAction="#laplacianFilter"/>
-            <MenuItem mnemonicParsing="false" text="Low-pass filter" />
+          <MenuItem mnemonicParsing="false" onAction="#setAllSlidersInvisible" text="Smooth filter" />
+            <MenuItem mnemonicParsing="false" onAction="#setAllSlidersInvisible" text="Laplacian filter" />
+            <MenuItem mnemonicParsing="false" onAction="#setNoiseSliderVisible" text="Noise filter" />
         </items>
          <opaqueInsets>
             <Insets />
@@ -53,7 +53,12 @@
             <Insets left="100.0" />
          </GridPane.margin>
       </Button>
-      <Slider fx:id="sigmaSlider" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="5" prefHeight="38.0" prefWidth="407.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" visible="false" GridPane.rowIndex="1" onMouseClicked="#gaussianFilter">
+      <Slider fx:id="sigmaSlider" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="5" onMouseClicked="#gaussianFilter" prefHeight="38.0" prefWidth="407.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" visible="false" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="170.0" right="20.0" />
+         </GridPane.margin>
+      </Slider>
+      <Slider fx:id="noiseSlider" blockIncrement="1.0" majorTickUnit="5.0" max="50.0" minorTickCount="5" onMouseClicked="#noise" prefHeight="38.0" prefWidth="407.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="170.0" right="20.0" />
          </GridPane.margin>
