@@ -16,7 +16,7 @@ public class ImageProcessorMarvin {
         marvinImage = MarvinImageIO.loadImage(filePath);
     }
 
-    private static void setMarvinImage(BufferedImage bufferedImage, String formatName){
+    private static void setMarvinImage(BufferedImage bufferedImage, String formatName) {
         marvinImage = new MarvinImage(bufferedImage, formatName);
     }
 
@@ -53,6 +53,14 @@ public class ImageProcessorMarvin {
         return marvinImage;
     }
 
+    public static MarvinImage sepia(String filePath){
+        setMarvinImage(filePath);
+        setMarvinImagePlugin("org.marvinproject.image.color.sepia.jar");
+
+        processMarvinImageAndUpdate();
+        return marvinImage;
+    }
+
     //@TODO przy dodawaniu nowych funkcji dublujcie je żeby przyjmowały też takie parametry jak poniżej
     public static MarvinImage invertImage(BufferedImage bufferedImage, String formatName) {
         setMarvinImage(bufferedImage, formatName);
@@ -73,6 +81,14 @@ public class ImageProcessorMarvin {
     public static MarvinImage edgeDetectorSobel(BufferedImage bufferedImage, String formatName) {
         setMarvinImage(bufferedImage, formatName);
         setMarvinImagePlugin("org.marvinproject.image.edge.edgeDetector.jar");
+
+        processMarvinImageAndUpdate();
+        return marvinImage;
+    }
+
+    public static MarvinImage sepia(BufferedImage bufferedImage, String formatName) {
+        setMarvinImage(bufferedImage, formatName);
+        setMarvinImagePlugin("org.marvinproject.image.color.sepia.jar");
 
         processMarvinImageAndUpdate();
         return marvinImage;

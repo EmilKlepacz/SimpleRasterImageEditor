@@ -46,6 +46,9 @@ public class OpenFileController extends BasicController {
     private static final String GREYSCALE_STAGE_TITLE = "Greyscale";
     private static final String BLACK_AND_WHITE_VIEW_PATH = "/views/black_and_white_view.fxml";
     private static final String BLACK_AND_WHITE_STAGE_TITLE = "Black and White";
+    private static final String SEPIA_VIEW_PATH = "/views/sepia_view.fxml";
+    private static final String SEPIA_STAGE_TITLE = "Sepia";
+
     private static final int MIN_SPINNER_WIDTH_VAL = 1;
     private static final int MAX_SPINNER_WIDTH_VAL = 100000;
     private static final int ON_START_SPINNER_WIDTH_VAL = 0;
@@ -72,6 +75,8 @@ public class OpenFileController extends BasicController {
     private Button greyscaleBtn;
     @FXML
     private Button blackWhiteBtn;
+    @FXML
+    private Button sepiaBtn;
 
 
     private void enableOperationButtons() {
@@ -82,6 +87,7 @@ public class OpenFileController extends BasicController {
         geometricBtn.setDisable(false);
         greyscaleBtn.setDisable(false);
         blackWhiteBtn.setDisable(false);
+        sepiaBtn.setDisable(false);
     }
 
     //method return image Path of image in ImageView
@@ -294,6 +300,28 @@ public class OpenFileController extends BasicController {
             gammaController.setOpenFileController(this);
 
             createAndShowNewStage(GAMMA_STAGE_TITLE, new Scene(root));
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openSepiaWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(SEPIA_VIEW_PATH));
+            Parent root = loader.load();
+
+            //set start image in Gamma View as copy of loaded image
+            //by GammaController before showing window
+            SepiaController sepiaController = loader.getController();
+            sepiaController.setImage(image);
+            sepiaController.setOriginalImagePath(originalImagePath);
+            sepiaController.setTemporaryImagePath(temporaryImagePath);
+            sepiaController.setStartImageInImageView(image);
+            sepiaController.setOpenFileController(this);
+
+            createAndShowNewStage(SEPIA_STAGE_TITLE, new Scene(root));
 
 
         } catch (IOException e) {
