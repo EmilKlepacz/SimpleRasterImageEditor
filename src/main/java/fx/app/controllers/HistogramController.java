@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class HistogramController extends BasicController {
+
     @FXML
     private ImageView imageViewHistogram;
 
@@ -51,7 +52,7 @@ public class HistogramController extends BasicController {
     }
 
     public void equalization(){
-        BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
+        BufferedImage buff = SwingFXUtils.fromFXImage(imageViewHistogram.getImage(), null);
         buff = whiteBalanceBuffImage(buff);
         MarvinImage histogramEqualImg = ImageProcessorMarvin.histogramEqualization(buff, getImageFormat());
         Image histogramEqualImage = SwingFXUtils.toFXImage(histogramEqualImg.getBufferedImage(), null);
@@ -60,11 +61,12 @@ public class HistogramController extends BasicController {
 
     public void stretch() throws IOException {
 
-        BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
-        buff = whiteBalanceBuffImage(buff);
-        ImagePlus bufferedPrepared = new ImagePlus("", buff);
-        Image bufferedConverted = SwingFXUtils.toFXImage(bufferedPrepared.getBufferedImage(), null);
-        addChangesToImage(bufferedConverted);
+            BufferedImage buff = SwingFXUtils.fromFXImage(imageViewHistogram.getImage(), null);
+            buff = whiteBalanceBuffImage(buff);
+            ImagePlus bufferedPrepared = new ImagePlus("", buff);
+            Image bufferedConverted = SwingFXUtils.toFXImage(bufferedPrepared.getBufferedImage(), null);
+            addChangesToImage(bufferedConverted);
+
     }
 
     private BufferedImage whiteBalanceBuffImage(BufferedImage image) {
