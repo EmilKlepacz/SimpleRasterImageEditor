@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -37,6 +38,9 @@ public class Main extends Application {
                 System.err.println(x);
             }
         });
+
+        Image image = new Image(getClass().getResource("/images/logopwr_64x64.png").toExternalForm());
+        primaryStage.getIcons().add(image);
         primaryStage.show();
 
 

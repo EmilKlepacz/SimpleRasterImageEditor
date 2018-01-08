@@ -89,13 +89,9 @@ public abstract class BasicController{
         return originalImagePath.substring(originalImagePath.lastIndexOf(".") + 1).trim();
     };
 
-    public Stage getStage() {
-        return stage;
-    }
+    public Stage getStage() { return stage; }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
+    public void setStage(Stage stage) { this.stage = stage; }
 
     public List<Image> getImageChanges() {
         return imageChanges;

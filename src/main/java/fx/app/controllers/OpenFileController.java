@@ -175,6 +175,7 @@ public class OpenFileController extends BasicController {
             ImageIO.write(bi, extension, file);
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
+            setAlertIcon(alert);
             alert.setTitle("Error");
             alert.setHeaderText("File saving error:");
             if (e.getMessage().equals(""))
@@ -231,6 +232,7 @@ public class OpenFileController extends BasicController {
 
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
+            setAlertIcon(alert);
             alert.setTitle("Error");
             alert.setHeaderText("File loading error:");
             if (e.getMessage().equals(""))
@@ -263,6 +265,9 @@ public class OpenFileController extends BasicController {
     public void handleOpenFileInformation() {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        setAlertIcon(alert);
+
+
         if (originalImagePath != null) {
             String fileName = originalImagePath.substring(originalImagePath.lastIndexOf("\\") + 1).trim();
             alert.setTitle(fileName);
@@ -292,6 +297,7 @@ public class OpenFileController extends BasicController {
 
     public void handleOpenAbout() {
         Alert about = new Alert(Alert.AlertType.INFORMATION);
+        setAlertIcon(about);
         about.setTitle("Version 1.0");
         about.setHeaderText("Simple Raster Image Editor");
         about.setContentText("AUTHORS:\nPaweł Rymer\nEmil Klepacz\nJakub Nyćkowiak\n\nLIBRARIES USED:\nImageJ\nMarvin\nmmscomputing");
@@ -474,6 +480,7 @@ public class OpenFileController extends BasicController {
 
     public void openUrlWindow() {
         TextInputDialog dialog = new TextInputDialog();
+        setAlertIcon(dialog);
         dialog.setTitle("Load from url");
         dialog.setHeaderText("Look, put your url to file below");
         dialog.setContentText("Please enter file url:");
@@ -494,6 +501,7 @@ public class OpenFileController extends BasicController {
 
     private void URLError() {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+        setAlertIcon(errorAlert);
         errorAlert.setContentText("WRONG URL WAS USED!");
         errorAlert.showAndWait();
         openUrlWindow();
@@ -504,6 +512,8 @@ public class OpenFileController extends BasicController {
         stage.setTitle(stageTitle);
         stage.setScene(scene);
         stage.setResizable(false);
+        Image image = new Image(getClass().getResource("/images/logopwr_64x64.png").toExternalForm());
+        stage.getIcons().add(image);
         stage.show();
     }
 
@@ -621,5 +631,17 @@ public class OpenFileController extends BasicController {
             imageView.setImage(new Image("/images/default_start_img.gif"));
             setHistogramMenuItems();
 
+    }
+
+    private void setAlertIcon(Alert alert){
+        Stage alertIcon;
+        alertIcon = (Stage) alert.getDialogPane().getScene().getWindow();
+        alertIcon.getIcons().add(new Image(getClass().getResource("/images/logopwr_64x64.png").toExternalForm())); // To add an icon
+    }
+
+    private void setAlertIcon(TextInputDialog dialog){
+        Stage dialogIcon;
+        dialogIcon = (Stage) dialog.getDialogPane().getScene().getWindow();
+        dialogIcon.getIcons().add(new Image(getClass().getResource("/images/logopwr_64x64.png").toExternalForm())); // To add an icon
     }
 }
