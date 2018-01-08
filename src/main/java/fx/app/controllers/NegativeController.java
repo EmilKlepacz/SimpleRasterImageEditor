@@ -57,7 +57,9 @@ public class NegativeController extends BasicController {
 
     public void negative(){
 
-        MarvinImage negativeMarvinImage = ImageProcessorMarvin.invertImage(temporaryImagePath);
+        // @TODO I tera można procesować Marviny za pomoco BufferedImage
+        BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
+        MarvinImage negativeMarvinImage = ImageProcessorMarvin.invertImage(buff, getImageFormat());
         Image negativeImage = SwingFXUtils.toFXImage(negativeMarvinImage.getBufferedImage(), null);
         addChangesToImage(negativeImage);
     }

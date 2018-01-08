@@ -93,7 +93,9 @@ public class FilteringController extends BasicController {
     public void laplacianFilter(){
         setAllSlidersInvisible();
 
-        ImagePlus laplace = new ImagePlus(temporaryImagePath);
+        Image tempImage = image;
+        BufferedImage buff = SwingFXUtils.fromFXImage(tempImage, null);
+        ImagePlus laplace = new ImagePlus("", buff);
         ImageProcessor imgProcessor = laplace.getProcessor();
         imgProcessor.findEdges();
 
@@ -104,7 +106,9 @@ public class FilteringController extends BasicController {
     public void sharpen(){
         setAllSlidersInvisible();
 
-        ImagePlus sharpenImg = new ImagePlus(temporaryImagePath);
+        Image tempImage = image;
+        BufferedImage buff = SwingFXUtils.fromFXImage(tempImage, null);
+        ImagePlus sharpenImg = new ImagePlus("", buff);
         ImageProcessor imgProcessor = sharpenImg.getProcessor();
         imgProcessor.sharpen();
 
@@ -116,7 +120,9 @@ public class FilteringController extends BasicController {
     public void smooth(){
         setAllSlidersInvisible();
 
-        ImagePlus smoothImg = new ImagePlus(temporaryImagePath);
+        Image tempImage = image;
+        BufferedImage buff = SwingFXUtils.fromFXImage(tempImage, null);
+        ImagePlus smoothImg = new ImagePlus("", buff);
         ImageProcessor imgProcessor = smoothImg.getProcessor();
         imgProcessor.smooth();
 
@@ -125,7 +131,10 @@ public class FilteringController extends BasicController {
     }
 
     public void noise(){
-        ImagePlus noiseImg = new ImagePlus(temporaryImagePath);
+
+        Image tempImage = image;
+        BufferedImage buff = SwingFXUtils.fromFXImage(tempImage, null);
+        ImagePlus noiseImg = new ImagePlus("", buff);
         ImageProcessor imgProcessor = noiseImg.getProcessor();
         imgProcessor.noise(noiseSlider.getValue());
 
@@ -136,7 +145,8 @@ public class FilteringController extends BasicController {
     public void edgeDetectorSobel(){
         setAllSlidersInvisible();
 
-        MarvinImage sobelMarvinImage = ImageProcessorMarvin.edgeDetectorSobel(temporaryImagePath);
+        BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
+        MarvinImage sobelMarvinImage = ImageProcessorMarvin.edgeDetectorSobel(buff, getImageFormat());
         Image sobelImage = SwingFXUtils.toFXImage(sobelMarvinImage.getBufferedImage(), null);
         addChangesToImage(sobelImage);
     }
