@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.w3c.dom.NamedNodeMap;
@@ -127,8 +126,6 @@ public class OpenFileController extends BasicController {
         if (saveFile != null) {
             saveFile(saveFile);
         }
-
-        //@TODO Obsluzyc przypadek bledu zapisu pliku
     }
 
     private boolean saveFile(File file)
@@ -171,8 +168,7 @@ public class OpenFileController extends BasicController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(getClass().getClassLoader().getResource("images").getPath()));
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("formats (*.pbm, *.pgm, *.ppm, *.png, *.jpeg, *.gif)", "*.pbm", "*.pgm", "*.ppm", "*.png", "*.jpeg", "*.gif")
-        );
+                new FileChooser.ExtensionFilter("formats (*.pbm, *.pgm, *.ppm, *.png, *.jpeg, *.jpg, *.gif)", "*.pbm", "*.pgm", "*.ppm", "*.png", "*.jpeg", "*.jpg", "*.gif"));
 
         File selectedFile = fileChooser.showOpenDialog(stage);
 

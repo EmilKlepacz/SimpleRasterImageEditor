@@ -85,6 +85,10 @@ public abstract class BasicController{
         }
     }
 
+    protected String getImageFormat(){
+        return originalImagePath.substring(originalImagePath.lastIndexOf(".") + 1).trim();
+    };
+
     public Stage getStage() {
         return stage;
     }

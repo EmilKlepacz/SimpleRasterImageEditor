@@ -8,10 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import marvin.image.MarvinImage;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -53,7 +51,9 @@ public class HistogramController extends BasicController {
     }
 
     public void equalization(){
-        MarvinImage histogramEqualImg = ImageProcessorMarvin.histogramEqualization(temporaryImagePath);
+        BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
+        buff = whiteBalanceBuffImage(buff);
+        MarvinImage histogramEqualImg = ImageProcessorMarvin.histogramEqualization(buff, getImageFormat());
         Image histogramEqualImage = SwingFXUtils.toFXImage(histogramEqualImg.getBufferedImage(), null);
         addChangesToImage(histogramEqualImage);
     }
