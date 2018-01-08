@@ -82,13 +82,15 @@ public class FilteringController extends BasicController {
         sigmaSlider.setVisible(false);
     }
 
-    public void setAllSlidersInvisible(){
+    private void setAllSlidersInvisible(){
         noiseSlider.setVisible(false);
         sigmaSlider.setVisible(false);
     }
 
 
     public void laplacianFilter(){
+        setAllSlidersInvisible();
+
         ImagePlus laplace = new ImagePlus(temporaryImagePath);
         ImageProcessor imgProcessor = laplace.getProcessor();
         imgProcessor.findEdges();
@@ -98,6 +100,8 @@ public class FilteringController extends BasicController {
     }
 
     public void sharpen(){
+        setAllSlidersInvisible();
+
         ImagePlus sharpenImg = new ImagePlus(temporaryImagePath);
         ImageProcessor imgProcessor = sharpenImg.getProcessor();
         imgProcessor.sharpen();
@@ -107,6 +111,8 @@ public class FilteringController extends BasicController {
     }
 
     public void smooth(){
+        setAllSlidersInvisible();
+
         ImagePlus smoothImg = new ImagePlus(temporaryImagePath);
         ImageProcessor imgProcessor = smoothImg.getProcessor();
         imgProcessor.smooth();
