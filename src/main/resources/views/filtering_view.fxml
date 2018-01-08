@@ -58,7 +58,7 @@
             <Insets left="170.0" right="20.0" />
          </GridPane.margin>
       </Slider>
-      <Slider fx:id="noiseSlider" blockIncrement="1.0" majorTickUnit="5.0" max="50.0" minorTickCount="5" onMouseClicked="#noise" prefHeight="38.0" prefWidth="407.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.rowIndex="1">
+      <Slider fx:id="noiseSlider" blockIncrement="1.0" majorTickUnit="5.0" max="50.0" minorTickCount="5" onMouseClicked="#noise" prefHeight="38.0" prefWidth="407.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" visible="false" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="170.0" right="20.0" />
          </GridPane.margin>
