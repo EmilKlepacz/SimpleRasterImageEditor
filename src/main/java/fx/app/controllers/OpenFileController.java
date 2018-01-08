@@ -1,5 +1,6 @@
 package fx.app.controllers;
 
+import fx.app.processing.ImageProcessorMarvin;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -585,5 +586,15 @@ public class OpenFileController extends BasicController {
 
     public void setImageChanges(List<Image> imageChanges) {
         this.imageChanges = imageChanges;
+    }
+
+    public void showColorHistogram(){
+        BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
+        ImageProcessorMarvin.showColorHistogram(buff, getImageFormat());
+    }
+
+    public void showGreyHistogram(){
+        BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
+        ImageProcessorMarvin.showGreyHistogram(buff, getImageFormat());
     }
 }
