@@ -12,56 +12,66 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.app.controllers.FilteringController">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="548.0" minWidth="10.0" prefWidth="528.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="72.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints maxHeight="351.0" minHeight="10.0" prefHeight="334.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="195.0" minHeight="10.0" prefHeight="66.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <HBox alignment="CENTER" prefHeight="334.0" prefWidth="549.0">
-         <children>
-            <ImageView fx:id="imageViewFiltering" fitHeight="319.0" fitWidth="497.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </HBox>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <children>
-            <Button layoutY="21.0" mnemonicParsing="false" onAction="#saveActionForFilteringController" text="SAVE" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="21.0" />
-         </children>
-      </AnchorPane>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
-      <MenuButton mnemonicParsing="false" text="Filter" GridPane.rowIndex="1">
-        <items>
-            <MenuItem mnemonicParsing="false" onAction="#sharpen" text="Sharpen filter" />
-          <MenuItem mnemonicParsing="false" onAction="#setSigmaSliderVisible" text="Gaussian filter" />
-          <MenuItem mnemonicParsing="false" onAction="#smooth" text="Smooth filter" />
-            <MenuItem mnemonicParsing="false" onAction="#laplacianFilter" text="Laplacian filter" />
-            <MenuItem mnemonicParsing="false" onAction="#setNoiseSliderVisible" text="Noise filter" />
-        </items>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin>
-      </MenuButton>
-      <Button mnemonicParsing="false" onAction="#undoActionForFilterController" text="Revert" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets left="100.0" />
-         </GridPane.margin>
-      </Button>
-      <Slider fx:id="sigmaSlider" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="5" onMouseClicked="#gaussianFilter" prefHeight="38.0" prefWidth="407.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" visible="false" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets left="170.0" right="20.0" />
-         </GridPane.margin>
-      </Slider>
-      <Slider fx:id="noiseSlider" blockIncrement="1.0" majorTickUnit="5.0" max="50.0" minorTickCount="5" onMouseClicked="#noise" prefHeight="38.0" prefWidth="407.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" visible="false" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets left="170.0" right="20.0" />
-         </GridPane.margin>
-      </Slider>
-   </children>
+<GridPane alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+          minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.app.controllers.FilteringController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="548.0" minWidth="10.0" prefWidth="528.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="72.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="351.0" minHeight="10.0" prefHeight="334.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="195.0" minHeight="10.0" prefHeight="66.0" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <children>
+        <HBox alignment="CENTER" prefHeight="334.0" prefWidth="549.0">
+            <children>
+                <ImageView fx:id="imageViewFiltering" fitHeight="319.0" fitWidth="497.0" pickOnBounds="true"
+                           preserveRatio="true"/>
+            </children>
+        </HBox>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <children>
+                <Button layoutY="21.0" mnemonicParsing="false" onAction="#saveActionForFilteringController" text="SAVE"
+                        AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="28.0"
+                        AnchorPane.topAnchor="21.0"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"/>
+        <MenuButton mnemonicParsing="false" text="Filter" GridPane.rowIndex="1">
+            <items>
+                <MenuItem mnemonicParsing="false" onAction="#sharpen" text="Sharpen filter"/>
+                <MenuItem mnemonicParsing="false" onAction="#setSigmaSliderVisible" text="Gaussian filter"/>
+                <MenuItem mnemonicParsing="false" onAction="#smooth" text="Smooth filter"/>
+                <MenuItem mnemonicParsing="false" onAction="#laplacianFilter" text="Laplacian filter"/>
+                <MenuItem mnemonicParsing="false" onAction="#setNoiseSliderVisible" text="Noise filter"/>
+                <MenuItem mnemonicParsing="false" onAction="#edgeDetectorSobel" text="Edge Detector (Sobel filter)"/>
+            </items>
+            <opaqueInsets>
+                <Insets/>
+            </opaqueInsets>
+            <GridPane.margin>
+                <Insets left="20.0"/>
+            </GridPane.margin>
+        </MenuButton>
+        <Button mnemonicParsing="false" onAction="#undoActionForFilterController" text="Revert" GridPane.rowIndex="1">
+            <GridPane.margin>
+                <Insets left="100.0"/>
+            </GridPane.margin>
+        </Button>
+        <Slider fx:id="sigmaSlider" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="5"
+                onMouseClicked="#gaussianFilter" prefHeight="38.0" prefWidth="407.0" showTickLabels="true"
+                showTickMarks="true" snapToTicks="true" visible="false" GridPane.rowIndex="1">
+            <GridPane.margin>
+                <Insets left="170.0" right="20.0"/>
+            </GridPane.margin>
+        </Slider>
+        <Slider fx:id="noiseSlider" blockIncrement="1.0" majorTickUnit="5.0" max="50.0" minorTickCount="5"
+                onMouseClicked="#noise" prefHeight="38.0" prefWidth="407.0" showTickLabels="true" showTickMarks="true"
+                snapToTicks="true" visible="false" GridPane.rowIndex="1">
+            <GridPane.margin>
+                <Insets left="170.0" right="20.0"/>
+            </GridPane.margin>
+        </Slider>
+    </children>
 </GridPane>
