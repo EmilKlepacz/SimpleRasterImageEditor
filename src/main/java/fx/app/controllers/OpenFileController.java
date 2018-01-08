@@ -171,7 +171,7 @@ public class OpenFileController extends BasicController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(getClass().getClassLoader().getResource("images").getPath()));
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("formats (*.pbm, *.pgm, *.ppm, *.png, *.jpeg)", "*.pbm", "*.pgm", "*.ppm", "*.png", "*.jpeg")
+                new FileChooser.ExtensionFilter("formats (*.pbm, *.pgm, *.ppm, *.png, *.jpeg, *.gif)", "*.pbm", "*.pgm", "*.ppm", "*.png", "*.jpeg", "*.gif")
         );
 
         File selectedFile = fileChooser.showOpenDialog(stage);
