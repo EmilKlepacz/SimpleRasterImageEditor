@@ -103,12 +103,12 @@ public class GeometricController extends BasicController {
         Image scaledImage = SwingFXUtils.toFXImage(scaledImagePlus.getBufferedImage(), null);
 
         addChangesToImage(scaledImage);
-        changeImagePropertiesInText();
+        changeImagePropertiesInText(x, y);
     }
 
-    private void changeImagePropertiesInText(){
-        widthValText.setText(String.valueOf((int)image.getWidth()));
-        heightValText.setText(String.valueOf((int)image.getHeight()));
+    private void changeImagePropertiesInText(int width, int height){
+        widthValText.setText(String.valueOf(width));
+        heightValText.setText(String.valueOf(height));
     }
 
     public OpenFileController getOpenFileController() {
