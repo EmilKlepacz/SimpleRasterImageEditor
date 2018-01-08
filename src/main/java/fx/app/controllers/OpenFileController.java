@@ -269,6 +269,19 @@ public class OpenFileController extends BasicController {
         alert.showAndWait();
     }
 
+    public void handleOpenAbout(){
+        Alert about = new Alert(Alert.AlertType.INFORMATION);
+        about.setTitle("Version 1.0");
+        about.setHeaderText("Simple Raster Image Editor");
+        about.setContentText("AUTHORS:\nPaweł Rymer\nEmil Klepacz\nJakub Nyćkowiak\n\nLIBRARIES USED:\nImageJ\nMarvin\nmmscomputing");
+
+        Image image = new Image(getClass().getResource("/images/logopwr_64x64.png").toExternalForm());
+        ImageView imageView = new ImageView(image);
+        about.setGraphic(imageView);
+
+        about.showAndWait();
+    }
+
 
     public void openGammaWindow() {
         try {
@@ -425,8 +438,6 @@ public class OpenFileController extends BasicController {
 
         Image image = new Image(getClass().getResource("/images/url.png").toExternalForm());
         ImageView imageView = new ImageView(image);
-        dialog.setGraphic(imageView);
-
         dialog.setGraphic(imageView);
 
         Optional<String> result = dialog.showAndWait();
