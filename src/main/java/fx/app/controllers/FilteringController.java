@@ -108,6 +108,7 @@ public class FilteringController extends BasicController {
         ImageProcessor imgProcessor = sharpenImg.getProcessor();
         imgProcessor.sharpen();
 
+
         Image finalImage = SwingFXUtils.toFXImage(sharpenImg.getBufferedImage(), null);
         addChangesToImage(finalImage);
     }
