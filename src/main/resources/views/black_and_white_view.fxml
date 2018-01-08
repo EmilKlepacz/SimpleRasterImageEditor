@@ -26,16 +26,19 @@
       </HBox>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <Button layoutY="21.0" mnemonicParsing="false" text="SAVE" onAction="#saveActionForBlackWhiteController" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="21.0" />
+            <Button layoutX="-9.0" layoutY="21.0" mnemonicParsing="false" onAction="#saveActionForBlackWhiteController" prefHeight="25.0" prefWidth="50.0" text="SAVE" />
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding></AnchorPane>
       <Button fx:id="blackWhiteBtn" mnemonicParsing="false" onAction="#blackAndWhite" text="Apply to Black &amp; White" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin>
       </Button>
-      <Button mnemonicParsing="false" text="Revert" onAction="#undoActionForBlackWhiteController" GridPane.rowIndex="1">
+      <Button mnemonicParsing="false" onAction="#undoActionForBlackWhiteController" text="Revert" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="180.0" />
          </GridPane.margin>
