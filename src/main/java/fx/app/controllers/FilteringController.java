@@ -40,16 +40,23 @@ public class FilteringController extends BasicController {
         setPreviousImageAsActualAndErase();
         imageViewFiltering.setImage(image);
         saveTemporaryFile(imageViewFiltering.getImage());
-        sigmaSlider.setValue(0.0);
+        resetSlidersValues();
     }
 
     public void saveActionForFilteringController(){
+        resetSlidersValues();
         addChangesToHistory(imageViewFiltering.getImage());
         handleSaveAction(this.openFileController, imageViewFiltering.getImage());
     }
 
     public void setLastUnsavedImage(){
+        resetSlidersValues();
         imageViewFiltering.setImage(image);
+    }
+
+    private void resetSlidersValues(){
+        sigmaSlider.setValue(0.0);
+        noiseSlider.setValue(0.0);
     }
 
     // this image is copy of image in start_view
