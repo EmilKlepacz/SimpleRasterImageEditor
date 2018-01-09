@@ -40,11 +40,11 @@
         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"/>
         <MenuButton mnemonicParsing="false" onMouseClicked="#setLastUnsavedImage" text="Filter" GridPane.rowIndex="1">
             <items>
-                <MenuItem mnemonicParsing="false" onAction="#sharpen" text="Sharpen filter"/>
+                <MenuItem mnemonicParsing="false" onAction="#sharpen" text="Sharpen"/>
                 <MenuItem mnemonicParsing="false" onAction="#setSigmaSliderVisible" text="Gaussian filter"/>
-                <MenuItem mnemonicParsing="false" onAction="#smooth" text="Smooth filter"/>
+                <MenuItem mnemonicParsing="false" onAction="#smooth" text="Smoothen"/>
                 <MenuItem mnemonicParsing="false" onAction="#laplacianFilter" text="Laplacian filter"/>
-                <MenuItem mnemonicParsing="false" onAction="#setNoiseSliderVisible" text="Noise filter"/>
+                <MenuItem mnemonicParsing="false" onAction="#setNoiseSliderVisible" text="Add noise"/>
                 <MenuItem mnemonicParsing="false" onAction="#edgeDetectorSobel" text="Edge Detector (Sobel filter)"/>
             </items>
             <opaqueInsets>
