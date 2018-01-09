@@ -26,7 +26,6 @@ public class SepiaController extends BasicController {
     protected void addChangesToImage(Image image) {
         imageViewSepia.setImage(image);
         addChangesToHistory(image);
-        saveTemporaryFile(imageViewSepia.getImage());
     }
 
     public void undoActionForSepiaController(){
@@ -41,11 +40,10 @@ public class SepiaController extends BasicController {
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
         imageViewSepia.setImage(image);
-        saveTemporaryFile(imageViewSepia.getImage());
     }
     public void sepia(){
 
-        BufferedImage buff = SwingFXUtils.fromFXImage(image, null);
+        BufferedImage buff = SwingFXUtils.fromFXImage(imageViewSepia.getImage(), null);
         MarvinImage sepiaMarvinImage = ImageProcessorMarvin.sepia(buff, getImageFormat());
         Image sepiaImage = SwingFXUtils.toFXImage(sepiaMarvinImage.getBufferedImage(), null);
         addChangesToImage(sepiaImage);

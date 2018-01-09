@@ -37,7 +37,6 @@ public class NegativeController extends BasicController {
     protected void addChangesToImage(Image image) {
         imageViewNegative.setImage(image);
         addChangesToHistory(image);
-        saveTemporaryFile(imageViewNegative.getImage());
     }
 
     public void undoActionForNegativeController(){
@@ -48,7 +47,6 @@ public class NegativeController extends BasicController {
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
         imageViewNegative.setImage(image);
-        saveTemporaryFile(imageViewNegative.getImage());
     }
 
     public void saveActionForNegativeController(){

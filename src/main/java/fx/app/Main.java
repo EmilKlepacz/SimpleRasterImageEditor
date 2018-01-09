@@ -25,19 +25,6 @@ public class Main extends Application {
         //pass stage to openFileController
         OpenFileController openFileController = loader.getController();
         openFileController.setStage(primaryStage);
-        openFileController.getStage().setOnCloseRequest(event -> {
-            try {
-                if(openFileController.getTemporaryImagePath()!=null)
-                    Files.delete(Paths.get(openFileController.getTemporaryImagePath()));
-            } catch (NoSuchFileException x) {
-                System.err.format("%s: no such" + " file or directory%n", Paths.get(openFileController.getTemporaryImagePath()));
-            } catch (DirectoryNotEmptyException x) {
-                System.err.format("%s not empty%n", Paths.get(openFileController.getTemporaryImagePath()));
-            } catch (IOException x) {
-                // File permission problems are caught here.
-                System.err.println(x);
-            }
-        });
 
         Image image = new Image(getClass().getResource("/images/logopwr_64x64.png").toExternalForm());
         primaryStage.getIcons().add(image);

@@ -35,8 +35,6 @@ import java.util.Optional;
 
 public class OpenFileController extends BasicController {
 
-    private static final Logger logger = Logger.getLogger(OpenFileController.class);
-
     private static final String GAMMA_VIEW_PATH = "/views/gamma_view.fxml";
     private static final String GAMMA_STAGE_TITLE = "Gamma correction";
     private static final String NEGATIVE_VIEW_PATH = "/views/negative_view.fxml";
@@ -87,17 +85,34 @@ public class OpenFileController extends BasicController {
     @FXML
     private MenuItem greyHistogramItem;
 
+    private void setOperationButtons(){
+        if (image == null) {
+            disableOperationButtons();
+        }else{
+            enableOperationButtons();
+        }
+    }
 
+    private void disableOperationButtons() {
+        gammaBtn.setDisable(true);
+        negativeBtn.setDisable(true);
+        filteringBtn.setDisable(true);
+        histogramBtn.setDisable(true);
+        geometricBtn.setDisable(true);
+        greyscaleBtn.setDisable(true);
+        blackWhiteBtn.setDisable(true);
+        sepiaBtn.setDisable(true);
+    }
 
-    private void disableOperationButtons(boolean isDisable) {
-        gammaBtn.setDisable(isDisable);
-        negativeBtn.setDisable(isDisable);
-        filteringBtn.setDisable(isDisable);
-        histogramBtn.setDisable(isDisable);
-        geometricBtn.setDisable(isDisable);
-        greyscaleBtn.setDisable(isDisable);
-        blackWhiteBtn.setDisable(isDisable);
-        sepiaBtn.setDisable(isDisable);
+    private void enableOperationButtons() {
+        gammaBtn.setDisable(false);
+        negativeBtn.setDisable(false);
+        filteringBtn.setDisable(false);
+        histogramBtn.setDisable(false);
+        geometricBtn.setDisable(false);
+        greyscaleBtn.setDisable(false);
+        blackWhiteBtn.setDisable(false);
+        sepiaBtn.setDisable(false);
     }
 
     private void enableHistogramMenuItems(){
@@ -130,18 +145,18 @@ public class OpenFileController extends BasicController {
     protected void addChangesToImage(Image image) {
         imageView.setImage(image);
         addChangesToHistory(image);
-        saveTemporaryFile(imageView.getImage());
     }
 
     public void undoActionForOpenFileController() {
         handleUndoAction();
-        saveTemporaryFile(this.imageView.getImage());
+        setOperationButtons();
     }
 
     @Override
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
-        imageView.setImage(image);
+        if(image!=null)
+            imageView.setImage(image);
     }
 
     public void saveActionForOpenFileController() {
@@ -195,7 +210,7 @@ public class OpenFileController extends BasicController {
 
         BufferedImage bi = reader.read(0);
         setStartImageInImageView(SwingFXUtils.toFXImage(bi, null));
-        disableOperationButtons(false);
+        setOperationButtons();
     }
 
     private void openFileChooserAndSetImage() throws IOException {
@@ -207,26 +222,9 @@ public class OpenFileController extends BasicController {
         File selectedFile = fileChooser.showOpenDialog(stage);
 
         if (selectedFile != null) {
-            if (temporaryImagePath != null && !selectedFile.getAbsolutePath().equals(temporaryImagePath)) {
-                Files.delete(Paths.get(temporaryImagePath));
-                temporaryImagePath = null;
-            } else if (selectedFile.getAbsolutePath().equals(temporaryImagePath)) {
-                throw new IOException("Active temporary file selected!");
-            }
-            File selectedFileCopy = createTmpCopyOfOriginalFile(selectedFile);
-            processImage(selectedFile, selectedFileCopy);
+            processImage(selectedFile);
             logger.info(String.format("File %s loaded successfull!", selectedFile.getName()));
         }
-    }
-
-    private File createTmpCopyOfOriginalFile(File selectedFile) throws IOException {
-        String tmpFileName = selectedFile.getName();
-        tmpFileName = "~" + tmpFileName;
-        String tmpFilePath = selectedFile.getAbsolutePath();
-        tmpFilePath = tmpFilePath.replace(selectedFile.getName(), tmpFileName);
-        File tmpFile = new File(tmpFilePath);
-        Files.copy(Paths.get(selectedFile.getAbsolutePath()), Paths.get(tmpFilePath), StandardCopyOption.REPLACE_EXISTING);
-        return tmpFile;
     }
 
     public void handleOpenFromFile() {
@@ -259,10 +257,7 @@ public class OpenFileController extends BasicController {
         if (f.length() < 5) {
             URLError();
         } else {
-            if (temporaryImagePath != null)
-                Files.delete(Paths.get(temporaryImagePath));
-            File tmpFile = createTmpCopyOfOriginalFile(f);
-            processImage(f, tmpFile);
+            processImage(f);
             logger.info(String.format("File %s from %s loaded successfull!", f.getName(), url));
         }
     }
@@ -325,7 +320,6 @@ public class OpenFileController extends BasicController {
             GammaController gammaController = loader.getController();
             gammaController.setImage(image);
             gammaController.setOriginalImagePath(originalImagePath);
-            gammaController.setTemporaryImagePath(temporaryImagePath);
             gammaController.setStartImageInImageView(image);
             gammaController.setOpenFileController(this);
 
@@ -347,7 +341,6 @@ public class OpenFileController extends BasicController {
             SepiaController sepiaController = loader.getController();
             sepiaController.setImage(image);
             sepiaController.setOriginalImagePath(originalImagePath);
-            sepiaController.setTemporaryImagePath(temporaryImagePath);
             sepiaController.setStartImageInImageView(image);
             sepiaController.setOpenFileController(this);
 
@@ -369,7 +362,6 @@ public class OpenFileController extends BasicController {
             NegativeController negativeController = loader.getController();
             negativeController.setImage(image);
             negativeController.setOriginalImagePath(originalImagePath);
-            negativeController.setTemporaryImagePath(temporaryImagePath);
             negativeController.setStartImageInImageView(image);
             negativeController.setOpenFileController(this);
 
@@ -390,7 +382,6 @@ public class OpenFileController extends BasicController {
             filteringController.setImage(image);
             filteringController.setOriginalImagePath(originalImagePath);
             filteringController.setStartImageInImageView(image);
-            filteringController.setTemporaryImagePath(temporaryImagePath);
             filteringController.setOpenFileController(this);
             filteringController.saveActionForFilteringController();
 
@@ -410,7 +401,6 @@ public class OpenFileController extends BasicController {
             histogramController.setImage(image);
             histogramController.setOriginalImagePath(originalImagePath);
             histogramController.setStartImageInImageView(image);
-            histogramController.setTemporaryImagePath(temporaryImagePath);
             histogramController.setOpenFileController(this);
 
             createAndShowNewStage(HISTOGRAM_STAGE_TITLE, new Scene(root));
@@ -429,7 +419,6 @@ public class OpenFileController extends BasicController {
             GeometricController geometricController = loader.getController();
             geometricController.setImage(image);
             geometricController.setOriginalImagePath(originalImagePath);
-            geometricController.setTemporaryImagePath(temporaryImagePath);
             geometricController.setStartImageInImageView(image);
             geometricController.setOpenFileController(this);
 
@@ -454,7 +443,6 @@ public class OpenFileController extends BasicController {
             GreyscaleController greyscaleController = loader.getController();
             greyscaleController.setImage(image);
             greyscaleController.setOriginalImagePath(originalImagePath);
-            greyscaleController.setTemporaryImagePath(temporaryImagePath);
             greyscaleController.setStartImageInImageView(image);
             greyscaleController.setOpenFileController(this);
 
@@ -473,7 +461,6 @@ public class OpenFileController extends BasicController {
             BlackWhiteController blackWhiteController = loader.getController();
             blackWhiteController.setImage(image);
             blackWhiteController.setOriginalImagePath(originalImagePath);
-            blackWhiteController.setTemporaryImagePath(temporaryImagePath);
             blackWhiteController.setStartImageInImageView(image);
             blackWhiteController.setOpenFileController(this);
 
@@ -527,7 +514,7 @@ public class OpenFileController extends BasicController {
         this.stage = stage;
     }
 
-    private void processImage(File originalFile, File tmpFile) throws IOException {
+    private void processImage(File originalFile) throws IOException {
 
             double bytes = originalFile.length();
             fileSize = "File Size: " + String.format("%.2f", bytes / 1024) + "kb";
@@ -549,7 +536,6 @@ public class OpenFileController extends BasicController {
                 setImageFromFileInImageView(reader);
 
                 originalImagePath = originalFile.getAbsolutePath();
-                temporaryImagePath = tmpFile.getAbsolutePath();
             }
     }
 
@@ -628,10 +614,12 @@ public class OpenFileController extends BasicController {
     }
 
     public void cleanImage(){
+        if(image!=null) {
             image = null;
-            disableOperationButtons(true);
-            imageView.setImage(new Image("/images/default_start_img.gif"));
+            addChangesToImage(new Image("/images/default_start_img.gif"));
+            setOperationButtons();
             setHistogramMenuItems();
+        }
 
     }
 

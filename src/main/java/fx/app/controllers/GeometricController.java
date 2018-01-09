@@ -35,7 +35,6 @@ public class GeometricController extends BasicController {
     protected void addChangesToImage(Image image) {
         imageViewGeometric.setImage(image);
         addChangesToHistory(image);
-        saveTemporaryFile(imageViewGeometric.getImage());
     }
 
     public void undoActionForGeometricController()
@@ -47,7 +46,6 @@ public class GeometricController extends BasicController {
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
         imageViewGeometric.setImage(image);
-        saveTemporaryFile(imageViewGeometric.getImage());
         rotationAngle = 0;
     }
 
@@ -80,7 +78,8 @@ public class GeometricController extends BasicController {
     }
 
     public void rotate(){
-        ImagePlus imgPlus = new ImagePlus(temporaryImagePath);
+        BufferedImage buff = SwingFXUtils.fromFXImage(imageViewGeometric.getImage(), null);
+        ImagePlus imgPlus = new ImagePlus("", buff);
         ImageProcessor imgProcessor = imgPlus.getProcessor();
         imgProcessor.rotate(rotateSlider.getValue());
 
@@ -93,7 +92,8 @@ public class GeometricController extends BasicController {
     }
 
     public void scale() {
-        ImagePlus imgPlus = new ImagePlus(temporaryImagePath);
+        BufferedImage buff = SwingFXUtils.fromFXImage(imageViewGeometric.getImage(), null);
+        ImagePlus imgPlus = new ImagePlus("", buff);
         ImageProcessor imgProcessor = imgPlus.getProcessor();
         int x = Integer.parseInt(widthSpinner.getEditor().getCharacters().toString());
         int y = Integer.parseInt(heightSpinner.getEditor().getCharacters().toString());

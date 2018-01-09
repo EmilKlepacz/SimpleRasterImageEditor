@@ -28,14 +28,12 @@ public class BlackWhiteController extends BasicController {
     protected void addChangesToImage(Image image) {
         imageViewBlackWhite.setImage(image);
         addChangesToHistory(image);
-        saveTemporaryFile(imageViewBlackWhite.getImage());
     }
 
     @Override
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
         imageViewBlackWhite.setImage(image);
-        saveTemporaryFile(imageViewBlackWhite.getImage());
     }
 
     public void saveActionForBlackWhiteController(){
@@ -49,7 +47,7 @@ public class BlackWhiteController extends BasicController {
     public void blackAndWhite() throws IOException {
         BufferedImage startingImage;
         BufferedImage blackWhite;
-        startingImage = ImageIO.read(new File(temporaryImagePath));
+        startingImage = SwingFXUtils.fromFXImage(imageViewBlackWhite.getImage(), null);
 
         blackWhite = new BufferedImage(startingImage.getWidth(), startingImage.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
         Graphics2D g2d = blackWhite.createGraphics();

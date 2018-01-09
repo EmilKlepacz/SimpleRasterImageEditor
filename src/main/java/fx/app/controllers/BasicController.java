@@ -1,25 +1,21 @@
 package fx.app.controllers;
 
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.awt.image.ConvolveOp;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public abstract class BasicController{
 
+    protected static final Logger logger = Logger.getLogger(BasicController.class);
+
     protected Stage stage;
     protected List<Image> imageChanges;
     protected Image image;
     protected String originalImagePath;
-    protected String temporaryImagePath;
 
     protected BasicController()
     {
@@ -38,36 +34,10 @@ public abstract class BasicController{
         try {
             openFileController.addChangesToImage(image);
             openFileController.setImage(image);
-            saveTemporaryFile(image);
         } catch (Exception e){
             e.printStackTrace();
         }
     }
-
-    protected boolean saveTemporaryFile(Image image){
-        try {
-            if(temporaryImagePath!=null){
-                File tmpFile = new File(temporaryImagePath);
-                String extension = "";
-
-                int i = tmpFile.getName().lastIndexOf('.');
-                int p = Math.max(tmpFile.getName().lastIndexOf('/'), tmpFile.getName().lastIndexOf('\\'));
-
-                if (i > p) {
-                    extension = tmpFile.getName().substring(i + 1);
-                }
-                BufferedImage bi = SwingFXUtils.fromFXImage(image, null);
-                ImageIO.write(bi, extension, tmpFile);
-            } else {
-                return false;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
-
-
 
     protected void setPreviousImageAsActualAndErase(){
         if(imageChanges.size()>1) {
@@ -117,13 +87,5 @@ public abstract class BasicController{
 
     public String getOriginalImagePath() {
         return originalImagePath;
-    }
-
-    public String getTemporaryImagePath() {
-        return temporaryImagePath;
-    }
-
-    public void setTemporaryImagePath(String temporaryImagePath) {
-        this.temporaryImagePath = temporaryImagePath;
     }
 }

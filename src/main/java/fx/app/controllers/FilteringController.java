@@ -28,7 +28,6 @@ public class FilteringController extends BasicController {
     @Override
     protected void addChangesToImage(Image image) {
         imageViewFiltering.setImage(image);
-        saveTemporaryFile(imageViewFiltering.getImage());
     }
 
     public void undoActionForFilterController(){
@@ -39,7 +38,6 @@ public class FilteringController extends BasicController {
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
         imageViewFiltering.setImage(image);
-        saveTemporaryFile(imageViewFiltering.getImage());
         resetSlidersValues();
     }
 

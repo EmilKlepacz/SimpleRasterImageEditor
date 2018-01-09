@@ -27,14 +27,12 @@ public class GreyscaleController extends BasicController{
     protected void addChangesToImage(Image image) {
         imageViewGreyscale.setImage(image);
         addChangesToHistory(image);
-        saveTemporaryFile(imageViewGreyscale.getImage());
     }
 
     @Override
     public void handleUndoAction() {
         setPreviousImageAsActualAndErase();
         imageViewGreyscale.setImage(image);
-        saveTemporaryFile(imageViewGreyscale.getImage());
     }
 
     public void saveActionForHistogramController(){
@@ -46,7 +44,8 @@ public class GreyscaleController extends BasicController{
     }
 
     public void greyscale(){
-        ImagePlus imgPlus = new ImagePlus(temporaryImagePath);
+        BufferedImage buff = SwingFXUtils.fromFXImage(imageViewGreyscale.getImage(), null);
+        ImagePlus imgPlus = new ImagePlus("", buff);
         ImageProcessor imgProcessor = imgPlus.getProcessor();
         int r,g,b;
 

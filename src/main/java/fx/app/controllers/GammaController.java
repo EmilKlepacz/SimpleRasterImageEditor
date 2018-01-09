@@ -24,7 +24,6 @@ public class GammaController extends BasicController {
     protected void addChangesToImage(Image image) {
         imageViewGamma.setImage(image);
         addChangesToHistory(image);
-        saveTemporaryFile(image);
     }
 
     public void undoActionForGammaController(){
@@ -34,7 +33,6 @@ public class GammaController extends BasicController {
     @Override
     public void handleUndoAction() {
         imageViewGamma.setImage(image);
-        saveTemporaryFile(imageViewGamma.getImage());
         gammaCorrectionSlider.setValue(1.0);
     }
 
