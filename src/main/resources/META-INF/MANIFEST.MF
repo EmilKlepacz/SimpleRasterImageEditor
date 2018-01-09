@@ -1,4 +1,3 @@
 Manifest-Version: 1.0
-Class-Path: marvin_1.5.5.jar
 Main-Class: fx.app.Main
 

@@ -19,7 +19,21 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>fx.app.Main</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
         </plugins>
+
     </build>
 
     <dependencies>
@@ -28,6 +42,29 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.marvenproject</groupId>
+            <artifactId>org.marvinproject.image.transform.skew</artifactId>
+            <version>1.5.5</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/marvin/framework/marvin_1.5.5.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>net.imagej</groupId>
+            <artifactId>ij</artifactId>
+            <version>1.45b</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/ImageJ/framework/ij.jar</systemPath>
         </dependency>
     </dependencies>
 

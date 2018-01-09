@@ -34,6 +34,7 @@ public abstract class BasicController{
 
     protected void handleSaveAction(OpenFileController openFileController, Image image)
     {
+        this.image = image;
         try {
             openFileController.addChangesToImage(image);
             openFileController.setImage(image);

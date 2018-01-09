@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -33,6 +34,8 @@ import java.util.Optional;
 
 
 public class OpenFileController extends BasicController {
+
+    private static final Logger logger = Logger.getLogger(OpenFileController.class);
 
     private static final String GAMMA_VIEW_PATH = "/views/gamma_view.fxml";
     private static final String GAMMA_STAGE_TITLE = "Gamma correction";
@@ -212,6 +215,7 @@ public class OpenFileController extends BasicController {
             }
             File selectedFileCopy = createTmpCopyOfOriginalFile(selectedFile);
             processImage(selectedFile, selectedFileCopy);
+            logger.info(String.format("File %s loaded successfull!", selectedFile.getName()));
         }
     }
 
@@ -230,7 +234,7 @@ public class OpenFileController extends BasicController {
             fileInformation = "No metadata to display";
             openFileChooserAndSetImage();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             setAlertIcon(alert);
             alert.setTitle("Error");
@@ -240,7 +244,7 @@ public class OpenFileController extends BasicController {
             else
                 alert.setContentText(e.getMessage());
             alert.showAndWait();
-            e.printStackTrace();
+            logger.error(e);
         }
     }
 
@@ -259,6 +263,7 @@ public class OpenFileController extends BasicController {
                 Files.delete(Paths.get(temporaryImagePath));
             File tmpFile = createTmpCopyOfOriginalFile(f);
             processImage(f, tmpFile);
+            logger.info(String.format("File %s from %s loaded successfull!", f.getName(), url));
         }
     }
 
@@ -387,6 +392,7 @@ public class OpenFileController extends BasicController {
             filteringController.setStartImageInImageView(image);
             filteringController.setTemporaryImagePath(temporaryImagePath);
             filteringController.setOpenFileController(this);
+            filteringController.saveActionForFilteringController();
 
             createAndShowNewStage(FILTERING_STAGE_TITLE, new Scene(root));
 
@@ -521,8 +527,8 @@ public class OpenFileController extends BasicController {
         this.stage = stage;
     }
 
-    private void processImage(File originalFile, File tmpFile) {
-        try {
+    private void processImage(File originalFile, File tmpFile) throws IOException {
+
             double bytes = originalFile.length();
             fileSize = "File Size: " + String.format("%.2f", bytes / 1024) + "kb";
 
@@ -545,10 +551,6 @@ public class OpenFileController extends BasicController {
                 originalImagePath = originalFile.getAbsolutePath();
                 temporaryImagePath = tmpFile.getAbsolutePath();
             }
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
     }
 
     private void readAndDisplayMetadata(ImageReader reader) throws IOException {
