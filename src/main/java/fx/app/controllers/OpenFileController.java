@@ -85,6 +85,9 @@ public class OpenFileController extends BasicController {
     @FXML
     private MenuItem greyHistogramItem;
 
+    @FXML
+    private MenuItem fileSaveItem;
+
     private void setOperationButtons(){
         if (image == null) {
             disableOperationButtons();
@@ -115,6 +118,21 @@ public class OpenFileController extends BasicController {
         sepiaBtn.setDisable(false);
     }
 
+    private void enableSaveMenuItems(){
+        fileSaveItem.setDisable(false);
+    }
+
+    private void disableSaveMenuItems(){
+        fileSaveItem.setDisable(true);
+    }
+    private void setSaveMenuItems() {
+        if (image == null) {
+            disableSaveMenuItems();
+        }else{
+            enableSaveMenuItems();
+        }
+    }
+
     private void enableHistogramMenuItems(){
         colorHistogramItem.setDisable(false);
         greyHistogramItem.setDisable(false);
@@ -137,7 +155,6 @@ public class OpenFileController extends BasicController {
     protected void setStartImageInImageView(Image image) {
         this.image = image;
         addChangesToImage(image);
-        setHistogramMenuItems();
     }
 
 
@@ -150,6 +167,8 @@ public class OpenFileController extends BasicController {
     public void undoActionForOpenFileController() {
         handleUndoAction();
         setOperationButtons();
+        setHistogramMenuItems();
+        setSaveMenuItems();
     }
 
     @Override
@@ -165,6 +184,7 @@ public class OpenFileController extends BasicController {
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(originalFile.getParentFile());
+        fileChooser.setInitialFileName(originalFile.getName());
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("formats (*.pbm, *.pgm, *.ppm, *.png, *.jpeg)", "*.pbm", "*.pgm", "*.ppm", "*.png", "*.jpeg")
         );
@@ -211,6 +231,8 @@ public class OpenFileController extends BasicController {
         BufferedImage bi = reader.read(0);
         setStartImageInImageView(SwingFXUtils.toFXImage(bi, null));
         setOperationButtons();
+        setHistogramMenuItems();
+        setSaveMenuItems();
     }
 
     private void openFileChooserAndSetImage() throws IOException {
@@ -619,6 +641,7 @@ public class OpenFileController extends BasicController {
             addChangesToImage(new Image("/images/default_start_img.gif"));
             setOperationButtons();
             setHistogramMenuItems();
+            setSaveMenuItems();
         }
 
     }
